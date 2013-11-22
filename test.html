@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+  <head>
+  </head>
+  <body>
+    <ab test-name="animals" test-target="click send_payment">
+      <img exp-name='cow' src='cow.png'/>
+      <img exp-name='pig' src='pig.png'/>
+    </ab>
+
+    <ab test-name="header_color">
+      <p exp-name="red" class='red_header'>Hello in Red</p>
+      <p exp-name="red" class='green_header'>Hello in Green</p>
+    </ab>
+
+    <button test-goal="send_payment">Buy!</button>
+    <script src='injection.js'></script>
+  </body>
+</html>
