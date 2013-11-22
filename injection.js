@@ -1,9 +1,8 @@
-var getGAID = function(){
-  var GAIDIndex = document.cookie.search('_ga=');
-  if( GAIDIndex > 0){ return document.cookie.substr(GAIDIndex+4, 26); }
-  else { return false; }
-};
-
+getGAID = function(){   
+  var key = '__utma';
+  var result;
+  return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
+}
 
 var GAID = getGAID() || "peter.k.hayes";
 var experiences = {};
