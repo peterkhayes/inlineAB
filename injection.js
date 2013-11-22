@@ -1,5 +1,13 @@
-var GAID = "peter.k.hayes";
+var getGAID = function(){
+  var GAIDIndex = document.cookie.search('_ga=');
+  if( GAIDIndex > 0){ return document.cookie.substr(GAIDIndex+4, 26); }
+  else { return false; }
+};
+
+
+var GAID = getGAID() || "peter.k.hayes";
 var experiences = {};
+
 
 var hash = function(input){
   input = (typeof input === "string" ? input : input.toString());
