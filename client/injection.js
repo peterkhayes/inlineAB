@@ -50,9 +50,8 @@ var substitute = function() {
 
     selectedChild.removeAttribute('exp-name');
     current.parentNode.replaceChild(selectedChild, current);
-    // var dimensionValue = 'SOME_DIMENSION_VALUE';
-// ga('set', 'dimension1', dimensionValue);
-
+    // ga('set', testName, expName);
+    //we need the indexed dimension name here??
   }
 
   var abGoals = document.getElementsByTagName('abgoal');
