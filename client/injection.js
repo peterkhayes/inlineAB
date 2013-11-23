@@ -1,12 +1,11 @@
-var _gaq = _gaq || [];
-_gaq.push(['_setAccount', 'UA-45967923-1']);
-_gaq.push(['_trackPageview']);
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-(function() {
-  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-})();
+ga('create', 'UA-45967923-1', 'auto');
+ga('send', 'pageview');
+
 
 var getGAID = function(){   
   var key = '__utma';
@@ -51,6 +50,9 @@ var substitute = function() {
 
     selectedChild.removeAttribute('exp-name');
     current.parentNode.replaceChild(selectedChild, current);
+    // var dimensionValue = 'SOME_DIMENSION_VALUE';
+// ga('set', 'dimension1', dimensionValue);
+
   }
 
   var abGoals = document.getElementsByTagName('abgoal');
