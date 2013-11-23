@@ -6,15 +6,14 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-45967923-1', 'auto');
 ga('send', 'pageview');
 
-
-var getGAID = function(){   
+var getGAID = function(){
   var key = '__utma';
   var result;
   return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
-}
+};
 
-var GAID = getGAID() || ("peter.k.hayes"+Math.random());
-var experiences = {};
+var GAID = getGAID() || 'peter.k.hayes';
+var testData = {};
 
 var hash = function(input){
   input = (typeof input === 'string' ? input : input.toString());
@@ -22,10 +21,19 @@ var hash = function(input){
   if (input.length === 0) return hash;
   for (i = 0, l = input.length; i < l; i++) {
       char  = input.charCodeAt(i);
-      hash  = ((hash<<5)-hash)+char;
+      hash  = ((hash>>>5)-hash)+char;
       hash |= 0; // Convert to 32bit integer
   }
-  return hash;
+  return Math.abs(hash);
+};
+
+var getExpNumber = function(testName, numberOfExperiences) {
+  console.log(testName+GAID);
+  var hashed = hash(testName + GAID);
+  console.log(hashed);
+  var ans = (hashed % numberOfExperiences);
+  console.log(ans);
+  return ans;
 };
 
 var substitute = function() {
@@ -33,35 +41,51 @@ var substitute = function() {
   // Live NodeList
   var abTests = document.getElementsByTagName('abtest');
 
-  var currIDHash = Math.abs(hash(GAID));
   // ab mutates as we replace its nodes
   while (abTests.length) {
     // Define variables.
-    var current = abTests[0];
-    var children = current.children;
-    var expNumber = currIDHash % children.length;
-    currIDHash = Math.abs(hash(currIDHash));
-    var selectedChild = children[expNumber];
+    var currentTest = abTests[0];
+    var testName = currentTest.getAttribute('test-name');
+    var experiences = currentTest.children;
+    var expNumber = getExpNumber(testName, experiences.length);
+    var selectedExperience = experiences[expNumber];
 
     // Save the history of the test.
-    var testName = current.getAttribute('test-name');
-    var expName = selectedChild.getAttribute('exp-name');
-    experiences[testName] = expName;
+    testData[testName] = selectedExperience.getAttribute('exp-name');
 
-    selectedChild.removeAttribute('exp-name');
-    current.parentNode.replaceChild(selectedChild, current);
-    // var dimensionValue = 'SOME_DIMENSION_VALUE';
-// ga('set', 'dimension1', dimensionValue);
+    // Clean up the DOM.
+    selectedExperience.removeAttribute('exp-name');
+    currentTest.parentNode.replaceChild(selectedExperience, currentTest);
+  }
 
+  var abClasses = document.getElementsByTagName('abclass');
+
+  while (abClasses.length) {
+    var currentClassTest = abClasses[0];
+    var elem = currentClassTest.children[0];
+    var classTestName = currentClassTest.getAttribute('test-name');
+    var classOptions = currentClassTest.getAttribute('test-classes').split('|');
+    var classExpNumber = getExpNumber(classTestName, classOptions.length);
+    var selectedClass = classOptions[classExpNumber].trim();
+    elem.className += (' ' + selectedClass);
+
+    // Save the history of the test.
+    testData[classTestName] = classOptions[classExpNumber].trim();
+
+    // Clean up the DOM.
+    currentClassTest.parentNode.replaceChild(elem, currentClassTest);
   }
 
   var abGoals = document.getElementsByTagName('abgoal');
 
-  for (var i = 0; i < abGoals.length; i++) {
-    var goal = abGoals[i];
+  while(abGoals.length) {
+    var goal = abGoals[0];
     var goalName = goal.getAttribute('goal-name');
-    goal.addEventListener('click', function() { console.log('clicked ' + goalName, experiences); }, false);
-    selectedChild.removeAttribute('goal-name');
+    var goalTarget = goal.children[0];
+
+    // Clean up the DOM.
+    goalTarget.addEventListener('click', function() { console.log('clicked ' + goalName, testData); }, false);
+    goal.parentNode.replaceChild(goalTarget, goal);
   }
 };
 

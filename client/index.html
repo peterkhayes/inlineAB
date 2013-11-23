@@ -4,29 +4,24 @@
     <script src='injection.js'></script>
   </head>
   <body>
-    <abtest test-name='animals'>
-      <img exp-name='cow' src='cow.jpeg'/>
-      <img exp-name='pig' src='pig.jpeg'/>
+
+    <style>
+      .red {
+        color: red;
+      }
+      .blue {
+        color: blue;
+      }
+    </style>
+
+    <abtest test-name='ab day'>
+      <div exp-name='crunches'>Aw yeah!</div>
+      <div exp-name='planking'>Aw yeah?</div>
     </abtest>
 
-    <abtest test-name='header_name'>
-      <p exp-name='red'>Hello in Red</p>
-      <p exp-name='green'>Hello in Green</p>
-    </abtest>
-
-    <abtest test-name='style_type'>
-      <p exp-name='bold' style='font-weight: bold;'>Bold</p>
-      <p exp-name='italic' style='font-style: italic;'>Italic</p>
-    </abtest>
-
-    <abtest test-name='nesting'>
-      <div exp-name='terse'><p>Hello.</p></div>
-      <div exp-name='lugubrious'>
-        <p>My dear sir,</p>
-        <p>It is with great pleasure that I blah blah blah. <div>Here is a div.</div>
-        </p>
-      </div>
-    </abtest>
+    <abclass test-name='classes' test-classes='red|  blue'>
+      <div>I've had a hard life. ~Babe the Pig</div>
+    </abclass>
 
     <abgoal goal-name='purchase'>
       <button>Buy!</button>
