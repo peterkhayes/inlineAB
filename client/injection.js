@@ -6,6 +6,23 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 ga('create', 'UA-45967923-1', 'auto');
 ga('send', 'pageview');
 
+(function(window) {
+
+  console.log(document.cookie);
+
+
+// Check for cookie
+// If cookie,
+  // If !didNotUseCookie use GAID
+  // Else use saved exp (didNotUseCookie)
+// If no cookie, Math.random exp && save didNoteUseCookie = exp;
+
+
+// Polyfills
+''.trim || (String.prototype.trim = function(){return this.replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g,'');});
+
+
+// Google Analytics stuff.
 var getGAID = function(){
   var key = '__utma';
   var result;
@@ -28,13 +45,11 @@ var hash = function(input){
 };
 
 var getExpNumber = function(testName, numberOfExperiences) {
-  console.log(testName+GAID);
   var hashed = hash(testName + GAID);
-  console.log(hashed);
   var ans = (hashed % numberOfExperiences);
-  console.log(ans);
   return ans;
 };
+
 
 var substitute = function() {
   console.log('sub');
@@ -90,27 +105,23 @@ var substitute = function() {
   }
 };
 
-var doneSwizzling = false;
+var timeout;
 
 document.addEventListener('DOMContentLoaded', function() {
-  doneSwizzling = true;
+  console.log("Dom content loaded");
+  clearTimeout(timeout);
   substitute();
 });
 
 var swizzle = function() {
   substitute();
-  if(!doneSwizzling){
-    swizzle();
-  }
+  timeout = setTimeout(swizzle, 1);
 };
 
+swizzle();
 
-// GAID - ID of a user on our site from google.
-// Hash this id.
-// element 1 - take this hash mod the number of choices.
-// Hash the hash again.
-// element 2 - take this new hash mod the number of choices.
-// etc etc...
+})(window);
+
 
 
 
