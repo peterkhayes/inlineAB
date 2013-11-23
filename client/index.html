@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
   <head>
+    <script src='injection.js'></script>
   </head>
   <body>
     <abtest test-name='animals'>
@@ -14,11 +15,11 @@
     </abtest>
 
     <abtest test-name='style_type'>
-      <p exp-name='bold' style="font-weight: bold;">Bold</p>
-      <p exp-name='italic' style="font-style: italic;">Italic</p>
+      <p exp-name='bold' style='font-weight: bold;'>Bold</p>
+      <p exp-name='italic' style='font-style: italic;'>Italic</p>
     </abtest>
 
-    <abtest test-name="nesting">
+    <abtest test-name='nesting'>
       <div exp-name='terse'><p>Hello.</p></div>
       <div exp-name='lugubrious'>
         <p>My dear sir,</p>
@@ -30,6 +31,5 @@
     <abgoal goal-name='purchase'>
       <button>Buy!</button>
     </abgoal>
-    <script src='injection.js'></script>
   </body>
 </html>
