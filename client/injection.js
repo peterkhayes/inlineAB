@@ -60,6 +60,7 @@ var substitute = function() {
 
   var abClasses = document.getElementsByTagName('abclass');
 
+
   while (abClasses.length) {
     var currentClassTest = abClasses[0];
     var elem = currentClassTest.children[0];
