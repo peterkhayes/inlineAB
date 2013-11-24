@@ -50,11 +50,14 @@ var getExpNumber = function(testName, numberOfExperiences) {
   return ans;
 };
 
+var abTests = document.getElementsByTagName('abtest');
+var abClasses = document.getElementsByTagName('abclass');
+var abGoals = document.getElementsByTagName('abgoal');
+
 
 var substitute = function() {
   console.log('sub');
   // Live NodeList
-  var abTests = document.getElementsByTagName('abtest');
 
   // ab mutates as we replace its nodes
   while (abTests.length) {
@@ -73,9 +76,6 @@ var substitute = function() {
     currentTest.parentNode.replaceChild(selectedExperience, currentTest);
   }
 
-  var abClasses = document.getElementsByTagName('abclass');
-
-
   while (abClasses.length) {
     var currentClassTest = abClasses[0];
     var elem = currentClassTest.children[0];
@@ -92,8 +92,6 @@ var substitute = function() {
     currentClassTest.parentNode.replaceChild(elem, currentClassTest);
   }
 
-  var abGoals = document.getElementsByTagName('abgoal');
-
   while(abGoals.length) {
     var goal = abGoals[0];
     var goalName = goal.getAttribute('goal-name');
@@ -107,18 +105,22 @@ var substitute = function() {
 
 var timeout;
 
-document.addEventListener('DOMContentLoaded', function() {
-  console.log("Dom content loaded");
-  clearTimeout(timeout);
-  substitute();
-});
+timeout = setInterval(substitute, 20);
 
-var swizzle = function() {
-  substitute();
-  timeout = setTimeout(swizzle, 1);
-};
+// document.addEventListener('DOMContentLoaded', function() {
+//   console.log("Dom content loaded");
+//   clearTimeout(timeout);
+//   substitute();
+// });
 
-swizzle();
+// var swizzle = function() {
+//   substitute();
+//   timeout = setTimeout(swizzle, 1);
+// };
+
+// swizzle();
+
+
 
 })(window);
 
