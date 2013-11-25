@@ -9,6 +9,11 @@ ga('create', 'UA-45967923-1', 'auto');
 
   console.log(document.cookie);
 
+var customDimensions = {
+'header_name' : 'dimension1',
+ 'animals' : 'dimension2',
+'style_type' :'dimension3'
+}
 
 // Check for cookie
 // If cookie,
@@ -101,16 +106,29 @@ var substitute = function() {
     var goalTarget = goal.children[0];
 
     // Clean up the DOM.
-    goalTarget.addEventListener('click', function() { console.log('clicked ' + goalName, testData); }, false);
+    addListener(goalTarget, 'click', function() {
+      console.log('clicked ' + goalName, testData); 
+      ga('send', 'event', 'button', 'click', goalName);
+    });
     goal.parentNode.replaceChild(goalTarget, goal);
   }
 };
+
+var addListener = function(element, type, callback) {
+  if (element.addEventListener) {
+    element.addEventListener(type, callback, false);
+  } else if (element.attachEvent) {
+    element.attachEvent('on' + type, callback);
+  }
+};
+
+
 
 var timeout;
 
 timeout = setInterval(substitute, 20);
 
-document.addEventListener('DOMContentLoaded', function() {
+addListener(document, 'DOMContentLoaded', function() {
   console.log("Dom content loaded");
   // clearTimeout(timeout);
   
@@ -121,7 +139,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // substitute();
-}, false);
+});
 
 // var swizzle = function() {
 //   substitute();
