@@ -121,7 +121,7 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // substitute();
-});
+}, false);
 
 // var swizzle = function() {
 //   substitute();
