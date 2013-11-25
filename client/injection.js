@@ -4,7 +4,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
 ga('create', 'UA-45967923-1', 'auto');
-ga('send', 'pageview');
 
 (function(window) {
 
@@ -21,6 +20,7 @@ ga('send', 'pageview');
 // Polyfills
 ''.trim || (String.prototype.trim = function(){return this.replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g,'');});
 
+var testsSeen = '';
 
 // Google Analytics stuff.
 var getGAID = function(){
@@ -38,6 +38,7 @@ var hash = function(input){
   if (input.length === 0) return hash;
   for (i = 0, l = input.length; i < l; i++) {
       char  = input.charCodeAt(i);
+      hash = hash & hash; // Convert to bitwise
       hash  = ((hash>>>5)-hash)+char;
       hash |= 0; // Convert to 32bit integer
   }
@@ -64,6 +65,8 @@ var substitute = function() {
     // Define variables.
     var currentTest = abTests[0];
     var testName = currentTest.getAttribute('test-name');
+    var expName = currentTest.getAttribute('exp-name');
+    testsSeen += '&.t' + testName + '__' + expName;
     var experiences = currentTest.children;
     var expNumber = getExpNumber(testName, experiences.length);
     var selectedExperience = experiences[expNumber];
@@ -83,6 +86,7 @@ var substitute = function() {
     var classOptions = currentClassTest.getAttribute('test-classes').split('|');
     var classExpNumber = getExpNumber(classTestName, classOptions.length);
     var selectedClass = classOptions[classExpNumber].trim();
+    testsSeen += '&.c' + classTestName + '__' + selectedClass;
     elem.className += (' ' + selectedClass);
 
     // Save the history of the test.
@@ -107,11 +111,18 @@ var timeout;
 
 timeout = setInterval(substitute, 20);
 
-// document.addEventListener('DOMContentLoaded', function() {
-//   console.log("Dom content loaded");
-//   clearTimeout(timeout);
-//   substitute();
-// });
+document.addEventListener('DOMContentLoaded', function() {
+  console.log("Dom content loaded");
+  // clearTimeout(timeout);
+  
+  // Send custom attributes held in testsSeen
+  ga('send', {
+    'hitType': 'pageview',
+    'title': testsSeen
+  });
+
+  // substitute();
+});
 
 // var swizzle = function() {
 //   substitute();
