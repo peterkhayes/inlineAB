@@ -23,13 +23,12 @@ ga('create', 'UA-45967923-1', 'auto');
 var testsSeen = '';
 
 // Google Analytics stuff.
-var getGAID = function(){
-  var key = '__utma';
+var getGAID = function(key){
   var result;
   return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
 };
 
-var GAID = getGAID() || 'peter.k.hayes';
+var GAID = getGAID('_ga') || getGAID('__utma');
 var testData = {};
 
 var hash = function(input){
