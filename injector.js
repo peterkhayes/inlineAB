@@ -36,9 +36,10 @@ ga('create', 'UA-45967923-1', 'auto');
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
       customDimensions = {                                    // Custom dimensions, as defined under Admin > Custom Definitions
-        'header_name' : 'dimension1',
+        'header_name' : 'dimension4',
         'animals' : 'dimension2',
-        'style_type' :'dimension3'
+        'BUY NOW vs shopping cart': 'dimension3',
+        'style_type' :'dimension5'
       },
       testData = {},
       GAID,
@@ -104,7 +105,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Define variables.
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
-      var expName = currentTest.getAttribute('exp-name');
+      // var expName = currentTest.getAttribute('exp-name');
       var experiences = currentTest.children;
       var expNumber = getExpNumber(testName, experiences.length);
       var selectedExperience = experiences[expNumber];
@@ -157,7 +158,9 @@ ga('create', 'UA-45967923-1', 'auto');
 
       // Attach click listener to every goal trigger and send goal event to GA on click
       addListener(goalTarget, 'click', function() {
+        console.log('event about to send to GA');
         ga('send', 'event', 'button', 'click', goalName);
+        console.log('event sent to GA');
       });
 
       // Clean up the DOM
