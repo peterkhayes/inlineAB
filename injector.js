@@ -1,8 +1,23 @@
+// 
+// injector.js
+// Copyright: Peter Hayes, Rich Parrish, Alex Prokop, Gavin Shriver, Joey Yang
+// License: CC BY-SA
+//
+// injector.js reads an HTML file with inline A/B tests as specified by the Inline A/B library
+// and displays the user a persistent variation of that website. It then sends the test results
+// to Google Universal Analytics for analysis.
+//
+// The file is inserted directly after the opening <body> tag in the page's HTML.
+//
+
+// Standard Google Universal Analytics setup code.
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+// Set second argument with your GA Tracking ID.
+// This can be found under Admin > Property > Property Settings > Tracking ID
 ga('create', 'UA-45967923-1', 'auto');
 
 (function(window) {
@@ -15,12 +30,12 @@ ga('create', 'UA-45967923-1', 'auto');
     document.createElement('abtest');
     document.createElement('abclass');
     document.createElement('abgoal');
-  } 
+  }
 
-  var abTests = document.getElementsByTagName('abtest'),
+  var abTests = document.getElementsByTagName('abtest'),      // Find all elements to be tested as defined by markup
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
-      customDimensions = {
+      customDimensions = {                                    // Custom dimensions, as defined under Admin > Custom Definitions
         'header_name' : 'dimension1',
         'animals' : 'dimension2',
         'style_type' :'dimension3'
@@ -36,17 +51,20 @@ ga('create', 'UA-45967923-1', 'auto');
     // Else use saved exp (didNotUseCookie)
   // If no cookie, Math.random exp && save didNoteUseCookie = exp;
 
-  // Polyfills
+  // Polyfill for the String.prototype.trim function
   ''.trim || (String.prototype.trim = function(){return this.replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g,'');});
 
-  // Google Analytics stuff.
+  // Get the Google Analytics ID, if it exists.
   var getGAID = function(key){
     var result;
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
   };
 
+  // Set the GAID.
   GAID = getGAID('_ga') || getGAID('__utma');
 
+  // Standard hashing function, used to generate page variations based on the value of a user's cookie.
+  // Because the cookie ID persists between sessions, the user always sees the same variations.
   var hash = function(input){
     input = (typeof input === 'string' ? input : input.toString());
     var hash = 0, i, char;
@@ -59,14 +77,27 @@ ga('create', 'UA-45967923-1', 'auto');
     return Math.abs(hash);
   };
 
+  // Takes hashed cookie ID and determines which variation of a test a user sees.
   var getExpNumber = function(testName, numberOfExperiences) {
     var hashed = hash(testName + GAID);
     var ans = (hashed % numberOfExperiences);
     return ans;
   };
 
+  // add event listeners on DOM nodes (depending on browser)
+  var addListener = function(element, type, callback) {
+    if (element.addEventListener) {
+      element.addEventListener(type, callback, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + type, callback);
+    }
+  };
+
+  // Determines which variation of all tests to show the user and removes the other tests from the DOM,
+  // then displays the selected variation to the user on DOM load.
   var substitute = function() {
-    // ab mutates as we replace its nodes
+
+    // abTests (the DOM nodes with 'abtest' as a tag) mutates as we replace its nodes
     while (abTests.length) {
 
       // Define variables.
@@ -86,6 +117,7 @@ ga('create', 'UA-45967923-1', 'auto');
       currentTest.parentNode.replaceChild(selectedExperience, currentTest);
     }
 
+    // abClasses (the DOM nodes with 'abclass' as a tag) mutates as we replace its nodes
     while (abClasses.length) {
       var currentClassTest = abClasses[0];
       var elem = currentClassTest.children[0];
@@ -103,12 +135,13 @@ ga('create', 'UA-45967923-1', 'auto');
       currentClassTest.parentNode.replaceChild(elem, currentClassTest);
     }
 
+    // abGoals (the DOM nodes with 'abgoal' as a tag) mutates as we replace its nodes
     while(abGoals.length) {
       var goal = abGoals[0];
       var goalName = goal.getAttribute('goal-name');
       var goalTarget = goal.children[0];
 
-      // Listen for click
+      // Attach click listener to every goal trigger and send goal event to GA on click 
       addListener(goalTarget, 'click', function() {
         ga('send', 'event', 'button', 'click', goalName);
       });
@@ -118,18 +151,13 @@ ga('create', 'UA-45967923-1', 'auto');
     }
   };
 
-  var addListener = function(element, type, callback) {
-    if (element.addEventListener) {
-      element.addEventListener(type, callback, false);
-    } else if (element.attachEvent) {
-      element.attachEvent('on' + type, callback);
-    }
-  };
 
+  // scan the DOM for new DOM elements every 20ms (faster than frame rate human eyes can detect)
   timeout = setInterval(substitute, 20);
 
+  // send a pageview event to GA when DOM content is loaded
   document.addEventListener('DOMContentLoaded', function() {
-    console.log('Dom content loaded');
+    console.log('DOM content loaded');
     // clearTimeout(timeout);
     
     // Send custom attributes held in testsSeen
@@ -148,14 +176,3 @@ ga('create', 'UA-45967923-1', 'auto');
   // swizzle();
 
 })(window);
-
-
-
-
-
-
-
-
-
-
-
