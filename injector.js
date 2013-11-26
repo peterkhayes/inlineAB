@@ -116,7 +116,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[testName]) {
         console.log("Sending a result of " + testData[testName] + "to google analytics for " + customDimensions[testName]);
-        ga('set', customDimensions[testName], testData[testName]);
+        ga('send', 'event', 'test', 'pageView', {testName : testData[testName]});
       } else {
         console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -142,7 +142,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[classTestName]) {
         console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('set', customDimensions[classTestName], testData[classTestName]);
+        ga('send', 'event', 'class', 'pageView', {testName : testData[testName]});
       } else {
         console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -159,7 +159,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Attach click listener to every goal trigger and send goal event to GA on click
       addListener(goalTarget, 'click', function() {
         console.log('event about to send to GA');
-        ga('send', 'event', 'button', 'click', goalName);
+        ga('send', 'event', 'goal', 'click', goalName);
         console.log('event sent to GA');
       });
 
