@@ -40,10 +40,11 @@ ga('create', 'UA-45967923-1', 'auto');
         'animals' : 'dimension2',
         'style_type' :'dimension3'
       },
-      testsSeen = '',
       testData = {},
       GAID,
       timeout;
+
+
 
   // Check for cookie
   // If cookie,
@@ -104,13 +105,20 @@ ga('create', 'UA-45967923-1', 'auto');
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
       var expName = currentTest.getAttribute('exp-name');
-      testsSeen += '&.t' + testName + '__' + expName;
       var experiences = currentTest.children;
       var expNumber = getExpNumber(testName, experiences.length);
       var selectedExperience = experiences[expNumber];
 
       // Save the history of the test.
       testData[testName] = selectedExperience.getAttribute('exp-name');
+
+      // Send to Google Analytics:
+      if (customDimensions[testName]) {
+        console.log("Sending a result of " + testData[testName] + "to google analytics for " + customDimensions[testName]);
+        ga('set', customDimensions[testName], testData[testName]);
+      } else {
+        console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
+      }
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
@@ -125,12 +133,18 @@ ga('create', 'UA-45967923-1', 'auto');
       var classOptions = currentClassTest.getAttribute('test-classes').split('|');
       var classExpNumber = getExpNumber(classTestName, classOptions.length);
       var selectedClass = classOptions[classExpNumber].trim();
-      testsSeen += '&.c' + classTestName + '__' + selectedClass;
       elem.className += (' ' + selectedClass);
 
       // Save the history of the test.
       testData[classTestName] = classOptions[classExpNumber].trim();
 
+      // Send to Google Analytics:
+      if (customDimensions[classTestName]) {
+        console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
+        ga('set', customDimensions[classTestName], testData[classTestName]);
+      } else {
+        console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
+      }
       // Clean up the DOM.
       currentClassTest.parentNode.replaceChild(elem, currentClassTest);
     }
@@ -141,7 +155,7 @@ ga('create', 'UA-45967923-1', 'auto');
       var goalName = goal.getAttribute('goal-name');
       var goalTarget = goal.children[0];
 
-      // Attach click listener to every goal trigger and send goal event to GA on click 
+      // Attach click listener to every goal trigger and send goal event to GA on click
       addListener(goalTarget, 'click', function() {
         ga('send', 'event', 'button', 'click', goalName);
       });
@@ -156,15 +170,12 @@ ga('create', 'UA-45967923-1', 'auto');
   timeout = setInterval(substitute, 20);
 
   // send a pageview event to GA when DOM content is loaded
-  document.addEventListener('DOMContentLoaded', function() {
+  addListener(document, 'DOMContentLoaded', function() {
     console.log('DOM content loaded');
     // clearTimeout(timeout);
-    
-    // Send custom attributes held in testsSeen
-    ga('send', {
-      'hitType': 'pageview',
-      'title': testsSeen
-    });
+
+    // Send event recording the viewing of a page.
+    ga('send', 'pageview');
 
   }, false);
 
