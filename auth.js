@@ -40,6 +40,8 @@ function checkAuth() {
  *     service that determine whether the user has currently authorized access
  *     to their data. If it exists, the user has authorized access.
  */
+
+ // creates the analytics service object
 function handleAuthResult(token) { // important to set token?
   if (token) {
     gapi.client.load('analytics', 'v3', handleAuthorized);
@@ -114,6 +116,7 @@ function auth() {
  */
 function makeApiCall() {
   outputToPage('Querying Accounts.');
+  makeMetadataRequest();
   gapi.client.analytics.management.accounts.list().execute(handleAccounts);
 }
 
@@ -237,6 +240,8 @@ function queryCoreReportingApi(profileId) {
 }
 
 
+
+
 /**
  * Handles the API reponse for querying the Core Reporting API. This first
  * checks if any errors occured and prints the error messages to the screen.
@@ -327,6 +332,75 @@ function lastNDays(n) {
   return [year, month, day].join('-');
 }
 
+
+function makeMetadataRequest() {
+  var request = gapi.client.analytics.metadata.columns.list({
+      'reportType': 'ga'
+  });
+  request.execute(renderMetadataReport);
+}
+
+
+/**
+ * 2. Print out the Columns data
+ * The components of the result can be printed out as follows:
+ */
+
+function renderMetadataReport(results) {
+  var reportHtml = [];
+  reportHtml.push(
+      getReportInfo(results),
+      getAttributes(results),
+      getColumns(results));
+
+  // Renders the results to a DIV element
+  document.getElementById('DIV_ID').innerHTML = reportHtml.join('');
+}
+
+
+function getReportInfo(results) {
+  var html = [];
+  if (results) {
+    html.push('<h2>Report Info</h2>');
+    html.push('<pre>Kind: ', results.kind, '</pre>');
+    html.push('<pre>Etag: ', results.etag, '</pre>');
+    html.push('<pre>Total Results: ', results.totalResults, '</pre>');
+  }
+  return html.join('');
+}
+
+
+function getAttributes(results) {
+  var html = [];
+  if (results) {
+    html.push('<h2>Attribute Names</h2><ul>');
+    var attributes = results.attributeNames;
+
+    for (var i = 0, attribute; attribute = attributes[i]; i++) {
+      html.push('<li>', attribute, '</li>');
+    }
+    html.push('</ul>');
+  }
+  return html.join('');
+}
+
+function  getColumns(results) {
+  var html = [];
+  if (results) {
+    var columns = results.items;
+    html.push('<h2>Columns</h2>');
+
+    for (var i = 0, column; column = columns[i]; i++) {
+      html.push('<h3>', column.id, '</h3>');
+      var attributes = column.attributes;
+      for (attribute in attributes) {
+        html.push('<pre><strong>', attribute, '</strong> : ',
+                  attributes[attribute], '</pre>');
+      }
+    }
+  }
+  return html.join('');
+}
 
 
 function validate(token) {
