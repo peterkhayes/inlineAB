@@ -81,6 +81,7 @@ var substitute = function() {
     // Clean up the DOM.
     selectedExperience.removeAttribute('exp-name');
     currentTest.parentNode.replaceChild(selectedExperience, currentTest);
+    ga('set', customDimensions[testName], expName);
   }
 
   while (abClasses.length) {
