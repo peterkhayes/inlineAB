@@ -40,8 +40,8 @@ function checkAuth() {
  *     service that determine whether the user has currently authorized access
  *     to their data. If it exists, the user has authorized access.
  */
-function handleAuthResult(authResult) {
-  if (authResult) {
+function handleAuthResult(token) { // important to set token?
+  if (token) {
     gapi.client.load('analytics', 'v3', handleAuthorized);
   } else {
     handleUnauthorized();
@@ -83,7 +83,7 @@ function handleUnauthorized() {
  * Handler for clicks on the authorization button. This uses the OAuth2.0
  * clientId to query the Google Accounts service to see if the user has
  * authorized. Once complete, handleAuthResults is called.
- * @param {Object} event The onclick event.
+ * @param {Object} The onclick event.
  */
 function handleAuthClick(event) {
   gapi.auth.authorize({
@@ -122,7 +122,7 @@ function makeApiCall() {
  * to see if any error occurs as well as checks to make sure the user has
  * accounts. It then retrieve the ID of the first account and then executes
  * queryWebProeprties.
- * @param {Object} response The response object with data from the
+ * @param {Object} The response object with data from the
  *     accounts collection.
  */
 
@@ -143,7 +143,7 @@ function handleAccounts(response) {
  * Executes a query to the Management API to retrieve all the users
  * webproperties for the provided accountId. Once complete,
  * handleWebproperties is executed.
- * @param {String} accountId The ID of the account from which to retrieve
+ * @param {String} The ID of the account from which to retrieve
  *     webproperties.
  */
 function queryWebproperties(accountId) {
@@ -190,10 +190,9 @@ function queryProfiles(accountId, webpropertyId) {
   updatePage('Querying Profiles.');
   gapi.client.analytics.management.profiles.list({
     'accountId': accountId,
-    'webPropertyId': webpropertyId
+    'webPropertyId': webpropertyId // set as inlineAB?
   }).execute(handleProfiles);
 }
-
 
 /**
  * Handles the API response for querying the profiles collection. This
@@ -230,10 +229,10 @@ function queryCoreReportingApi(profileId) {
     'start-date': lastNDays(14),
     'end-date': lastNDays(0),
     'metrics': 'ga:visits',
-    'dimensions': 'ga:source,ga:keyword',
-    'sort': '-ga:visits,ga:source',
-    'filters': 'ga:medium==organic',
-    'max-results': 25
+    'dimensions': 1,2,3
+    // 'sort': '-ga:visits,ga:source',
+    // 'filters': 'ga:medium==organic',
+    // 'max-results': 25
   }).execute(handleCoreReportingResults);
 }
 
@@ -247,6 +246,7 @@ function queryCoreReportingApi(profileId) {
  */
 function handleCoreReportingResults(response) {
   if (!response.code) {
+    console.log(response);
     if (response.rows && response.rows.length) {
       var output = [];
 
