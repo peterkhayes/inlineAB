@@ -229,7 +229,7 @@ function queryCoreReportingApi(profileId) {
     'start-date': lastNDays(14),
     'end-date': lastNDays(0),
     'metrics': 'ga:visits',
-    'dimensions': 1,2,3
+    'dimensions': 'ga:dimension01,ga:dimension02,ga:dimension3'
     // 'sort': '-ga:visits,ga:source',
     // 'filters': 'ga:medium==organic',
     // 'max-results': 25
