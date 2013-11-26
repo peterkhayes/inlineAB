@@ -29,3 +29,11 @@
 .moveup {
   margin-top: -20px;
 }
+
+#ga-snippit {
+  min-height: 100px;
+}
+
+label {
+  line-height: 0;
+}

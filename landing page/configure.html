@@ -65,7 +65,7 @@
           });
 
       var save = function(){
-        var gaSnippit = document.getElementById('ga-snippit').innerText;
+        var gaSnippit = $('#ga-snippit').val();
         var gaCustomDimensionMapping =  makeCustomDimensionsMap();
         document.getElementById('saveButton').setAttribute(
           'href',
