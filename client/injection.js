@@ -20,6 +20,11 @@ ga('create', 'UA-45967923-1', 'auto');
   var abTests = document.getElementsByTagName('abtest'),
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
+      customDimensions = {
+        'header_name' : 'dimension1',
+        'animals' : 'dimension2',
+        'style_type' :'dimension3'
+      },
       testsSeen = '',
       testData = {},
       GAID,
@@ -62,7 +67,6 @@ ga('create', 'UA-45967923-1', 'auto');
   };
 
   var substitute = function() {
-    console.log('sub');
     // ab mutates as we replace its nodes
     while (abTests.length) {
       // Define variables.
@@ -105,8 +109,18 @@ ga('create', 'UA-45967923-1', 'auto');
       var goalTarget = goal.children[0];
 
       // Clean up the DOM.
-      goalTarget.addEventListener('click', function() { console.log('clicked ' + goalName, testData); }, false);
+      addListener(goalTarget, 'click', function() {
+        ga('send', 'event', 'button', 'click', goalName);
+      });
       goal.parentNode.replaceChild(goalTarget, goal);
+    }
+  };
+
+  var addListener = function(element, type, callback) {
+    if (element.addEventListener) {
+      element.addEventListener(type, callback, false);
+    } else if (element.attachEvent) {
+      element.attachEvent('on' + type, callback);
     }
   };
 
