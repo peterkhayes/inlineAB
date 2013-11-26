@@ -53,7 +53,6 @@ ga('create', 'UA-45967923-1', 'auto');
     if (input.length === 0) return hash;
     for (i = 0, l = input.length; i < l; i++) {
         char  = input.charCodeAt(i);
-        hash = hash & hash; // Convert to bitwise
         hash  = ((hash>>>5)-hash)+char;
         hash |= 0; // Convert to 32bit integer
     }
@@ -69,6 +68,7 @@ ga('create', 'UA-45967923-1', 'auto');
   var substitute = function() {
     // ab mutates as we replace its nodes
     while (abTests.length) {
+
       // Define variables.
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
@@ -108,12 +108,12 @@ ga('create', 'UA-45967923-1', 'auto');
       var goalName = goal.getAttribute('goal-name');
       var goalTarget = goal.children[0];
 
-      // Clean up the DOM.
-
+      // Listen for click
       addListener(goalTarget, 'click', function() {
         ga('send', 'event', 'button', 'click', goalName);
       });
-      goalTarget.addEventListener('click', function() { console.log('clicked ' + goalName, testData); }, false);
+
+      // Clean up the DOM
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
