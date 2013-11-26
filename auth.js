@@ -117,7 +117,7 @@ function auth() {
 function makeApiCall() {
   outputToPage('Querying Accounts.');
   makeMetadataRequest();
-  gapi.client.analytics.management.accounts.list().execute(handleAccounts);
+  // gapi.client.analytics.management.accounts.list().execute(handleAccounts);
 }
 
 /**
@@ -231,8 +231,8 @@ function queryCoreReportingApi(profileId) {
     'ids': 'ga:' + profileId,
     'start-date': lastNDays(14),
     'end-date': lastNDays(0),
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:dimension01,ga:dimension02,ga:dimension3'
+    'metrics': 'ga:visits'
+    // 'dimensions': 
     // 'sort': '-ga:visits,ga:source',
     // 'filters': 'ga:medium==organic',
     // 'max-results': 25
@@ -347,6 +347,7 @@ function makeMetadataRequest() {
  */
 
 function renderMetadataReport(results) {
+  console.log(results);
   var reportHtml = [];
   reportHtml.push(
       getReportInfo(results),
