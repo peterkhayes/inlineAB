@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style>
+      #ga-snippit{
+        width: 500px;
+        height: 50px;
+        border: 1px solid black;
+        overflow: auto;
+      }
+      .ga-custom-key, .ga-custom-val{
+        width: 200px;
+        height: 1em;
+        padding: 4px;
+      }
+      .ga-custom-key{
+        border: 1px solid #666;
+      }
+      .downloadbutton{
+        width: 100px;
+        height: 10px;
+        padding: 30px;
+        border: 1px solid black;
+        background-color: #CCC 
+
+      }
+
+
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  </head>
+
+  <body>
+    
+    <h2>Paste Google Analytics Snippit Here: </h2>
+    <div id="ga-snippit" contenteditable> </div>
+
+    <h2>Paste Google Analytics custom mappings here: (Copy them exactly! No spaces!) </h2>
+
+    <table id="mapping-table">
+      <tr>
+        <td>
+          <input type="text"  class="ga-custom-key" placeholder="type dimension name here!" />
+        </td>
+        <td>
+          <input type="text" class="ga-custom-val" readonly="readonly" value="dimension1" />
+        </td>
+      </tr>
+    </table> 
+    <button onclick="addRow();"> new row </button>
+
+    <div class="downloadbutton">
+      <a id="saveButton" target="iframe" download="ab.js" href="#" onclick="save();">DOWNLOAD NOW</a>
+    </div>
+
+    <script>
+      var mostRecentABJS;
+      $.ajax({
+            url: 'injector.js',
+            dataType: 'html',
+            success: function(data){
+              mostRecentABJS = data;
+            }
+          });
+
+      var save = function(){
+        var gaSnippit = document.getElementById('ga-snippit').innerText;
+        var gaCustomDimensionMapping =  makeCustomDimensionsMap();
+        document.getElementById('saveButton').setAttribute(
+          'href',
+          'data:Content-type: text/plain, ' + escape(gaSnippit + '\n' + gaCustomDimensionMapping + '\n' + mostRecentABJS)
+        );
+      };
+
+      var addRow = function(){
+        var numberOfRows = document.getElementById('mapping-table').children[0].children.length + 1;
+        var newRow = $('<tr></tr>');
+        newRow.append('<input type="text"  class="ga-custom-key" placeholder="type dimension name here!" />');
+        newRow.append('<input type="text" class="ga-custom-val" readonly="readonly" value="dimension'+numberOfRows+'" />');
+        $('#mapping-table').append(newRow);
+      };
+
+      var makeCustomDimensionsMap = function(){
+        var results = "";
+        var rows = document.getElementById('mapping-table').children[0].children;
+        for (var i = 0; i < rows.length; i++) {
+          results += "'" + $(rows[i].children[0]).val() + "':'" + $(rows[i].children[1]).val() + "',";
+        };
+        var results = "var customDimensions = {" + results.slice(0,results.length-1) + "};"
+        return results;
+      }
+
+    </script>
+
+  </body>
+</html>
