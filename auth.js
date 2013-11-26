@@ -2,7 +2,7 @@ function auth() {
   var config = {
     'response_type': 'token',
     'approval_prompt': 'auto',
-    'client_id': 'YOUR CLIENT ID',
+    'client_id': '657336628940-qfgikt5qv8k8ervasdta1orcdjgp6n5m.apps.googleusercontent.com',
     'scope': 'https://www.googleapis.com/auth/analytics.readonly'
   };
   gapi.auth.authorize(config, function(res) {
@@ -28,10 +28,10 @@ function cb() {
   var xhr = new XMLHttpRequest();
 
   xhr.open('GET', 'https://' + window.location.host + '/catchtoken?' + queryString, true);
-
-  xhr.onreadystatechange = function (e) {
+  xhr.onreadystatechange = function(e) {
     if (xhr.readyState === 4) {
        if(xhr.status === 200){
+        console.log('success!');
          window.location = params['state'];
      }
     else if(xhr.status === 400) {
@@ -42,5 +42,21 @@ function cb() {
       }
     }
   };
+  xhr.send(null);
+}
+
+function verify() {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET','https://www.googleapis.com/oauth2/v1/tokeninfo?access_token=1/fFBGRNJru1FQd44AzqT3Zg', true);
+  xhr.onreadystatechange = function(e){
+    if(xhr.readyState === 4 && xhr.status === 200){
+      console.log(e);
+      console.log('success!');
+    } else if(xhr.status === 400){
+      console.log('server error');
+    } else {
+      console.log('random error!');
+    }
+  }
   xhr.send(null);
 }
