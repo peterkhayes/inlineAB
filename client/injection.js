@@ -109,9 +109,11 @@ ga('create', 'UA-45967923-1', 'auto');
       var goalTarget = goal.children[0];
 
       // Clean up the DOM.
+
       addListener(goalTarget, 'click', function() {
         ga('send', 'event', 'button', 'click', goalName);
       });
+      goalTarget.addEventListener('click', function() { console.log('clicked ' + goalName, testData); }, false);
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
