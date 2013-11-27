@@ -45,13 +45,39 @@ ga('create', 'UA-45967923-1', 'auto');
       GAID,
       timeout;
 
+  // create cookie at document.cookie
+  var createCookie = function(name, value, days) {
+    if (days) {
+      var date = new Date();
+      date.setTime(date.getTime()+(days*24*60*60*1000));
+      var expires = "; expires="+date.toGMTString();
+    }
+    else var expires = "";
+    document.cookie = name+"="+value+expires+"; path=/";
+  };
 
+  // read property of cookie at document.cookie
+  var readCookie = function(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for (var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    }
+    return null;
+  };
 
-  // Check for cookie
-  // If cookie,
-    // If !didNotUseCookie use GAID
-    // Else use saved exp (didNotUseCookie)
-  // If no cookie, Math.random exp && save didNoteUseCookie = exp;
+  // erase property of cookie at document.cookie
+  var eraseCookie = function(name) {
+    createCookie(name,"",-1);
+  };
+
+  // create and read cookie
+  var makeAndReadCookie = function(days){
+    !document.cookie && createCookie('hash', Math.random(), days);
+    return readCookie('hash');
+  };
 
   // Polyfill for the String.prototype.trim function
   ''.trim || (String.prototype.trim = function(){return this.replace(/^[\s\uFEFF]+|[\s\uFEFF]+$/g,'');});
@@ -62,7 +88,7 @@ ga('create', 'UA-45967923-1', 'auto');
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
   };
 
-  // Set the GAID.
+  // Get the GAID.
   GAID = getGAID('_ga') || getGAID('__utma');
 
   // Standard hashing function, used to generate page variations based on the value of a user's cookie.
@@ -81,7 +107,9 @@ ga('create', 'UA-45967923-1', 'auto');
 
   // Takes hashed cookie ID and determines which variation of a test a user sees.
   var getExpNumber = function(testName, numberOfExperiences) {
-    var hashed = hash(testName + GAID);
+    typeof GAID === 'undefined' && !readCookie('hash') && makeAndReadCookie(1000); 
+    id = readCookie('hash') || GAID;
+    var hashed = hash(testName + id);
     var ans = (hashed % numberOfExperiences);
     return ans;
   };
