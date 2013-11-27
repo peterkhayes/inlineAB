@@ -142,12 +142,7 @@ ga('create', 'UA-45967923-1', 'auto');
       testData[testName] = selectedExperience.getAttribute('exp-name');
 
       // Send to Google Analytics:
-      if (customDimensions[testName]) {
-        console.log("Sending a result of " + testData[testName] + "to google analytics for " + testName);
-        ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
-      } else {
-        console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
-      }
+      ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
