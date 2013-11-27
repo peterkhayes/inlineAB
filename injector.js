@@ -142,7 +142,7 @@ ga('create', 'UA-45967923-1', 'auto');
       testData[testName] = selectedExperience.getAttribute('exp-name');
 
       // Send to Google Analytics:
-      ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
+      ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
@@ -165,7 +165,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[classTestName]) {
         console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('send', 'event', 'ab-class:' + classTestName, testData[classTestName], 'pageView');
+        ga('send', 'event', 'ab-class: ' + classTestName, testData[classTestName], 'pageView');
       } else {
         console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -188,11 +188,11 @@ ga('create', 'UA-45967923-1', 'auto');
       // Attach click listener to every goal trigger and send goal event to GA on click
       if (goalAction === 'enter') {
         addListener(goalTarget, 'keyup', function(event) {
-          event.keyCode === 13 && ga('send', 'event', 'ab-goal', goalName, goalAction);
+          event.keyCode === 13 && ga('send', 'event', 'ab-goal: ' + goalName, goalAction, goalName);
         });
       } else {
         addListener(goalTarget, goalAction, function() {
-          ga('send', 'event', 'ab-goal', goalName, goalAction);
+          ga('send', 'event', 'ab-goal: ' + goalName, goalAction, goalName);
         });
       }
 
