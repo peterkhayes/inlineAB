@@ -115,8 +115,8 @@ ga('create', 'UA-45967923-1', 'auto');
 
       // Send to Google Analytics:
       if (customDimensions[testName]) {
-        console.log("Sending a result of " + testData[testName] + "to google analytics for " + customDimensions[testName]);
-        ga('send', 'event', 'test', 'pageView', {testName : testData[testName]});
+        console.log("Sending a result of " + testData[testName] + "to google analytics for " + testName);
+        ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
       } else {
         console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -142,7 +142,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[classTestName]) {
         console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('send', 'event', 'class', 'pageView', {testName : testData[testName]});
+        ga('send', 'event', 'ab-class:' + classTestName, testData[testName], 'pageView');
       } else {
         console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -158,15 +158,20 @@ ga('create', 'UA-45967923-1', 'auto');
 
       // Attach click listener to every goal trigger and send goal event to GA on click
       addListener(goalTarget, 'click', function() {
-        console.log('event about to send to GA');
-        ga('send', 'event', 'goal', 'click', goalName);
-        console.log('event sent to GA');
+        ga('send', 'event', 'ab-goal', goalName, 'click');
       });
 
       // Clean up the DOM
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
+
+  ab-goal:button, purchase, click
+
+  ab-test:header, red, pageView
+  ab-class:fontWeight, bold, pageView
+  ab-goal, submission, click
+  ab-test:purchaseButton, hugeGreenHappy, click
 
 
   // scan the DOM for new DOM elements every 20ms (faster than frame rate human eyes can detect)
