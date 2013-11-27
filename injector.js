@@ -144,7 +144,7 @@ ga('create', 'UA-45967923-1', 'auto');
       var currentClassTest = abClasses[0];
       var elem = currentClassTest.children[0];
       var classTestName = currentClassTest.getAttribute('test-name');
-      var classOptions = currentClassTest.getAttribute('test-classes').split('|');
+      var classOptions = currentClassTest.getAttribute('test-classes').split(',');
       var classExpNumber = getExpNumber(classTestName, classOptions.length);
       var selectedClass = classOptions[classExpNumber].trim();
       elem.className += (' ' + selectedClass);
@@ -164,22 +164,24 @@ ga('create', 'UA-45967923-1', 'auto');
       var goal = abGoals[0];
       var goalName = goal.getAttribute('goal-name').trim();
       var goalTarget = goal.children[0];
-      var goalAction = goal.getAttribute('goal-action').trim() || 'click';
+      var goalActions = goal.getAttribute('goal-action').split(',') || ['click'];
+
+      // clean extra spaces from string
+      for (var i = 0; i < goalActions.length; i++) {
+        goalActions[i] = goalActions[i].trim();
+      }
 
       // mouse events: click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
-      // keyboard events: enter (keyCode === 13), keyup, keydown, keypress
+      // keyboard events: keyup, keydown, keypress
       // html form events: select, change, submit, reset, focus, blur
       // touch events: touchstart, touchend, touchenter, touchleave, touchcancel
 
       // Attach click listener to every goal trigger and send goal event to GA on click
-      if (goalAction === 'enter') {
-        addListener(goalTarget, 'keyup', function(event) {
-          event.keyCode === 13 && ga('send', 'event', 'ab-goal: ' + goalName, goalAction, goalName);
-        });
-      } else {
-        addListener(goalTarget, goalAction, function() {
-          ga('send', 'event', 'ab-goal: ' + goalName, goalAction, goalName);
-        });
+      for (var i = 0; i < goalActions.length; i++){
+        addListener(goalTarget, goalActions[i], function(action){
+          var action = action;
+          return function() { ga('send', 'event', 'ab-goal: ' + goalName, action, goalName) };
+        }(goalActions[i]));
       }
 
       // Clean up the DOM
