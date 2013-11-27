@@ -75,7 +75,7 @@ ga('create', 'UA-45967923-1', 'auto');
 
   // create and read cookie
   var makeAndReadCookie = function(days){
-    !document.cookie && createCookie('hash', Math.random(), days);
+    !readCookie('hash') && createCookie('hash', Math.random(), days);
     return readCookie('hash');
   };
 
