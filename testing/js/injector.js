@@ -35,12 +35,6 @@ ga('create', 'UA-45967923-1', 'auto');
   var abTests = document.getElementsByTagName('abtest'),      // Find all elements to be tested as defined by markup
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
-      customDimensions = {                                    // Custom dimensions, as defined under Admin > Custom Definitions
-        'header_name' : 'dimension4',
-        'animals' : 'dimension2',
-        'BUY NOW vs shopping cart': 'dimension3',
-        'style_type' :'dimension5'
-      },
       testData = {},
       GAID,
       timeout;
@@ -62,7 +56,7 @@ ga('create', 'UA-45967923-1', 'auto');
     var ca = document.cookie.split(';');
     for (var i=0;i < ca.length;i++) {
       var c = ca[i];
-      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      while (c.charAt(0) ==' ') c = c.substring(1,c.length);
       if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
     }
     return null;
@@ -87,9 +81,6 @@ ga('create', 'UA-45967923-1', 'auto');
     var result;
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
   };
-
-  // Get the GAID.
-  // GAID = getGAID('_ga') || getGAID('__utma');
 
   // Standard hashing function, used to generate page variations based on the value of a user's cookie.
   // Because the cookie ID persists between sessions, the user always sees the same variations.
@@ -142,12 +133,7 @@ ga('create', 'UA-45967923-1', 'auto');
       testData[testName] = selectedExperience.getAttribute('exp-name');
 
       // Send to Google Analytics:
-      if (customDimensions[testName]) {
-        console.log("Sending a result of " + testData[testName] + "to google analytics for " + testName);
-        ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
-      } else {
-        console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
-      }
+      ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
@@ -168,12 +154,8 @@ ga('create', 'UA-45967923-1', 'auto');
       testData[classTestName] = classOptions[classExpNumber].trim();
 
       // Send to Google Analytics:
-      if (customDimensions[classTestName]) {
-        console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('send', 'event', 'ab-class:' + classTestName, testData[classTestName], 'pageView');
-      } else {
-        console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
-      }
+      ga('send', 'event', 'ab-class:' + classTestName, testData[classTestName], 'pageView');
+
       // Clean up the DOM.
       currentClassTest.parentNode.replaceChild(elem, currentClassTest);
     }
@@ -212,18 +194,10 @@ ga('create', 'UA-45967923-1', 'auto');
   // send a pageview event to GA when DOM content is loaded
   addListener(document, 'DOMContentLoaded', function() {
     console.log('DOM content loaded');
-    // clearTimeout(timeout);
 
     // Send event recording the viewing of a page.
     ga('send', 'pageview');
 
   }, false);
-
-  // var swizzle = function() {
-  //   substitute();
-  //   timeout = setTimeout(swizzle, 1);
-  // };
-
-  // swizzle();
 
 })(window);
