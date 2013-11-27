@@ -181,13 +181,25 @@ ga('create', 'UA-45967923-1', 'auto');
     // abGoals (the DOM nodes with 'abgoal' as a tag) mutates as we replace its nodes
     while(abGoals.length) {
       var goal = abGoals[0];
-      var goalName = goal.getAttribute('goal-name');
+      var goalName = goal.getAttribute('goal-name').trim();
       var goalTarget = goal.children[0];
+      var goalAction = goal.getAttribute('goal-action').trim();
+
+      // mouse events: click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
+      // keyboard events: enter (keyCode === 13), keyup, keydown, keypress
+      // html form events: select, change, submit, reset, focus, blur
+      // touch events: touchstart, touchend, touchenter, touchleave, touchcancel
 
       // Attach click listener to every goal trigger and send goal event to GA on click
-      addListener(goalTarget, 'click', function() {
-        ga('send', 'event', 'ab-goal', goalName, 'click');
-      });
+      if (goalAction === 'enter') {
+        addListener(goalTarget, 'keyup', function(event) {
+          event.keyCode === 13 && ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      } else {
+        addListener(goalTarget, goalAction, function() {
+          ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      }
 
       // Clean up the DOM
       goal.parentNode.replaceChild(goalTarget, goal);
