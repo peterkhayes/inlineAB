@@ -143,8 +143,8 @@ ga('create', 'UA-45967923-1', 'auto');
 
       // Send to Google Analytics:
       if (customDimensions[testName]) {
-        console.log("Sending a result of " + testData[testName] + "to google analytics for " + customDimensions[testName]);
-        ga('set', customDimensions[testName], testData[testName]);
+        console.log("Sending a result of " + testData[testName] + "to google analytics for " + testName);
+        ga('send', 'event', 'ab-test:' + testName, testData[testName], 'pageView');
       } else {
         console.error("Test " + testName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -170,7 +170,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[classTestName]) {
         console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('set', customDimensions[classTestName], testData[classTestName]);
+        ga('send', 'event', 'ab-class:' + classTestName, testData[classTestName], 'pageView');
       } else {
         console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -181,21 +181,30 @@ ga('create', 'UA-45967923-1', 'auto');
     // abGoals (the DOM nodes with 'abgoal' as a tag) mutates as we replace its nodes
     while(abGoals.length) {
       var goal = abGoals[0];
-      var goalName = goal.getAttribute('goal-name');
+      var goalName = goal.getAttribute('goal-name').trim();
       var goalTarget = goal.children[0];
+      var goalAction = goal.getAttribute('goal-action').trim();
+
+      // mouse events: click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
+      // keyboard events: enter (keyCode === 13), keyup, keydown, keypress
+      // html form events: select, change, submit, reset, focus, blur
+      // touch events: touchstart, touchend, touchenter, touchleave, touchcancel
 
       // Attach click listener to every goal trigger and send goal event to GA on click
-      addListener(goalTarget, 'click', function() {
-        console.log('event about to send to GA');
-        ga('send', 'event', 'button', 'click', goalName);
-        console.log('event sent to GA');
-      });
+      if (goalAction === 'enter') {
+        addListener(goalTarget, 'keyup', function(event) {
+          event.keyCode === 13 && ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      } else {
+        addListener(goalTarget, goalAction, function() {
+          ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      }
 
       // Clean up the DOM
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
-
 
   // scan the DOM for new DOM elements every 20ms (faster than frame rate human eyes can detect)
   timeout = setInterval(substitute, 20);
