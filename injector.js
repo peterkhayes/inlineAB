@@ -89,7 +89,7 @@ ga('create', 'UA-45967923-1', 'auto');
   };
 
   // Get the GAID.
-  GAID = getGAID('_ga') || getGAID('__utma');
+  // GAID = getGAID('_ga') || getGAID('__utma');
 
   // Standard hashing function, used to generate page variations based on the value of a user's cookie.
   // Because the cookie ID persists between sessions, the user always sees the same variations.
@@ -107,8 +107,8 @@ ga('create', 'UA-45967923-1', 'auto');
 
   // Takes hashed cookie ID and determines which variation of a test a user sees.
   var getExpNumber = function(testName, numberOfExperiences) {
-    typeof GAID === 'undefined' && !readCookie('hash') && makeAndReadCookie(1000); 
-    id = readCookie('hash') || GAID;
+    // typeof GAID === 'undefined' && !readCookie('hash') && makeAndReadCookie(1000); 
+    id = readCookie('hash') || makeAndReadCookie(1000);
     var hashed = hash(testName + id);
     var ans = (hashed % numberOfExperiences);
     return ans;
