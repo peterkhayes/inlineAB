@@ -142,7 +142,7 @@ ga('create', 'UA-45967923-1', 'auto');
       // Send to Google Analytics:
       if (customDimensions[classTestName]) {
         console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('send', 'event', 'ab-class:' + classTestName, testData[testName], 'pageView');
+        ga('send', 'event', 'ab-class:' + classTestName, testData[classTestName], 'pageView');
       } else {
         console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
       }
@@ -165,14 +165,6 @@ ga('create', 'UA-45967923-1', 'auto');
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
-
-  ab-goal:button, purchase, click
-
-  ab-test:header, red, pageView
-  ab-class:fontWeight, bold, pageView
-  ab-goal, submission, click
-  ab-test:purchaseButton, hugeGreenHappy, click
-
 
   // scan the DOM for new DOM elements every 20ms (faster than frame rate human eyes can detect)
   timeout = setInterval(substitute, 20);
