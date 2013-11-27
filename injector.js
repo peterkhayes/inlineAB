@@ -172,21 +172,16 @@ ga('create', 'UA-45967923-1', 'auto');
       }
 
       // mouse events: click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
-      // keyboard events: enter (keyCode === 13), keyup, keydown, keypress
+      // keyboard events: keyup, keydown, keypress
       // html form events: select, change, submit, reset, focus, blur
       // touch events: touchstart, touchend, touchenter, touchleave, touchcancel
 
       // Attach click listener to every goal trigger and send goal event to GA on click
       for (var i = 0; i < goalActions.length; i++){
-        if (goalActions[i] === 'enter') {
-          addListener(goalTarget, 'keyup', function(event) {
-            event.keyCode === 13 && ga('send', 'event', 'ab-goal: ' + goalName, goalActions[i], goalName);
-          });
-        } else {
-          addListener(goalTarget, goalActions[i], function() {
-            ga('send', 'event', 'ab-goal: ' + goalName, goalActions[i], goalName);
-          });
-        }
+        addListener(goalTarget, goalActions[i], function(action){
+          var action = action;
+          return function() { ga('send', 'event', 'ab-goal: ' + goalName, action, goalName) };
+        }(goalActions[i]));
       }
 
       // Clean up the DOM
