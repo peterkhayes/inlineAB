@@ -163,9 +163,15 @@ ga('create', 'UA-45967923-1', 'auto');
       // touch events: touchstart, touchend, touchenter, touchleave, touchcancel
 
       // Attach click listener to every goal trigger and send goal event to GA on click
-      addListener(goalTarget, goalAction, function() {
-        ga('send', 'event', 'ab-goal', goalName, goalAction);
-      });
+      if (goalAction === 'enter') {
+        addListener(goalTarget, 'keyup', function(event) {
+          event.keyCode === 13 && ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      } else {
+        addListener(goalTarget, goalAction, function() {
+          ga('send', 'event', 'ab-goal', goalName, goalAction);
+        });
+      }
 
       // Clean up the DOM
       goal.parentNode.replaceChild(goalTarget, goal);
