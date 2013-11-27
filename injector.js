@@ -183,7 +183,7 @@ ga('create', 'UA-45967923-1', 'auto');
       var goal = abGoals[0];
       var goalName = goal.getAttribute('goal-name').trim();
       var goalTarget = goal.children[0];
-      var goalAction = goal.getAttribute('goal-action').trim();
+      var goalAction = goal.getAttribute('goal-action').trim() || 'click';
 
       // mouse events: click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
       // keyboard events: enter (keyCode === 13), keyup, keydown, keypress
