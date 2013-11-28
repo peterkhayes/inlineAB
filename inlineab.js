@@ -119,20 +119,21 @@ ga('create', 'UA-45967923-1', 'auto');
 
     // abTests (the DOM nodes with 'abtest' as a tag) mutates as we replace its nodes
     while (abTests.length) {
-
+      
       // Define variables.
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
-      // var expName = currentTest.getAttribute('exp-name');
       var experiences = currentTest.children;
       var expNumber = getExpNumber(testName, experiences.length);
       var selectedExperience = experiences[expNumber];
 
       // Save the history of the test.
-      testData[testName] = selectedExperience.getAttribute('exp-name');
+      if (!testData[testName]){
+        testData[testName] = selectedExperience.getAttribute('exp-name');
 
-      // Send to Google Analytics:
-      ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
+        // Send to Google Analytics:
+        ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
+      }
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
