@@ -10,19 +10,7 @@
 // The file is inserted directly after the opening <body> tag in the page's HTML.
 //
 
-// Standard Google Universal Analytics setup code.
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-// Set second argument with your GA Tracking ID.
-// This can be found under Admin > Property > Property Settings > Tracking ID
-ga('create', 'UA-45967923-1', 'auto');
-
 (function(window) {
-
-  console.log('Cookie: ', document.cookie);
 
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1
@@ -32,15 +20,10 @@ ga('create', 'UA-45967923-1', 'auto');
     document.createElement('abgoal');
   }
 
-  var abTests = document.getElementsByTagName('abtest'),      // Find all elements to be tested as defined by markup
+  // Find all elements to be tested as defined by markup
+  var abTests = document.getElementsByTagName('abtest'),
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
-      customDimensions = {                                    // Custom dimensions, as defined under Admin > Custom Definitions
-        'header_name' : 'dimension4',
-        'animals' : 'dimension2',
-        'BUY NOW vs shopping cart': 'dimension3',
-        'style_type' :'dimension5'
-      },
       testData = {},
       GAID,
       timeout;
@@ -88,9 +71,6 @@ ga('create', 'UA-45967923-1', 'auto');
     return (result = new RegExp('(?:^|; )' + encodeURIComponent(key) + '=([^;]*)').exec(document.cookie)) ? (result[1]) : null;
   };
 
-  // Get the GAID.
-  // GAID = getGAID('_ga') || getGAID('__utma');
-
   // Standard hashing function, used to generate page variations based on the value of a user's cookie.
   // Because the cookie ID persists between sessions, the user always sees the same variations.
   var hash = function(input){
@@ -129,20 +109,21 @@ ga('create', 'UA-45967923-1', 'auto');
 
     // abTests (the DOM nodes with 'abtest' as a tag) mutates as we replace its nodes
     while (abTests.length) {
-
+      
       // Define variables.
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
-      // var expName = currentTest.getAttribute('exp-name');
       var experiences = currentTest.children;
       var expNumber = getExpNumber(testName, experiences.length);
       var selectedExperience = experiences[expNumber];
 
       // Save the history of the test.
-      testData[testName] = selectedExperience.getAttribute('exp-name');
+      if (!testData[testName]){
+        testData[testName] = selectedExperience.getAttribute('exp-name');
 
-      // Send to Google Analytics:
-      ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
+        // Send to Google Analytics:
+        ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
+      }
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
@@ -163,12 +144,8 @@ ga('create', 'UA-45967923-1', 'auto');
       testData[classTestName] = classOptions[classExpNumber].trim();
 
       // Send to Google Analytics:
-      if (customDimensions[classTestName]) {
-        console.log("Sending a result of " + testData[classTestName] + "to google analytics for " + customDimensions[classTestName]);
-        ga('send', 'event', 'ab-class: ' + classTestName, testData[classTestName], 'pageView');
-      } else {
-        console.error("Test " + classTestName + " is not in your list of Google Analytics Custom Dimensions.");
-      }
+      ga('send', 'event', 'ab-class: ' + classTestName, testData[classTestName], 'pageView');
+     
       // Clean up the DOM.
       currentClassTest.parentNode.replaceChild(elem, currentClassTest);
     }
@@ -178,7 +155,7 @@ ga('create', 'UA-45967923-1', 'auto');
       var goal = abGoals[0];
       var goalName = goal.getAttribute('goal-name').trim();
       var goalTarget = goal.children[0];
-      var goalActions = goal.getAttribute('goal-action').split(',') || ['click'];
+      var goalActions = goal.getAttribute('goal-action') ? goal.getAttribute('goal-action').split(',') : ['click'];
 
       // clean extra spaces from string
       for (var i = 0; i < goalActions.length; i++) {
@@ -208,19 +185,10 @@ ga('create', 'UA-45967923-1', 'auto');
 
   // send a pageview event to GA when DOM content is loaded
   addListener(document, 'DOMContentLoaded', function() {
-    console.log('DOM content loaded');
-    // clearTimeout(timeout);
 
     // Send event recording the viewing of a page.
     ga('send', 'pageview');
 
   }, false);
-
-  // var swizzle = function() {
-  //   substitute();
-  //   timeout = setTimeout(swizzle, 1);
-  // };
-
-  // swizzle();
 
 })(window);
