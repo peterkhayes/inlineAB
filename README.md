@@ -21,6 +21,7 @@ Click ahead!
   + [CSS & Styling](#commandCSS)
   + [ab-goals](#commandabgoal)
   + [ab-ratio](#commandratio)
+  + [Related Tests](#relatedTests)
 3. [Google Analytics Support](#gasupport)
   + [Finding GA Tracking Snippet](#(gaFindSnippet)
   + [Viewing My Results](#results)
@@ -161,6 +162,7 @@ Supported Commands  <a name='commands'></a>
 4. Nested `div`s.
 
     <abtest test-name="headlines">
+
       <div exp-name="informative">
         <h1> This is a Title! </h1>
         <p> I'm a sample paragraph. </p>
@@ -170,17 +172,19 @@ Supported Commands  <a name='commands'></a>
         <h1> I'M A MEAN TITLE! AND I DON'T LIKE YOU!</h1>
         <p> I DON'T LIKE THE WAY YOU'RE LOOKING AT ME. </p>
       </div>
+
     </abtest>
 
-
-### CSS and Styles <a name='commandCSS'></a>
+<a name='commandCSS'></a>
+### CSS and Styles 
   Testing styles and CSS can be done in several different ways. Here are a few other 
 
-
-### abgoal <a name='commandabgoal'></a>
+<a name='commandabgoal'></a>
+### abgoal
   Goal are used to track users' actions. This is especially important when trying to funnel users to a specific page. For example, 'subscribe' 
 , 'register', or 'checkout' pages. In these cases it is adventagious to track which experiences a user had before getting to to the goal. Thus we have `abgoals`. The `abgoal` tag can wrap any DOM element with a tag and add a particular event to listen to. A full list of supported events is below.
 
+<a name='commandabgoal'></a>
 ##### Supported Events:
 + mouse events:
   - click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
@@ -190,6 +194,36 @@ Supported Commands  <a name='commands'></a>
   - select, change, submit, reset, focus, blur
 + touch events:
   - touchstart, touchend, touchenter, touchleave, touchcancel
+
+<a name='relatedTests'></a>
+##### Related Tests
+  It is conceiviable that you to test multiple elements on your page that are related.  A great example of this is a title and a banner that go together but are maybe in different places. Another example of this is maybe you are testing an icon that occurs in more than one place. Well, inlineAB.js has you covered. To accomplish this you only need to replicate code block with the same experiences and titles. Example:
+
++ Section 1 (a welcome splash)
+    <abtest test-name="namingScheme">
+      <h1 exp-name="abjs"> Welcome to AB.JS </h1>
+      <h1 exp-name="inlineab"> Welcome to inlineAB.js </h1>
+    </abtest>
+
++ Section 2
+    <abtest test-name="namingScheme">
+      <img exp-name="abjs"  src="abjs_icon.jpg"/>
+      <img exp-name="inlineab" src="inlineab_icon.jpg"/>
+    </abtest>
+
++ Section 3
+    <p> We are 
+      <abtest test-name="namingScheme">
+        <span exp-name="abjs"> Welcome to AB.JS </span>
+        <span exp-name="inlineab"> Welcome to inlineAB.js </span>
+      </abtest>
+    your number one AB testing solution! </p>
+
+  If done like this, (keeping the `test-name`s  and `exp-name`s exactly the same), the user will always get the same experience. 
+
+###### WARNING!
+  If the `test-name`s, `exp-name`s, or `exp-weight` are different items may be miss-matched or unpredictable. 
+
 
 
 ------------------------------------------------------------------------------------------------------------------------
