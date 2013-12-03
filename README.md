@@ -172,7 +172,7 @@ Supported Commands  <a name='commands'></a>
         <h1> I'M A MEAN TITLE! AND I DON'T LIKE YOU!</h1>
         <p> I DON'T LIKE THE WAY YOU'RE LOOKING AT ME. </p>
       </div>
-      
+
     </abtest>
 
 <a name='commandCSS'></a>
@@ -194,6 +194,36 @@ Supported Commands  <a name='commands'></a>
   - select, change, submit, reset, focus, blur
 + touch events:
   - touchstart, touchend, touchenter, touchleave, touchcancel
+
+<a name='relatedTests'></a>
+##### Related Tests
+  It is conceiviable that you to test multiple elements on your page that are related.  A great example of this is a title and a banner that go together but are maybe in different places. Another example of this is maybe you are testing an icon that occurs in more than one place. Well, inlineAB.js has you covered. To accomplish this you only need to replicate code block with the same experiences and titles. Example:
+
++ Section 1 (a welcome splash)
+    <abtest test-name="namingScheme">
+      <h1 exp-name="abjs"> Welcome to AB.JS </h1>
+      <h1 exp-name="inlineab"> Welcome to inlineAB.js </h1>
+    </abtest>
+
++ Section 2
+    <abtest test-name="namingScheme">
+      <img exp-name="abjs"  src="abjs_icon.jpg"/>
+      <img exp-name="inlineab" src="inlineab_icon.jpg"/>
+    </abtest>
+
++ Section 3
+    <p> We are 
+      <abtest test-name="namingScheme">
+        <span exp-name="abjs"> Welcome to AB.JS </span>
+        <span exp-name="inlineab"> Welcome to inlineAB.js </span>
+      </abtest>
+    your number one AB testing solution! </p>
+
+  If done like this, (keeping the `test-name`s  and `exp-name`s exactly the same), the user will always get the same experience. 
+
+###### WARNING!
+  If the `test-name`s, `exp-name`s, or `exp-weight` are different items may be miss-matched or unpredictable. 
+
 
 
 ------------------------------------------------------------------------------------------------------------------------
