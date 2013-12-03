@@ -199,19 +199,22 @@ Supported Commands  <a name='commands'></a>
 ##### Related Tests
   It is conceiviable that you to test multiple elements on your page that are related.  A great example of this is a title and a banner that go together but are maybe in different places. Another example of this is maybe you are testing an icon that occurs in more than one place. Well, inlineAB.js has you covered. To accomplish this you only need to replicate code block with the same experiences and titles. Example:
 
-+ Section 1 (a welcome splash)
+Section 1 (a welcome splash)
+
     <abtest test-name="namingScheme">
       <h1 exp-name="abjs"> Welcome to AB.JS </h1>
       <h1 exp-name="inlineab"> Welcome to inlineAB.js </h1>
     </abtest>
 
-+ Section 2
+Section 2 (a logo)
+
     <abtest test-name="namingScheme">
       <img exp-name="abjs"  src="abjs_icon.jpg"/>
       <img exp-name="inlineab" src="inlineab_icon.jpg"/>
     </abtest>
 
-+ Section 3
+Section 3 (an in-text reference to the site name)
+
     <p> We are 
       <abtest test-name="namingScheme">
         <span exp-name="abjs"> Welcome to AB.JS </span>
