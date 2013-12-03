@@ -86,11 +86,11 @@
   };
 
   // Takes hashed cookie ID and determines which variation of a test a user sees.
-  var getExpNumber = function(testName, numberOfExperiences) {
+  var getExpNumber = function(testName, totalWeight) {
     // typeof GAID === 'undefined' && !readCookie('hash') && makeAndReadCookie(1000); 
     id = readCookie('hash') || makeAndReadCookie(1000);
     var hashed = hash(testName + id);
-    var ans = (hashed % numberOfExperiences);
+    var ans = (hashed % totalWeight);
     return ans;
   };
 
@@ -114,8 +114,24 @@
       var currentTest = abTests[0];
       var testName = currentTest.getAttribute('test-name');
       var experiences = currentTest.children;
-      var expNumber = getExpNumber(testName, experiences.length);
-      var selectedExperience = experiences[expNumber];
+
+      // Get the total weight.
+      var totalWeight = 0;
+      for (var i = 0; i < experiences.length; i++) {
+        var weight = experiences[i].getAttribute('exp-weight') || '1';
+        totalWeight += parseInt(weight,10);
+      }
+
+      // Get an experience, taking weights into account.
+      var hashedValue = getExpNumber(testName, totalWeight);
+      for (var i = 0; i < experiences.length; i++) {
+        var weight = experiences[i].getAttribute('exp-weight') || '1';
+        hashedValue -= parseInt(weight,10);
+        if (hashedValue < 0) {
+          var selectedExperience = experiences[i];
+          break;
+        }
+      }
 
       // Save the history of the test.
       if (!testData[testName]){
@@ -170,8 +186,9 @@
       // Attach click listener to every goal trigger and send goal event to GA on click
       for (var i = 0; i < goalActions.length; i++){
         addListener(goalTarget, goalActions[i], function(action){
-          var action = action;
-          return function() { ga('send', 'event', 'ab-goal: ' + goalName, action, goalName) };
+          var boundAction = action;
+          var boundGoalName = goalName;
+          return function() { ga('send', 'event', 'ab-goal: ' + boundGoalName, boundAction, boundGoalName); };
         }(goalActions[i]));
       }
 
