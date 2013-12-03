@@ -21,6 +21,7 @@ Click ahead!
   + [CSS & Styling](#commandCSS)
   + [ab-goals](#commandabgoal)
   + [ab-ratio](#commandratio)
+  + [Related Tests](#relatedTests)
 3. [Google Analytics Support](#gasupport)
   + [Finding GA Tracking Snippet](#(gaFindSnippet)
   + [Viewing My Results](#results)
@@ -161,6 +162,7 @@ Supported Commands  <a name='commands'></a>
 4. Nested `div`s.
 
     <abtest test-name="headlines">
+
       <div exp-name="informative">
         <h1> This is a Title! </h1>
         <p> I'm a sample paragraph. </p>
@@ -170,17 +172,19 @@ Supported Commands  <a name='commands'></a>
         <h1> I'M A MEAN TITLE! AND I DON'T LIKE YOU!</h1>
         <p> I DON'T LIKE THE WAY YOU'RE LOOKING AT ME. </p>
       </div>
+      
     </abtest>
 
-
-### CSS and Styles <a name='commandCSS'></a>
+<a name='commandCSS'></a>
+### CSS and Styles 
   Testing styles and CSS can be done in several different ways. Here are a few other 
 
-
-### abgoal <a name='commandabgoal'></a>
+<a name='commandabgoal'></a>
+### abgoal
   Goal are used to track users' actions. This is especially important when trying to funnel users to a specific page. For example, 'subscribe' 
 , 'register', or 'checkout' pages. In these cases it is adventagious to track which experiences a user had before getting to to the goal. Thus we have `abgoals`. The `abgoal` tag can wrap any DOM element with a tag and add a particular event to listen to. A full list of supported events is below.
 
+<a name='commandabgoal'></a>
 ##### Supported Events:
 + mouse events:
   - click, dblclick, mousedown, mouseup, mouseover, mouseout, dragstart, drag, dragenter, dragleave, dragover, drop, dragend, keydown
