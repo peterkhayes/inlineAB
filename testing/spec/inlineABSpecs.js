@@ -11,15 +11,16 @@ describe('injector', function(){
   var sampleGoal1;
   var sampleGoal2;
 
-
   sampleTest1 = '<abtest test-name="test1"><p exp-name="dog">WOOF</p><p exp-name="cat">MEOW</p></abtest>';
   sampleTest2 = '<abtest test-name="test2"><p exp-name="bam">BAM</p><p exp-name="pow">POW</p></abtest>';
-  sampleClassTest = '<abclass test-name="classTest" test-classes="red|blue"><p>Colorful sentence!</p></abclass>';
   sampleGoal1 = $('<abgoal goal-name="buy" goal-action="click"><button>Buy Now!</button></abgoal>');
   sampleGoal2 = $('<abgoal goal-name="buy" goal-action="enter"><input type="text"/></abgoal>');
   sampleGoal3 = $('<abgoal goal-name="comment" goal-action="click"><input type="text"/></abgoal>');
   sampleGoal4 = $('<abgoal goal-name="share" goal-action="click"><input type="text"/></abgoal>');
 
+  beforeEach(function() {
+    document.cookie = 'GAEventSent=';
+  });
 
   it('replaces lots of tags fast', function() {
     runs(function() {
@@ -50,23 +51,6 @@ describe('injector', function(){
     });
   });
 
-  it('assigns only a single class from abtest', function(){
-    runs(function() {
-      spyOn(window, 'ga');
-      $('.ab-container').append(sampleClassTest);
-      expect(window.ga.callCount).toEqual(0);
-    });
-    
-    waitsFor(function() {
-      return !document.getElementsByTagName("abclass")[0];
-    }, "removal of abclasses", 30);
-
-    runs(function() {
-      expect(window.ga.callCount).toEqual(1);
-    });
-  });
-
-
   
   it('fires events every time a goal is clicked', function(){
     runs(function() {
@@ -87,7 +71,7 @@ describe('injector', function(){
 
   });
 
-  it('fires only one event for repeated naps', function() {
+  it('fires only one event for repeated tests', function() {
     runs(function() {
       spyOn(window, 'ga');
       for (var i = 0; i < 50; i++) {

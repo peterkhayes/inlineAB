@@ -30,12 +30,13 @@
 
   // create cookie at document.cookie
   var createCookie = function(name, value, days) {
+    var expires;
     if (days) {
       var date = new Date();
       date.setTime(date.getTime()+(days*24*60*60*1000));
-      var expires = "; expires="+date.toGMTString();
+      expires = "; expires="+date.toGMTString();
     }
-    else var expires = "";
+    else expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
   };
 
@@ -58,7 +59,7 @@
 
   // create and read cookie
   var makeAndReadCookie = function(days){
-    !readCookie('hash') && createCookie('hash', Math.random(), days);
+    if (!readCookie('hash')) createCookie('hash', Math.random().toString().slice(2), days);
     return readCookie('hash');
   };
 
@@ -118,7 +119,7 @@
       // Get one of the variations if it has the correct number.
       for (var i = 0; i < experiences.length; i++) {
         var experience = experiences[i];
-        expNumber = variations.indexOf(exp.getAttribute('exp-name') || 'default');
+        expNumber = variations.indexOf(experience.getAttribute('exp-name') || 'default');
 
         if (expNumber === variationNumber) {
           selectedExperience = experiences[i];
@@ -127,8 +128,8 @@
 
       // Send to Google Analytics, if not already sent.
       if (!readCookie('GAEventSent')){
-        ga('send', 'event', experimentID, expName, 'pageView');
-        createCookie('GAEventSent');
+        ga('send', 'event', experimentID, expNumber, 'pageView');
+        createCookie('GAEventSent', 'true');
       }
 
       // Clean up the DOM.
