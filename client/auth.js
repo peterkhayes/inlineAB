@@ -136,7 +136,7 @@ function handleAccounts(response) {
       };
 
       // accountList has been populated, include script to display on DOM
-      outputToPage(Object.keys(accountList));
+      outputToPage("avaliable accounts:" + Object.keys(accountList).toString());
 
       //jump ahead and find all the properties associated with accounts
       for( var account in accountList){
@@ -171,7 +171,7 @@ function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
       console.log("response", response);
-      console.log("responseItems", responseItems);
+      console.log("responseItems", response.items);
       var firstAccountId = response.items[0].accountId;
       var firstWebpropertyId = response.items[0].id;
       queryProfiles(firstAccountId, firstWebpropertyId);
