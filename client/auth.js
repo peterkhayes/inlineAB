@@ -283,12 +283,18 @@ function queryCoreReportingApi(profileId) {
   // }).execute(handleCoreReportingResults);
 }
 
+var experimentList = [];
 // Prints formatted response
 function handleCoreReportingResults(response) {
   console.log(response);
   if (!response.code) {
-    if (response.rows && response.rows.length) {
+    if (response.items && response.items.length) {
 
+      for (var i = 0; i < response.items.length; i++) {
+        experimentList.push(response.items[i].name);
+      };
+
+      outputToPage(experimentList.join(' '));
       // var output = [];
 
       // // Profile Name.
