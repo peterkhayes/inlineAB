@@ -128,25 +128,31 @@ var accountList = {};
 var webPropertyList = {};
 var profileList = {};
 
+function populateLists(items, listToAddTo){
+  for (var i = 0; i < items.length; i++) {
+      if( listToAddTo === 'accountList'){
+        accountList[items[i].name] = {id: items[i].id};
+        // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        outputToPage("avaliable accounts:" + Object.keys(accountList).toString(), true);
+      } else if(listToAddTo === 'webPropertyList'){
+        webPropertyList[items[i].name] = {id: items[i].id, accountId: items[i].accountId};
+        // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        outputToPage("avaliable web properties:" + Object.keys(webPropertyList).toString(), true);
+      } else if(listToAddTo === 'profileList'){
+        profileList[items[i].name] = {id: items[i].id, accountId: items[i].accountId};
+        // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        outputToPage("avaliable profiles:" + Object.keys(profileList).toString(), true);
+      }
+    };
+    return Object.keys(webPropertyList).toString(); //returns list of avaliable properties
+}
 
 function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      //populate the account list:
-      console.log("what i'm looking for is a accountId", response.items);
-      for (var i = 0; i < response.items.length; i++) {
-        accountList[response.items[i].name] = response.items[i].id;
-      };
-      // accountList has been populated, include script to display on DOM
-      outputToPage("avaliable accounts:" + Object.keys(accountList).toString(), true);
-
-      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
-      // NEEDS TO CALL "queryWebproperties(accountList[accountName])"
-      // this will grab the webProperties list
-
+      populateLists(items, "accountList");
       //for test purposes only!!!!!!!!
-      queryWebproperties(accountList['InlineAB']);
-
+      queryWebproperties(accountList['InlineAB'].id);
     } else {
       outputToPage('No accounts found for this user.', true);
     }
@@ -170,22 +176,9 @@ function queryWebproperties(accountId) {
 function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      //populate the webProperty list:
-      for (var i = 0; i < response.items.length; i++) {
-        webPropertyList[response.items[i].name] = {id: response.items[i].id, accountId: response.items[i].accountId};
-      };
-
-      // webPropertyList has been populated, include script to display on DOM
-      outputToPage("avaliable webPropertys:" + Object.keys(webPropertyList).toString(), true);
-
-      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
-      // NEEDS TO CALL "queryProfiles(webPropertyList[accountName].accountId,webPropertyList[accountName].id)"
-      // this will grab the webProperties list
-
+      populateLists(items, "webPropertyList");
       //for test purposes only!!!!!!!!
       queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id)
-
-
       // var firstAccountId = response.items[0].accountId;
       // var firstWebpropertyId = response.items[0].id;
       // queryProfiles(firstAccountId, firstWebpropertyId);
@@ -212,19 +205,9 @@ function queryProfiles(accountId, webpropertyId) {
 function handleProfiles(response) {
   if (!response.code) {
     if (response && response.items && response.items.length) {
-      //populate the profileList:
-      for (var i = 0; i < response.items.length; i++) {
-        profileList[response.items[i].name] = response.items[i].id;
-      };
-      // profileList has been populated, include script to display on DOM
-      outputToPage("avaliable accounts:" + Object.keys(profileList).toString(), true);
-
-      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
-      // NEEDS TO CALL "queryCoreReportingApi(profileList[accountName])"
-      // this will grab the webProperties list
-
+      populateLists(items, "profileList");
       //for test purposes only!!!!!!!!
-      queryCoreReportingApi(profileList['All Web Site Data']);
+      queryCoreReportingApi(profileList['All Web Site Data'].id);
 
       // var firstProfileId = response.items[0].id;
       // queryCoreReportingApi(firstProfileId);
