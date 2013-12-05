@@ -294,7 +294,7 @@ function handleCoreReportingResults(response) {
         experimentList.push(response.items[i].name);
       };
 
-      outputToPage(experimentList.join(' , '), true);
+      outputToPage(experimentList.join(' , '), true );
       // var output = [];
 
       // // Profile Name.
