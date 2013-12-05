@@ -126,6 +126,7 @@ function listAccounts() {
 
 var accountList = {};
 var webPropertyList = {};
+var profileList = {};
 
 
 function handleAccounts(response) {
@@ -143,7 +144,7 @@ function handleAccounts(response) {
       // this will grab the webProperties list
 
       //for test purposes only!!!!!!!!
-      queryWebproperties(accountList['InlineAB'])
+      queryWebproperties(accountList['InlineAB']);
 
     } else {
       outputToPage('No accounts found for this user.', true);
@@ -175,7 +176,6 @@ function handleWebproperties(response) {
 
       // webPropertyList has been populated, include script to display on DOM
       outputToPage("avaliable webPropertys:" + Object.keys(webPropertyList).toString(), true);
-
 
       // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
       // NEEDS TO CALL "queryProfiles(webPropertyList[accountName].accountId,webPropertyList[accountName].id)"
@@ -211,10 +211,22 @@ function queryProfiles(accountId, webpropertyId) {
 function handleProfiles(response) {
   if (!response.code) {
     if (response && response.items && response.items.length) {
-      console.log("response",response);
-      console.log("response.items",response.items);
-      var firstProfileId = response.items[0].id;
-      queryCoreReportingApi(firstProfileId);
+      //populate the profileList:
+      for (var i = 0; i < response.items.length; i++) {
+        profileList[response.items[i].name] = response.items[i].id;
+      };
+      // profileList has been populated, include script to display on DOM
+      outputToPage("avaliable accounts:" + Object.keys(profileList).toString(), true);
+
+      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
+      // NEEDS TO CALL "queryCoreReportingApi(profileList[accountName])"
+      // this will grab the webProperties list
+
+      //for test purposes only!!!!!!!!
+      queryCoreReportingApi(profileList['All Web Site Data']);
+
+      // var firstProfileId = response.items[0].id;
+      // queryCoreReportingApi(firstProfileId);
     } else {
       outputToPage('No profiles found for this user.', true);
     }
