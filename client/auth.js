@@ -155,7 +155,7 @@ function handleAccounts(response) {
     if (response.items && response.items.length) {
       populateLists(response.items, "accountList");
       //for test purposes only!!!!!!!!
-      queryWebproperties(accountList['InlineAB'].id);
+      queryWebproperties(accountList['abjs-test'].id);
     } else {
       outputToPage('No accounts found for this user.', true);
       //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
@@ -184,7 +184,7 @@ function handleWebproperties(response) {
       queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id);
     } else {
       outputToPage('No web properties found for this user.', true);
-      //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+      //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
 
     }
   } else {
@@ -208,11 +208,18 @@ function handleProfiles(response) {
   if (!response.code) {
     if (response && response.items && response.items.length) {
       populateLists(response.items, "profileList");
+
+      if(profileList["INLINEAB"]){
+        queryCoreReportingApi(profileList['INLINEAB'].id);
+      }else{
+        //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+        
+      }
       //for test purposes only!!!!!!!!
       queryCoreReportingApi(profileList['All Web Site Data'].id);
     } else {
       outputToPage('No profiles found for this user.', true);
-      //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+        //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
     }
   } else {
     outputToPage('There was an error querying profiles: ' + response.message, true);
@@ -260,30 +267,31 @@ function queryCoreReportingApi(profileId) {
 // Prints formatted response
 function handleCoreReportingResults(response) {
   if (!response.code) {
-    console.log(response);
     if (response.rows && response.rows.length) {
-      var output = [];
+      console.log(response);
+      
+      // var output = [];
 
-      // Profile Name.
-      output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
+      // // Profile Name.
+      // output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
 
-      var table = ['<table>'];
+      // var table = ['<table>'];
 
-      // Put headers in table.
-      table.push('<tr>');
-      for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
-        table.push('<th>', header.name, '</th>');
-      }
-      table.push('</tr>');
+      // // Put headers in table.
+      // table.push('<tr>');
+      // for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
+      //   table.push('<th>', header.name, '</th>');
+      // }
+      // table.push('</tr>');
 
-      // Put cells in table.
-      for (var i = 0, row; row = response.rows[i]; ++i) {
-        table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
-      }
-      table.push('</table>');
+      // // Put cells in table.
+      // for (var i = 0, row; row = response.rows[i]; ++i) {
+      //   table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
+      // }
+      // table.push('</table>');
 
-      output.push(table.join(''));
-      outputToPage(output.join(''), true);
+      // output.push(table.join(''));
+      // outputToPage(output.join(''), true);
     } else {
       outputToPage('No results found.', true);
     }
