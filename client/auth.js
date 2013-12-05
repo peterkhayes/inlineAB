@@ -256,8 +256,8 @@ function queryCoreReportingApi(profileId) {
     'ids': 'ga:' + profileId,
     'start-date': lastNDays(14),
     'end-date': lastNDays(0)
-    // 'metrics': 'ga:visits',
-    // 'dimensions': 'ga:experimentId, ga:experimentVariant',
+    'metrics': 'ga:visits',
+    'dimensions': 'ga:experimentId, ga:experimentVariant'
     // 'dimensions': 'ga:eventCategory, ga:eventAction, ga:eventLabel, ga:experimentId',
     // 'sort': '-ga:visits,ga:source',
     // 'filters': 'ga:medium==organic',
