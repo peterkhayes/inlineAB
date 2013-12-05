@@ -104,6 +104,7 @@ var app = angular.module('inlineAB', [])
   service.login = function() {
     currentPromise = $q.defer();
     checkAuth(false);
+    console.log("Done checking auth");
     return currentPromise.promise;
   };
 
@@ -252,7 +253,7 @@ var app = angular.module('inlineAB', [])
 });
 
 var wow = function() {
-  console.log(["Wow.", "So analytics", "Much testing", "Very API"][Math.floor(Math.random()*4)]);
+  console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
   setTimeout(wow, Math.random()*30000);
 };
 
