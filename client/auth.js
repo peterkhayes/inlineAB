@@ -158,6 +158,7 @@ function handleAccounts(response) {
       queryWebproperties(accountList['InlineAB'].id);
     } else {
       outputToPage('No accounts found for this user.', true);
+      //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
     }
   } else {
     outputToPage('There was an error querying accounts: ' + response.message, true);
@@ -183,6 +184,8 @@ function handleWebproperties(response) {
       queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id);
     } else {
       outputToPage('No web properties found for this user.', true);
+      //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+
     }
   } else {
     outputToPage('There was an error querying web properties: ' + response.message, true);
@@ -209,6 +212,7 @@ function handleProfiles(response) {
       queryCoreReportingApi(profileList['All Web Site Data'].id);
     } else {
       outputToPage('No profiles found for this user.', true);
+      //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
     }
   } else {
     outputToPage('There was an error querying profiles: ' + response.message, true);
