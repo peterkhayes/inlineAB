@@ -167,6 +167,7 @@ function queryWebproperties(accountId) {
 
 // Selects by default the first web property. 
 // TODO: add logic for web property selection to pass on
+var webPropertyList = {};
 function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
@@ -174,7 +175,6 @@ function handleWebproperties(response) {
       console.log("responseItems", response.items);
 
       //populate the webProperty list:
-      var webPropertyList = {};
       for (var i = 0; i < response.items.length; i++) {
         webPropertyList[response.items[i].name] = response.items[i].id;
       };
