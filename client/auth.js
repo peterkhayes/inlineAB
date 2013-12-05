@@ -115,7 +115,7 @@ function handleAuthClick(event) {
 function listAccounts() {
   outputToPage('Querying Accounts.');
   // makeMetadataRequest();
-  gapi.client.analytics.management.accounts.list().execute(responseHandler);
+  gapi.client.analytics.management.accounts.list().execute(handleAccounts);
 }
 
 // Selects by default the first account. 
