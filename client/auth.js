@@ -118,16 +118,24 @@ function listAccounts() {
   gapi.client.analytics.management.accounts.list().execute(handleAccounts);
 }
 
-// Selects by default the first account. 
+// FINDS A LIST OF ACCOUNTS
 // TODO: add logic for account selection to pass on
 // TODO: convert into common utility function
+
+////////////------------------------------------------------------------------------------------
+
+
 function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      console.log("response", response);
-      console.log("responseItems",response.items);
-      var firstAccountId = response.items[0].id;
-      queryWebproperties(firstAccountId);
+
+      populateAccountList(response.items);
+
+      for( var account in accountList){
+        queryWebproperties(accountList(account));
+      }
+      // var firstAccountId = response.items[0].id;
+      // queryWebproperties(firstAccountId);
     } else {
       outputToPage('No accounts found for this user.', true);
     }
@@ -136,19 +144,32 @@ function handleAccounts(response) {
   }
 }
 
+var accountList = {};
+function populateAccountList(accounts){
+  for (var i = 0; i < response.items.length; i++) {
+    accountList[response.items[i].name] = response.items[i].id;
+  };
+  // accountList has been populated, include script to display on DOM
+  outputToPage(Object.keys(accountList));
+};
+
 // Query all web properties for a given account
 function queryWebproperties(accountId) {
   outputToPage('Querying Webproperties.', true);
   gapi.client.analytics.management.webproperties.list({
       'accountId': accountId
-  }).execute(responseHandler);
+  }).execute(handleWebproperties);
 }
+
+////////////------------------------------------------------------------------------------------
 
 // Selects by default the first web property. 
 // TODO: add logic for web property selection to pass on
 function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
+      console.log("response", response);
+      console.log("responseItems", responseItems);
       var firstAccountId = response.items[0].accountId;
       var firstWebpropertyId = response.items[0].id;
       queryProfiles(firstAccountId, firstWebpropertyId);
@@ -167,7 +188,7 @@ function queryProfiles(accountId, webpropertyId) {
   gapi.client.analytics.management.profiles.list({
     'accountId': accountId,
     'webPropertyId': webpropertyId // set as inlineAB?
-  }).execute(responseHandler);
+  }).execute(handleProfiles);
 }
 
 // Selects by default the first profile
@@ -185,26 +206,26 @@ function handleProfiles(response) {
   }
 }
 
-function responseHandler(response) {
-  if (!response.code) {
-    var id = response.items[0].id,
-        secondId;
-    if (response && response.items && response.items.length) {
-      if(type === 'account' || 'profile'){
-        type === 'account' ? queryWebproperties(id) : queryCoreReportingApi(id);
-      } else if(type === 'webproperty'){
-        secondId = response.items[0].accountId;
-        queryProfiles(id, secondId);
-      } else {
-        throw 'Handling type not specified';
-      }
-    } else {
-      outputToPage('No '+ type + 's found.', true);
-    }
-  } else {
-    outputToPage('There was an error querying' + type + 's: ' + response.message, true);
-  }
-}
+// function responseHandler(response) {
+//   if (!response.code) {
+//     var id = response.items[0].id,
+//         secondId;
+//     if (response && response.items && response.items.length) {
+//       if(type === 'account' || 'profile'){
+//         type === 'account' ? queryWebproperties(id) : queryCoreReportingApi(id);
+//       } else if(type === 'webproperty'){
+//         secondId = response.items[0].accountId;
+//         queryProfiles(id, secondId);
+//       } else {
+//         throw 'Handling type not specified';
+//       }
+//     } else {
+//       outputToPage('No '+ type + 's found.', true);
+//     }
+//   } else {
+//     outputToPage('There was an error querying' + type + 's: ' + response.message, true);
+//   }
+// }
 
 // Core querying function
 // TODO: make inputs more flexible
