@@ -106,6 +106,7 @@ var app = angular.module('inlineAB', [])
         console.log("got list of web properties!", response.items);
         service.webPropertyList = response.items;
         $timeout(function() {
+          console.log("Resolving promise?", currentPromise);
           currentPromise.resolve(service.webPropertyList);
         }, 10);
       } else {
