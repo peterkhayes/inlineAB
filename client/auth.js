@@ -150,7 +150,7 @@ function populateLists(items, listToAddTo){
 function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      populateLists(items, "accountList");
+      populateLists(response.items, "accountList");
       //for test purposes only!!!!!!!!
       queryWebproperties(accountList['InlineAB'].id);
     } else {
@@ -176,7 +176,7 @@ function queryWebproperties(accountId) {
 function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      populateLists(items, "webPropertyList");
+      populateLists(response.items, "webPropertyList");
       //for test purposes only!!!!!!!!
       queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id)
       // var firstAccountId = response.items[0].accountId;
@@ -205,7 +205,7 @@ function queryProfiles(accountId, webpropertyId) {
 function handleProfiles(response) {
   if (!response.code) {
     if (response && response.items && response.items.length) {
-      populateLists(items, "profileList");
+      populateLists(response.items, "profileList");
       //for test purposes only!!!!!!!!
       queryCoreReportingApi(profileList['All Web Site Data'].id);
 
