@@ -181,7 +181,7 @@ function handleWebproperties(response) {
     if (response.items && response.items.length) {
       populateLists(response.items, "webPropertyList");
       //for test purposes only!!!!!!!!
-      queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id);
+      queryProfiles(webPropertyList["abjs-test"].accountId, webPropertyList["abjs-test"].id);
     } else {
       outputToPage('No web properties found for this user.', true);
       //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
