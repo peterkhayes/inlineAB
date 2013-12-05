@@ -133,6 +133,7 @@ function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
       //populate the account list:
+      console.log("what i'm looking for is a accountId", response.items);
       for (var i = 0; i < response.items.length; i++) {
         accountList[response.items[i].name] = response.items[i].id;
       };
