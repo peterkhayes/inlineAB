@@ -87,9 +87,7 @@ var app = angular.module('inlineAB', [])
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
         console.log(currentPromise);
-        $timeout(function() {
-          currentPromise.resolve(['1', '2']);
-        }, 5);
+        currentPromise.resolve(['1', '2']);
         // currentPromise.resolve(service.accountList);
         console.log("Promise should have resolved.");
         //for test purposes only!!!!!!!!
