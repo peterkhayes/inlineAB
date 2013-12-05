@@ -131,8 +131,8 @@ function handleAccounts(response) {
 
       //populate the account list:
       var accountList = {};
-      for (var i = 0; i < accounts.length; i++) {
-        accountList[accounts[i].name] = accounts[i].id;
+      for (var i = 0; i < response.items.length; i++) {
+        accountList[response.items[i].name] = response.items[i].id;
       };
 
       // accountList has been populated, include script to display on DOM
