@@ -255,7 +255,7 @@ function queryCoreReportingApi(profileId) {
   gapi.client.analytics.data.ga.get({
     'ids': 'ga:' + profileId,
     'start-date': lastNDays(14),
-    'end-date': lastNDays(0)
+    'end-date': lastNDays(0),
     'metrics': 'ga:visits',
     'dimensions': 'ga:experimentId, ga:experimentVariant'
     // 'dimensions': 'ga:eventCategory, ga:eventAction, ga:eventLabel, ga:experimentId',
