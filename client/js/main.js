@@ -86,6 +86,7 @@ var app = angular.module('inlineAB', [])
       if (response.items && response.items.length) {
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
+        console.log(currentPromise);
         currentPromise && currentPromise.resolve(service.accountList);
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
@@ -156,6 +157,7 @@ var app = angular.module('inlineAB', [])
     $scope.loading.login = true;
     google.login().then(
       function(accounts) {
+        console.log("We're back in the view!  With...", accounts);
         $scope.loading.login = false;
         $scope.accounts = accounts;
       },
