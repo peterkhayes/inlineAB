@@ -74,13 +74,17 @@ var app = angular.module('inlineAB', [])
 
   // Query (list) all accounts
   var listAccounts = function() {
+    console.log("Listing accounts.");
     gapi.client.analytics.management.accounts.list().execute(handleAccounts);
   };
 
   var handleAccounts = function(response) {
+    console.log("Much handling accounts.");
     if (!response.code) {
       if (response.items && response.items.length) {
         service.accountList = response.items;
+        console.log("Got a list!", service.accountList);
+        console.log(d);
         if (typeof d !== 'undefined') d.resolve(service.accountList);
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
