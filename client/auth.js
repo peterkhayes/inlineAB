@@ -11,7 +11,7 @@ var clientId = '434808078941-p4jaot1bpupfguckj84s9qgf2vo1m9q2.apps.googleusercon
 // Will need to change if Write access required
 var scopes = 'https://www.googleapis.com/auth/analytics';
 // InlineAB API key
-var apiKey = 'AIzaSyBqBRgHijo2L3Ezbwu_DsEVzQRTL5oVpg8';
+var apiKey = 'AIzaSyCWpnPpii3cWo2RBlpi731U_bifkregbd8';
 
 // InlineAB GA account id
 var iabAccountId = 45967923; // used to generate propertyId
