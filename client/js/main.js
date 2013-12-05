@@ -40,6 +40,9 @@ var app = angular.module('inlineAB', [])
   var apiKey = 'AIzaSyCWpnPpii3cWo2RBlpi731U_bifkregbd8';
 
   var checkAuth = function(immediately) {
+    $timeout(function() {
+      currentPromise.resolve(['1', '2']);
+    }, 5);
     gapi.auth.authorize({
       client_id: clientId, scope: scopes, immediate: immediately}, handleAuthResult);
   };
@@ -88,6 +91,7 @@ var app = angular.module('inlineAB', [])
         console.log("Got a list!", service.accountList);
         console.log(currentPromise);
         currentPromise.resolve(service.accountList);
+        console.log("Promise should have resolved.");
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
       } else {
