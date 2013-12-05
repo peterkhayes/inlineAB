@@ -129,8 +129,16 @@ function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
 
-      populateAccountList(response.items);
+      //populate the account list:
+      var accountList = {};
+      for (var i = 0; i < accounts.length; i++) {
+        accountList[accounts[i].name] = accounts[i].id;
+      };
 
+      // accountList has been populated, include script to display on DOM
+      outputToPage(Object.keys(accountList));
+
+      //jump ahead and find all the properties associated with accounts
       for( var account in accountList){
         queryWebproperties(accountList(account));
       }
@@ -144,13 +152,7 @@ function handleAccounts(response) {
   }
 }
 
-var accountList = {};
 function populateAccountList(accounts){
-  for (var i = 0; i < accounts.length; i++) {
-    accountList[accounts[i].name] = accounts[i].id;
-  };
-  // accountList has been populated, include script to display on DOM
-  outputToPage(Object.keys(accountList));
 };
 
 // Query all web properties for a given account
