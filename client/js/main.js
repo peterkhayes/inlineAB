@@ -105,9 +105,10 @@ var app = angular.module('inlineAB', [])
       if (response.items && response.items.length) {
         console.log("got list of web properties!", response.items);
         service.webPropertyList = response.items;
-        $rootScope.$apply(function(){
-          currentPromise.resolve(service.webPropertyList);
-        });
+        // $rootScope.$apply(function(){
+        //   currentPromise.resolve(service.webPropertyList);
+        // });
+        queryProfiles(service.account, service.webPropertyList);
       } else {
         console.log('No web properties found for this user.');
         currentPromise.reject('No web properties found for this user.');
@@ -117,6 +118,39 @@ var app = angular.module('inlineAB', [])
     } else {
       console.log('There was an error querying web properties: ' + response.message);
       currentPromise.reject('There was an error querying web properties: ' + response.message);
+    }
+  };
+
+  var queryProfiles = function(account, webproperty) {
+    console.log('Querying Profiles.');
+    gapi.client.analytics.management.profiles.list({
+      'accountId': account.id,
+      'webPropertyId': webproperty.id // set as inlineAB?
+    }).execute(handleProfiles);
+  };
+
+  // Selects by default the first profile
+  // TODO: add logic for profile selection to pass on
+  var handleProfiles = function(response) {
+    if (!response.code) {
+      if (response && response.items && response.items.length) {
+        populateLists(response.items, "profileList");
+
+        if(profileList["INLINEAB"]){
+          $rootScope.$apply(function(){
+            currentPromise.resolve(service.webPropertyList);
+          });
+        } else{
+          //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+          console.log("INLINEAB profile not found.");
+        }
+
+      } else {
+        console.log('No profiles found for this user.');
+          //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+      }
+    } else {
+      console.log('There was an error querying profiles: ' + response.message);
     }
   };
 
