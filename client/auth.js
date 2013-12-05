@@ -140,7 +140,7 @@ function handleAccounts(response) {
 
       //jump ahead and find all the properties associated with accounts
       for( var account in accountList){
-        queryWebproperties(accountList(account));
+        queryWebproperties(accountList[account]);
       }
       // var firstAccountId = response.items[0].id;
       // queryWebproperties(firstAccountId);
