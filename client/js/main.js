@@ -81,22 +81,22 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleAccounts = function(response) {
-    console.log("Much handling accounts.");
+    console.log("Handling the accounts list.");
     if (!response.code) {
       if (response.items && response.items.length) {
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
         console.log(currentPromise);
-        currentPromise && currentPromise.resolve(service.accountList);
+        currentPromise.resolve(service.accountList);
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
       } else {
         console.log('No accounts found for this user.');
-        currentPromise && currentPromise.reject("No accounts found for this user.");
+        currentPromise.reject("No accounts found for this user.");
         //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
       }
     } else {
-      currentPromise && currentPromise.reject('There was an error querying accounts: ' + response.message);
+      currentPromise.reject('There was an error querying accounts: ' + response.message);
       console.log('There was an error querying accounts: ' + response.message);
     }
   };
