@@ -133,14 +133,17 @@ function populateLists(items, listToAddTo){
       if( listToAddTo === 'accountList'){
         accountList[items[i].name] = {id: items[i].id};
         // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        // listen for event then trigger queryWebproperties(accountList[>choice<].id);
         outputToPage("avaliable accounts:" + Object.keys(accountList).toString(), true);
       } else if(listToAddTo === 'webPropertyList'){
         webPropertyList[items[i].name] = {id: items[i].id, accountId: items[i].accountId};
         // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        // listen for event then trigger queryProfiles(webPropertyList[>choice<].accountId, webPropertyList[>choice<].id)
         outputToPage("avaliable web properties:" + Object.keys(webPropertyList).toString(), true);
       } else if(listToAddTo === 'profileList'){
         profileList[items[i].name] = {id: items[i].id, accountId: items[i].accountId};
         // TODO: RIGHT HERE!! call something to populate the DOM and add triggers for next event
+        // listen for event then trigger queryCoreReportingApi(profileList[>choice<].id);
         outputToPage("avaliable profiles:" + Object.keys(profileList).toString(), true);
       }
     };
@@ -169,7 +172,6 @@ function queryWebproperties(accountId) {
   }).execute(handleWebproperties);
 }
 
-////////////------------------------------------------------------------------------------------
 
 // Selects by default the first web property. 
 // TODO: add logic for web property selection to pass on
@@ -178,10 +180,7 @@ function handleWebproperties(response) {
     if (response.items && response.items.length) {
       populateLists(response.items, "webPropertyList");
       //for test purposes only!!!!!!!!
-      queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id)
-      // var firstAccountId = response.items[0].accountId;
-      // var firstWebpropertyId = response.items[0].id;
-      // queryProfiles(firstAccountId, firstWebpropertyId);
+      queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id);
     } else {
       outputToPage('No web properties found for this user.', true);
     }
@@ -208,9 +207,6 @@ function handleProfiles(response) {
       populateLists(response.items, "profileList");
       //for test purposes only!!!!!!!!
       queryCoreReportingApi(profileList['All Web Site Data'].id);
-
-      // var firstProfileId = response.items[0].id;
-      // queryCoreReportingApi(firstProfileId);
     } else {
       outputToPage('No profiles found for this user.', true);
     }
@@ -218,6 +214,7 @@ function handleProfiles(response) {
     outputToPage('There was an error querying profiles: ' + response.message, true);
   }
 }
+////////////------------------------------------------------------------------------------------
 
 // function responseHandler(response) {
 //   if (!response.code) {
