@@ -57,7 +57,7 @@ function handleAuthorized() {
   runDemoButton.style.visibility = '';
   runDemoButton.onclick = listAccounts;
   // runDemoButton.onclick = postTest;
-  outputToPage('Click the Run Demo button to begin.');
+  outputToPage('Click the Run Demo button to begin.', true);
 }
 
 function postTest(){
@@ -103,7 +103,7 @@ function handleUnauthorized() {
   runDemoButton.style.visibility = 'hidden';
   authorizeButton.style.visibility = '';
   authorizeButton.onclick = handleAuthClick;
-  outputToPage('Please authorize this script to access Google Analytics.');
+  outputToPage('Please authorize this script to access Google Analytics.', true);
 }
 
 function handleAuthClick(event) {
@@ -113,7 +113,7 @@ function handleAuthClick(event) {
 
 // Query (list) all accounts
 function listAccounts() {
-  outputToPage('Querying Accounts.');
+  outputToPage('Querying Accounts.', true);
   // makeMetadataRequest();
   gapi.client.analytics.management.accounts.list().execute(handleAccounts);
 }
@@ -136,7 +136,7 @@ function handleAccounts(response) {
       };
 
       // accountList has been populated, include script to display on DOM
-      outputToPage("avaliable accounts:" + Object.keys(accountList).toString());
+      outputToPage("avaliable accounts:" + Object.keys(accountList).toString(), true);
 
       //jump ahead and find all the properties associated with accounts
       for( var account in accountList){
@@ -172,9 +172,27 @@ function handleWebproperties(response) {
     if (response.items && response.items.length) {
       console.log("response", response);
       console.log("responseItems", response.items);
-      var firstAccountId = response.items[0].accountId;
-      var firstWebpropertyId = response.items[0].id;
-      queryProfiles(firstAccountId, firstWebpropertyId);
+
+      //populate the webProperty list:
+      var webPropertyList = {};
+      for (var i = 0; i < response.items.length; i++) {
+        webPropertyList[response.items[i].name] = response.items[i].id;
+      };
+
+      // webPropertyList has been populated, include script to display on DOM
+      outputToPage("avaliable webPropertys:" + Object.keys(webPropertyList).toString(), true);
+
+      //jump ahead and find all the properties associated with webPropertys
+      for( var webProperty in webPropertyList){
+        queryWebproperties(webPropertyList[webProperty]);
+      }
+
+
+
+
+      // var firstAccountId = response.items[0].accountId;
+      // var firstWebpropertyId = response.items[0].id;
+      // queryProfiles(firstAccountId, firstWebpropertyId);
     } else {
       outputToPage('No web properties found for this user.', true);
     }
@@ -271,9 +289,9 @@ function handleCoreReportingResults(response) {
       table.push('</table>');
 
       output.push(table.join(''));
-      outputToPage(output.join(''));
+      outputToPage(output.join(''), true);
     } else {
-      outputToPage('No results found.');
+      outputToPage('No results found.', true);
     }
   } else {
     outputToPage('There was an error querying core reporting API: ' +
