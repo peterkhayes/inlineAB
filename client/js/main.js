@@ -30,6 +30,8 @@ var app = angular.module('inlineAB', [])
     profileList: {}
   };
 
+  var currentPromise;
+
   // Cloud console
   var clientId = '434808078941-u814h6clkbve3dpp5cuaolqto1cmk0ui.apps.googleusercontent.com';
   // Will need to change if Write access required
@@ -85,28 +87,24 @@ var app = angular.module('inlineAB', [])
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
         console.log(d);
-        if (typeof d !== 'undefined') d.resolve(service.accountList);
+        currentPromise && currentPromise.resolve(service.accountList);
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
       } else {
         console.log('No accounts found for this user.');
-        if (typeof d !== 'undefined') d.reject("No accounts found for this user.");
+        currentPromise && currentPromise.reject("No accounts found for this user.");
         //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
       }
     } else {
-      if (typeof d !== 'undefined') d.reject('There was an error querying accounts: ' + response.message);
+      currentPromise && currentPromise.reject('There was an error querying accounts: ' + response.message);
       console.log('There was an error querying accounts: ' + response.message);
     }
   };
 
   service.login = function() {
-    var d = $q.defer();
-
+    currentPromise = $q.defer();
     checkAuth(false);
-
-    //needs to resolve promise with list of accounts
-
-    return d.promise;
+    return currentPromise.promise;
   };
 
   service.logout = function() {
@@ -251,3 +249,10 @@ var app = angular.module('inlineAB', [])
 .controller('my-analytics', function() {
 
 });
+
+var wow = function() {
+  console.log("Wow.");
+  setTimeout(wow, Math.random()*20000);
+};
+
+wow();
