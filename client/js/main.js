@@ -86,7 +86,6 @@ var app = angular.module('inlineAB', [])
       if (response.items && response.items.length) {
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
-        console.log(currentPromise);
         $timeout(function() {
           currentPromise.resolve(service.accountList);
         }, 5);
@@ -98,6 +97,25 @@ var app = angular.module('inlineAB', [])
     } else {
       currentPromise.reject('There was an error querying accounts: ' + response.message);
       console.log('There was an error querying accounts: ' + response.message);
+    }
+  };
+
+  var handleWebproperties = function(response) {
+    if (!response.code) {
+      if (response.items && response.items.length) {
+        console.log("got list of web properties!");
+        $timeout(function() {
+          currentPromise.resolve(response.items);
+        }, 5);
+      } else {
+        console.log('No web properties found for this user.');
+        currentPromise.reject('No web properties found for this user.');
+        //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
+
+      }
+    } else {
+      console.log('There was an error querying web properties: ' + response.message);
+      currentPromise.reject('There was an error querying web properties: ' + response.message);
     }
   };
 
@@ -113,30 +131,19 @@ var app = angular.module('inlineAB', [])
 
     // REPLACE WITH REAL LOGOUT
     $timeout(function() {
-      service.username = undefined;
+      service.token = null;
       d.resolve();
     }, 200);
 
     return d.promise;
   };
 
-  // service.getAccounts = function() {
-  //   var d = $q.defer();
-
-  //   console.log('Querying Accounts.');
-
-  //   return d.promise;
-  // };
-
   service.getWebProps = function(account) {
-    var d = $q.defer();
+    var currentPromise = $q.defer();
 
-    // REPLACE WITH REAL WEB PROP FETCHER
-    $timeout(function() {
-      d.resolve(["DRUGS", "KIDNAPPINGS", "LAUNDERING"]);
-    }, 200);
+    gapi.client.analytics.management.webproperties.list({'accountId': accountId}).execute(handleWebproperties);
 
-    return d.promise;
+    return currentPromise.promise;
   };
 
   service.getTests = function(webProp) {
@@ -181,16 +188,6 @@ var app = angular.module('inlineAB', [])
       function(error) {$scope.error = error;}
     );
   };
-
-  // // Get the google accounts.
-  // var getAccounts = function() {
-  //   $scope.loading.accounts = true;
-  //   google.getAccounts().then(
-  //     function(accounts) {
-  //       $scope.loading.accounts = false;
-  //     }
-  //   );
-  // };
 
   $scope.selectAccount = function(account) {
     console.log("selected an account");
