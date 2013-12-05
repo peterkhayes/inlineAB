@@ -124,26 +124,27 @@ function listAccounts() {
 
 ////////////------------------------------------------------------------------------------------
 
+var accountList = {};
+var webPropertyList = {};
+
 
 function handleAccounts(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-
       //populate the account list:
-      var accountList = {};
       for (var i = 0; i < response.items.length; i++) {
         accountList[response.items[i].name] = response.items[i].id;
       };
-
       // accountList has been populated, include script to display on DOM
       outputToPage("avaliable accounts:" + Object.keys(accountList).toString(), true);
 
-      //jump ahead and find all the properties associated with accounts
-      for( var account in accountList){
-        queryWebproperties(accountList[account]);
-      }
-      // var firstAccountId = response.items[0].id;
-      // queryWebproperties(firstAccountId);
+      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
+      // NEEDS TO CALL "queryWebproperties(accountList[accountName])"
+      // this will grab the webProperties list
+
+      //for test purposes only!!!!!!!!
+      queryWebproperties(accountList['InlineAB'])
+
     } else {
       outputToPage('No accounts found for this user.', true);
     }
@@ -151,9 +152,6 @@ function handleAccounts(response) {
     outputToPage('There was an error querying accounts: ' + response.message, true);
   }
 }
-
-function populateAccountList(accounts){
-};
 
 // Query all web properties for a given account
 function queryWebproperties(accountId) {
@@ -167,27 +165,24 @@ function queryWebproperties(accountId) {
 
 // Selects by default the first web property. 
 // TODO: add logic for web property selection to pass on
-var webPropertyList = {};
 function handleWebproperties(response) {
   if (!response.code) {
     if (response.items && response.items.length) {
-      console.log("response", response);
-      console.log("responseItems", response.items);
-
       //populate the webProperty list:
       for (var i = 0; i < response.items.length; i++) {
-        webPropertyList[response.items[i].name] = response.items[i].id;
+        webPropertyList[response.items[i].name] = {id: response.items[i].id, accountId: response.items[i].accountId};
       };
 
       // webPropertyList has been populated, include script to display on DOM
       outputToPage("avaliable webPropertys:" + Object.keys(webPropertyList).toString(), true);
 
-      //jump ahead and find all the properties associated with webPropertys
-      for( var webProperty in webPropertyList){
-        queryWebproperties(webPropertyList[webProperty]);
-      }
 
+      // TODO: ADD CLICK EVENT LISTENER AT THIS POINT
+      // NEEDS TO CALL "queryProfiles(webPropertyList[accountName].accountId,webPropertyList[accountName].id)"
+      // this will grab the webProperties list
 
+      //for test purposes only!!!!!!!!
+      queryProfiles(webPropertyList["InlineAB Project Site"].accountId, webPropertyList["InlineAB Project Site"].id)
 
 
       // var firstAccountId = response.items[0].accountId;
@@ -216,6 +211,8 @@ function queryProfiles(accountId, webpropertyId) {
 function handleProfiles(response) {
   if (!response.code) {
     if (response && response.items && response.items.length) {
+      console.log("response",response);
+      console.log("response.items",response.items);
       var firstProfileId = response.items[0].id;
       queryCoreReportingApi(firstProfileId);
     } else {
