@@ -22,7 +22,7 @@ var app = angular.module('inlineAB', [])
     });
   };
 })
-.factory('google', function($q, $timeout) {
+.factory('google', function($q, $timeout, $rootScope) {
 
   var service = {
     accountList: {},
@@ -86,9 +86,9 @@ var app = angular.module('inlineAB', [])
       if (response.items && response.items.length) {
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
-        $timeout(function() {
+        $rootScope.$apply(function(){
           currentPromise.resolve(service.accountList);
-        }, 5);
+        });
       } else {
         console.log('No accounts found for this user.');
         currentPromise.reject("No accounts found for this user.");
