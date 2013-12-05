@@ -86,7 +86,6 @@ var app = angular.module('inlineAB', [])
       if (response.items && response.items.length) {
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
-        console.log(d);
         currentPromise && currentPromise.resolve(service.accountList);
         //for test purposes only!!!!!!!!
         // queryWebproperties(accountList['abjs-test'].id);
@@ -251,8 +250,8 @@ var app = angular.module('inlineAB', [])
 });
 
 var wow = function() {
-  console.log("Wow.");
-  setTimeout(wow, Math.random()*20000);
+  console.log(["Wow.", "So analytics", "Much testing", "Very API"][Math.floor(Math.random()*4)]);
+  setTimeout(wow, Math.random()*30000);
 };
 
 wow();
