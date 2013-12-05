@@ -14,11 +14,11 @@ var scopes = 'https://www.googleapis.com/auth/analytics';
 var apiKey = 'AIzaSyCWpnPpii3cWo2RBlpi731U_bifkregbd8';
 
 // InlineAB GA account id
-var iabAccountId = 45967923; // used to generate propertyId
-// InlineAB GA web property id
-var iabWebPropertyId = 'UA-45967923-1'; // used with accountId to generate profileId
-// InlineAB GA profile id
-var iabProfileId = '79395509'; // used for querying
+// var iabAccountId = 45967923; // used to generate propertyId
+// // InlineAB GA web property id
+// var iabWebPropertyId = 'UA-45967923-1'; // used with accountId to generate profileId
+// // InlineAB GA profile id
+// var iabProfileId = '79395509'; // used for querying
 
 
 // Called after Google script finished loading
