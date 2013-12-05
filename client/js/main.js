@@ -103,7 +103,7 @@ var app = angular.module('inlineAB', [])
   var handleWebproperties = function(response) {
     if (!response.code) {
       if (response.items && response.items.length) {
-        console.log("got list of web properties!");
+        console.log("got list of web properties!", response.items);
         $timeout(function() {
           currentPromise.resolve(response.items);
         }, 5);
@@ -205,7 +205,7 @@ var app = angular.module('inlineAB', [])
     google.getWebProps(account).then(
       function(webProps) {
         $scope.loading.webProps = false;
-        console.log("got web props");
+        console.log("put web props into UI");
         $scope.webProps = webProps;
       }
     );
