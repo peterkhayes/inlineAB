@@ -7,18 +7,17 @@
     </div>
     <div class='large-6 small-12 columns'>
       <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.login'/>
-      <button ng-hide='username || loading.login' ng-click='login()' class='googleLogin'>Log In</button>
-      <button ng-hide='!username || loading.login' ng-click='logout()' class='googleLogin'>Log Out</button>
+      <button ng-hide='loggedIn || loading.login' ng-click='login()' class='googleLogin'>Log In</button>
+      <button ng-hide='!loggedIn || loading.login' ng-click='logout()' class='googleLogin'>Log Out</button>
     </div>
   </div>
 
-  <div ng-show='username' class='row'>
+  <div ng-show='loggedIn' class='row'>
   <br><hr/><br>
     <div class='large-6 small-12 columns'>
       <h5>Select your account:</h5>
       <ul>
-        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.accounts'/>
-        <li ng-hide='loading.accounts' ng-repeat='account in accounts' class='download-page-list' ng-class="{highlighted : isSelectedAccount(account.name)}" ng-click='selectAccount(account.name)'>{{account.name}}<br></li>
+        <li ng-repeat='account in accounts' class='download-page-list' ng-class="{highlighted : isSelectedAccount(account.name)}" ng-click='selectAccount(account.name)'>{{account.name}}<br></li>
       </ul>
     </div>
     <div ng-show='account' class='large-6 small-12 columns'>

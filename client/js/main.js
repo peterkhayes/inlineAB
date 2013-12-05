@@ -159,6 +159,7 @@ var app = angular.module('inlineAB', [])
     google.login().then(
       function(accounts) {
         console.log("We're back in the view!  With...", accounts);
+        $scope.loggedIn = true;
         $scope.loading.login = false;
         $scope.accounts = accounts;
       },
@@ -171,7 +172,7 @@ var app = angular.module('inlineAB', [])
     google.logout().then(
       function() {
         $scope.loading.login = false;
-        $scope.username = undefined;
+        $scope.loggedIn = false;
         $scope.account = undefined;
         $scope.accounts = undefined;
         $scope.webProp = undefined;
