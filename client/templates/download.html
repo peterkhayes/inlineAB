@@ -1,0 +1,51 @@
+<div class='download-customization'>
+  <br><br>
+  <br>
+  <div class="row">
+    <div class='large-6 small-12 columns'>
+      <h5>Log In with Google Analytics: </h5>
+    </div>
+    <div class='large-6 small-12 columns'>
+      <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.login'/>
+      <button ng-hide='username || loading.login' ng-click='login()' class='googleLogin'>Log In</button>
+      <button ng-hide='!username || loading.login' ng-click='logout()' class='googleLogin'>Log Out</button>
+    </div>
+  </div>
+
+  <div ng-show='username' class='row'>
+  <br><hr/><br>
+    <div class='large-6 small-12 columns'>
+      <h5>Select your account:</h5>
+      <ul>
+        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.accounts'/>
+        <li ng-repeat='account in accounts' class='download-page-list' ng-class="{highlighted : isSelectedAccount(account)}" ng-click='selectAccount(account)'>{{account}}<br></li>
+      </ul>
+    </div>
+    <div ng-show='account' class='large-6 small-12 columns'>
+      <h5>Select your web property:</h5>
+      <ul>
+        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.webProps'/>
+        <li ng-repeat='webprop in webProps' class='download-page-list' ng-class="{highlighted : isSelectedWebProp(webprop)}" ng-click='selectWebProp(webprop)'>{{webprop}}<br></li>
+      </ul>
+    </div>
+  </div>
+
+  <div ng-show='webProp' class='row'>
+    <br><hr/><br>
+    <div class='large-6 small-12 columns'>
+      <h5>Enter your tests:</h5>
+      <ul>
+        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+        <li ng-repeat='test in tests' class='download-page-test'>
+          <span class='index'>{{$index + 1}}.</span>
+          <input autofocus type='text' value='{{test}}' ng-enter='addTest()'></input>
+          <span class='deleteTest' ng-click='deleteTest(test)'>X</span>
+        </li>
+        <li ng-hide='loading.tests' class='download-page-test'><button class='tiny' ng-click='addTest()'>Add more</button></li>
+      </ul>
+    </div>
+    <div class='large-6 small-12 columns'>
+      <br><br><button>DOWNLOAD YOU FOOLS!</button>
+    </div>
+  </div>
+</div>

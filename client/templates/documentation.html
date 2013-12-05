@@ -1,0 +1,55 @@
+<div class="getting-started row">
+  <h1><strong>Welcome to InlineAB!</strong></h1><br>
+  <div>&emsp;&emsp;We hope you're excited about getting the most out of your website!  This guide will help you get set up and show you how to create tests, define goals, and view your results.  If you have any questions, don't hesitate to shoot us an email at <a href='mailto:support@inlineab.com'>support@inlineab.com</a>.</div>
+  <hr/>
+
+  <h1><strong>Getting Started with InlineAB</strong></h1><br>
+
+  <h3>1. Register with Google Analytics</h3>
+  <div>&emsp;&emsp;To use InlineAB, you'll need a Google Analytics profile for your website.  Go ahead and make one <a href='https://www.google.com/analytics/web/provision?et=&authuser=#provision/CreateAccount/'>here</a>.  Make sure to select the new 'Universal Analytics' account type.<br><br>&emsp;&emsp;Once you're registered, jot down your Tracking ID - you'll need this to link your tests to your new analytics account.  Don't worry if Google Analytics looks a little confusing!  We'll handle all the hard work for you.</div>
+  <br><br>
+  <div class='center'>PICTURE OF ANALYTICS STUFF</div>
+  <br><br>
+
+  <h3>2. Download InlineAB</h3>
+  <div>&emsp;&emsp;To run tests with InlineAB, you'll need a copy of our library. You can download one <a href='download.html'>here</a>. You can put this file with all of your other Javascript files, or in the same place as your html page if you aren't using any other Javascript.</div>
+  <br><br>
+  <div class='center'>PICTURE OF INCLUDING A SCRIPT</div>
+  <br><br>
+
+  <h3>3. Write Some Tests</h3>
+  <div>&emsp;&emsp;With InlineAB, you can write tests directly into your HTML. The syntax is easy: just wrap whatever you want to test in an <em>&lt;abtest&gt;</em> tag, and give names to your test and the different possible experiences.  Here's an example, which we'll break down below:</div>
+  <br>
+  <div class='row'>
+    <div class='code large-8 large-offset-2 small-12 columns'>
+      &lt;abtest test-name='header-text'&gt;<br>
+        &emsp;&emsp;&lt;h1 exp-name='hello'&gt;Hello!&lt;/h1&gt;<br>
+        &emsp;&emsp;&lt;h1 exp-name='hi'&gt;Hi!&lt;/h1&gt;<br>
+      &lt;/abtest&gt;
+    </div>
+  </div>
+  <br>
+  <h5><strong>What's going on here?</strong></h5>
+  <div>&emsp;&emsp;The outer tags are special <em>&lt;abtest&gt;</em> tags.  They're used to indicate that a set of elements should be grouped together as a single AB test.  Users will see one of the elements inside the <em>&lt;abtest&gt;</em> tag.  The element you see is the <em>chosen experience</em>.  For instance, in our example above, a user would (at random) be shown either "Hello!" or "Hi!" as the header.  Whenever inlineAB detects an <em>&lt;abtest&gt;</em> tag on the page, it will immediately choose one of the experiences, deleting the others and the <em>&lt;abtest&gt;</em> tag itself.  No trace of your AB test will be left on your page, and the processing occurs only a few miliseconds after the tag is created.<br><br>&emsp;&emsp;You should also notice the attributes 'test-name' and 'exp-name'.  The first attribute is placed on the <em>&lt;abtest&gt;</em> tag and tells inlineAB what you want your test to be named.  We called this test 'header-text' because it's deciding between two different header text choices.  The second attribute, 'exp-name' is placed on each of the possible experiences and should describe the experience contained within that tag.  Make sure these names are memorable!  You'll need them when you view your analytics.</div>
+  <br><br>
+
+  <h3>4. Define Your Goals</h3>
+  <div>&emsp;&emsp;Once you have some tests, you'll want to define a goal or two.  These are your conversion events - the things that you want to happen.  This can include user interaction like clicks and key presses, or passive events like page views.  These goals will then be available to you when you log into Google Analytics later.  Here's how you define goals - we'll explain below:</div>
+  <br>
+  <div class='row'>
+    <div class='code large-8 large-offset-2 small-12 columns'>
+      &lt;abgoal goal-name='header-text' goal-action='click'&gt;<br>
+        &emsp;&emsp;&lt;button&gt;Purchase!&lt;/button&gt;<br>
+      &lt;/abgoal&gt;
+    </div>
+  </div>
+  <br>
+  <h5><strong>What's going on here?</strong></h5>
+  <div>&emsp;&emsp;Anything wrapped in an <em>&lt;abgoal&gt;</em> tag is designated as a goal, and every time the user performs the action listed under 'goal-action', InlineAB sends a message to Google Analytics.  As with <em>&lt;abtest&gt;</em>, the tag will be erased almost immediately and leaves no trace on the page.</div>
+  <br><br>
+  <h3>5. Optimize Your Everything</h3>
+  <div>&emsp;&emsp;Now that you've defined tests and goals, your results will begin appearing in Google Analytics.  Google's service is incredibly deep and can be confusing to navigate, so we've written a guide to help you get the most out of the service, which you can find <a href='#'>here</a>.<br><br>&emsp;&emsp;Remember that AB testing takes time, and you'll have to wait till you have data to realize the benefits.  Google Analytics can help notify you when there's enough evidence to conclude one of your tests.  We've included instructions on setting this up in our guide.</div>
+  <br><br>
+  <h3>6. What's Next?</h3>
+  <div>&emsp;&emsp;Inline AB has plenty more to offer!  You can read the documentation <a href='#'>here</a> - it covers more advanced features and provides some common use cases.  And if you enjoy our work, feel free to fork us on Github and suggest improvements!
+</div>

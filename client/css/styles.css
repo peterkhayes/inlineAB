@@ -1,0 +1,104 @@
+.small-text {
+  font-style: italic;
+  font-size: 12px;
+}
+
+.inner-thumbnail-container {
+  max-width: 250px;
+  margin: 0 auto;
+}
+
+.author-description {
+  max-width: 200px;
+  margin: 0 auto;
+  min-height: 400px;
+}
+
+.author-description img {
+  margin-bottom: 25px;
+}
+
+.author-description:hover {
+  background-color: #DDD;
+}
+
+.center {
+  text-align: center;
+}
+
+.moveup {
+  margin-top: -20px;
+}
+
+#ga-snippit {
+  min-height: 100px;
+}
+
+label {
+  line-height: 0;
+}
+
+.getting-started {
+  line-height: 24px;
+}
+
+.code {
+  background-color: #EEE;
+  font-family: courier;
+  overflow: scroll;
+}
+
+.download-page-list {
+  padding: 3px;
+  list-style-type: none;
+  display: table;
+  cursor: pointer;
+}
+
+.download-page-list:hover {
+  color: #666;
+}
+
+.download-page-test {
+  list-style-type: none;
+  display: table;
+}
+
+.download-page-test .index {
+  position: relative;
+  top: 3px;
+  font-size: 25px;
+}
+
+.download-page-test input {
+  margin-left: 25px;
+  display: inline-block;
+  width: 250px;
+}
+
+.download-page-test .deleteTest {
+  position: relative;
+  top: 4px;
+  font-size: 19px;
+  color: #D00;
+  margin-left: 15px;
+  cursor: pointer;
+}
+
+.download-page-test .deleteTest:hover {
+  color:#A00;
+}
+
+.highlighted {
+  background-color: #EEE;
+}
+
+.loading-spinner {
+  position: relative;
+  left: 35px;
+  top: 10px;
+}
+
+.download-customization {
+  min-height: 500px;
+}
