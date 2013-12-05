@@ -270,28 +270,28 @@ function handleCoreReportingResults(response) {
     if (response.rows && response.rows.length) {
       console.log(response);
       
-      // var output = [];
+      var output = [];
 
-      // // Profile Name.
-      // output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
+      // Profile Name.
+      output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
 
-      // var table = ['<table>'];
+      var table = ['<table>'];
 
-      // // Put headers in table.
-      // table.push('<tr>');
-      // for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
-      //   table.push('<th>', header.name, '</th>');
-      // }
-      // table.push('</tr>');
+      // Put headers in table.
+      table.push('<tr>');
+      for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
+        table.push('<th>', header.name, '</th>');
+      }
+      table.push('</tr>');
 
-      // // Put cells in table.
-      // for (var i = 0, row; row = response.rows[i]; ++i) {
-      //   table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
-      // }
-      // table.push('</table>');
+      // Put cells in table.
+      for (var i = 0, row; row = response.rows[i]; ++i) {
+        table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
+      }
+      table.push('</table>');
 
-      // output.push(table.join(''));
-      // outputToPage(output.join(''), true);
+      output.push(table.join(''));
+      outputToPage(output.join(''), true);
     } else {
       outputToPage('No results found.', true);
     }
