@@ -1,3 +1,4 @@
+
 var app = angular.module('inlineAB', [])
 .config(function($routeProvider, $locationProvider) {
   $routeProvider.when("/", {templateUrl: 'templates/home.html'})
@@ -22,17 +23,84 @@ var app = angular.module('inlineAB', [])
   };
 })
 .factory('google', function($q, $timeout) {
-  var service = {};
+
+  var service = {
+    accountList: {},
+    webPropertyList: {},
+    profileList: {}
+  };
+
+  // Cloud console
+  var clientId = '434808078941-u814h6clkbve3dpp5cuaolqto1cmk0ui.apps.googleusercontent.com';
+  // Will need to change if Write access required
+  var scopes = 'https://www.googleapis.com/auth/analytics';
+  // InlineAB API key
+  var apiKey = 'AIzaSyCWpnPpii3cWo2RBlpi731U_bifkregbd8';
+
+  var checkAuth = function(immediately) {
+    gapi.auth.authorize({
+      client_id: clientId, scope: scopes, immediate: immediately}, handleAuthResult);
+  };
+
+  var handleAuthResult = function(token) { // important to set token?
+    if (token) {
+      service.token = token;
+      gapi.client.load('analytics', 'v3', handleAuthorized);
+    } else {
+      handleUnauthorized();
+    }
+  };
+
+  // Set demo button to trigger iabTest
+  var handleAuthorized = function() {
+    console.log('token is: ',service.token);
+    listAccounts();
+  };
+
+  var handleUnauthorized = function() {
+    var authorizeButton = document.getElementById('authorize-button');
+    var runDemoButton = document.getElementById('run-demo-button');
+
+    runDemoButton.style.visibility = 'hidden';
+    authorizeButton.style.visibility = '';
+    authorizeButton.onclick = handleAuthClick;
+    console.log('Please authorize this script to access Google Analytics.');
+  };
+
+  var handleAuthClick = function(event) {
+    // User prompted to give access
+    checkAuth(false);
+  };
+
+  // Query (list) all accounts
+  var listAccounts = function() {
+    gapi.client.analytics.management.accounts.list().execute(handleAccounts);
+  };
+
+  var handleAccounts = function(response) {
+    if (!response.code) {
+      if (response.items && response.items.length) {
+        service.accountList = response.items;
+        if (typeof d !== 'undefined') d.resolve(service.accountList);
+        //for test purposes only!!!!!!!!
+        // queryWebproperties(accountList['abjs-test'].id);
+      } else {
+        console.log('No accounts found for this user.');
+        if (typeof d !== 'undefined') d.reject("No accounts found for this user.");
+        //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+      }
+    } else {
+      if (typeof d !== 'undefined') d.reject('There was an error querying accounts: ' + response.message);
+      console.log('There was an error querying accounts: ' + response.message);
+    }
+  };
 
   service.login = function() {
     var d = $q.defer();
 
-    // REPLACE WITH REAL LOGIN
-    var name = "A GOOGLE USER";
-    $timeout(function() {
-      service.username = name;
-      d.resolve(name);
-    }, 200);
+    checkAuth(false);
+
+    //needs to resolve promise with list of accounts
 
     return d.promise;
   };
@@ -49,16 +117,13 @@ var app = angular.module('inlineAB', [])
     return d.promise;
   };
 
-  service.getAccounts = function() {
-    var d = $q.defer();
+  // service.getAccounts = function() {
+  //   var d = $q.defer();
 
-    // REPLACE WITH REAL ACCOUNT FETCHER
-    $timeout(function() {
-      d.resolve(["Personal Account", "Business Account", "H4CK3R 4CC0|_|N7"]);
-    }, 200);
+  //   console.log('Querying Accounts.');
 
-    return d.promise;
-  };
+  //   return d.promise;
+  // };
 
   service.getWebProps = function(account) {
     var d = $q.defer();
@@ -89,10 +154,9 @@ var app = angular.module('inlineAB', [])
   $scope.login = function() {
     $scope.loading.login = true;
     google.login().then(
-      function(username) {
+      function(accounts) {
         $scope.loading.login = false;
-        $scope.username = username;
-        getAccounts();
+        $scope.accounts = accounts;
       },
       function(error) {$scope.error = error;}
     );
@@ -113,16 +177,15 @@ var app = angular.module('inlineAB', [])
     );
   };
 
-  // Get the google accounts.
-  var getAccounts = function() {
-    $scope.loading.accounts = true;
-    google.getAccounts().then(
-      function(accounts) {
-        $scope.loading.accounts = false;
-        $scope.accounts = accounts;
-      }
-    );
-  };
+  // // Get the google accounts.
+  // var getAccounts = function() {
+  //   $scope.loading.accounts = true;
+  //   google.getAccounts().then(
+  //     function(accounts) {
+  //       $scope.loading.accounts = false;
+  //     }
+  //   );
+  // };
 
   $scope.selectAccount = function(account) {
     console.log("selected an account");
