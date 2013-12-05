@@ -60,40 +60,40 @@ function handleAuthorized() {
   outputToPage('Click the Run Demo button to begin.', true);
 }
 
-function postTest(){
-  var xhr = new XMLHttpRequest();
-  xhr.open('post','https://www.googleapis.com/analytics/v3/management/accounts/45967923/webproperties/UA-45967923-1/profiles/79395509/experiments?fields=accountId&key=AIzaSyB1qEJH0RIDBLPW7gK-7fxBmuY1opr_PNU', true);
-  xhr.setRequestHeader("Content-Type", "application/json");
-  xhr.setRequestHeader("Authorization", "Bearer "+globalTok.access_token);
-  var data = {
-    "name": "hashtagwinning",
-    "status": "READY_TO_RUN",
-    "objectiveMetric":"ga:bounces",
-    "variations": [
-  {
-   "name": "\"no javascript!\"",
-   "url":"http://www.google.com",
-   "status":"ACTIVE"
-  },
-  {
-   "name": "\"html only!\"",
-   "url":"http://www.yahoo.com",
-   "status":"ACTIVE"
-  }
- ]
-}
-  xhr.onreadystatechange = function(){
-    if (xhr.readyState===4 && xhr.status===200){
-      console.log(xhr.responseText);  
-    }
-  }
-  xhr.send(JSON.stringify(data));
-}
+// function postTest(){
+//   var xhr = new XMLHttpRequest();
+//   xhr.open('post','https://www.googleapis.com/analytics/v3/management/accounts/45967923/webproperties/UA-45967923-1/profiles/79395509/experiments?fields=accountId&key=AIzaSyB1qEJH0RIDBLPW7gK-7fxBmuY1opr_PNU', true);
+//   xhr.setRequestHeader("Content-Type", "application/json");
+//   xhr.setRequestHeader("Authorization", "Bearer "+globalTok.access_token);
+//   var data = {
+//     "name": "hashtagwinning",
+//     "status": "READY_TO_RUN",
+//     "objectiveMetric":"ga:bounces",
+//     "variations": [
+//   {
+//    "name": "\"no javascript!\"",
+//    "url":"http://www.google.com",
+//    "status":"ACTIVE"
+//   },
+//   {
+//    "name": "\"html only!\"",
+//    "url":"http://www.yahoo.com",
+//    "status":"ACTIVE"
+//   }
+//  ]
+// }
+//   xhr.onreadystatechange = function(){
+//     if (xhr.readyState===4 && xhr.status===200){
+//       console.log(xhr.responseText);  
+//     }
+//   }
+//   xhr.send(JSON.stringify(data));
+// }
 
 // Query core reporting with hardcoded data
-function iabTest(){
-  queryCoreReportingApi(iabProfileId);
-}
+// function iabTest(){
+//   queryCoreReportingApi(iabProfileId);
+// }
 
 // Ask the user to authorize
 function handleUnauthorized() {
@@ -255,12 +255,14 @@ function queryCoreReportingApi(profileId) {
   gapi.client.analytics.data.ga.get({
     'ids': 'ga:' + profileId,
     'start-date': lastNDays(14),
-    'end-date': lastNDays(0),
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:eventCategory, ga:eventAction, ga:eventLabel'
+    'end-date': lastNDays(0)
+    // 'metrics': 'ga:visits',
+    // 'dimensions': 'ga:experimentId, ga:experimentVariant',
+    // 'dimensions': 'ga:eventCategory, ga:eventAction, ga:eventLabel, ga:experimentId',
     // 'sort': '-ga:visits,ga:source',
     // 'filters': 'ga:medium==organic',
     // 'max-results': 25
+    // for more: https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api
   }).execute(handleCoreReportingResults);
 }
 
@@ -269,29 +271,29 @@ function handleCoreReportingResults(response) {
   if (!response.code) {
     if (response.rows && response.rows.length) {
       console.log(response);
-      
-      var output = [];
 
-      // Profile Name.
-      output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
+      // var output = [];
 
-      var table = ['<table>'];
+      // // Profile Name.
+      // output.push('Profile Name: ', response.profileInfo.profileName, '<br>');
 
-      // Put headers in table.
-      table.push('<tr>');
-      for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
-        table.push('<th>', header.name, '</th>');
-      }
-      table.push('</tr>');
+      // var table = ['<table>'];
 
-      // Put cells in table.
-      for (var i = 0, row; row = response.rows[i]; ++i) {
-        table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
-      }
-      table.push('</table>');
+      // // Put headers in table.
+      // table.push('<tr>');
+      // for (var i = 0, header; header = response.columnHeaders[i]; ++i) {
+      //   table.push('<th>', header.name, '</th>');
+      // }
+      // table.push('</tr>');
 
-      output.push(table.join(''));
-      outputToPage(output.join(''), true);
+      // // Put cells in table.
+      // for (var i = 0, row; row = response.rows[i]; ++i) {
+      //   table.push('<tr><td>', row.join('</td><td>'), '</td></tr>');
+      // }
+      // table.push('</table>');
+
+      // output.push(table.join(''));
+      // outputToPage(output.join(''), true);
     } else {
       outputToPage('No results found.', true);
     }
