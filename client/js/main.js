@@ -141,7 +141,7 @@ var app = angular.module('inlineAB', [])
   service.getWebProps = function(account) {
     var currentPromise = $q.defer();
 
-    gapi.client.analytics.management.webproperties.list({'accountId': accountId}).execute(handleWebproperties);
+    gapi.client.analytics.management.webproperties.list({'accountId': account.id}).execute(handleWebproperties);
 
     return currentPromise.promise;
   };

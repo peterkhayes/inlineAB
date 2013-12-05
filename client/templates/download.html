@@ -17,14 +17,14 @@
     <div class='large-6 small-12 columns'>
       <h5>Select your account:</h5>
       <ul>
-        <li ng-repeat='account in accounts' class='download-page-list' ng-class="{highlighted : isSelectedAccount(account.id)}" ng-click='selectAccount(account.id)'>{{account.name}}<br></li>
+        <li ng-repeat='account in accounts' class='download-page-list' ng-class="{highlighted : isSelectedAccount(account)}" ng-click='selectAccount(account)'>{{account.name}}<br></li>
       </ul>
     </div>
     <div ng-show='account' class='large-6 small-12 columns'>
       <h5>Select your web property:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.webProps'/>
-        <li ng-hide='loading.webProps' ng-repeat='webprop in webProps' class='download-page-list' ng-class="{highlighted : isSelectedWebProp(webprop.id)}" ng-click='selectWebProp(webprop.id)'>{{webprop.name}}<br></li>
+        <li ng-hide='loading.webProps' ng-repeat='webprop in webProps' class='download-page-list' ng-class="{highlighted : isSelectedWebProp(webprop)}" ng-click='selectWebProp(webprop)'>{{webprop.name}}<br></li>
       </ul>
     </div>
   </div>
