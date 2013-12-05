@@ -104,9 +104,10 @@ var app = angular.module('inlineAB', [])
     if (!response.code) {
       if (response.items && response.items.length) {
         console.log("got list of web properties!", response.items);
+        service.webPropertyList = response.items;
         $timeout(function() {
-          currentPromise.resolve(response.items);
-        }, 5);
+          currentPromise.resolve(service.webPropertyList);
+        }, 10);
       } else {
         console.log('No web properties found for this user.');
         currentPromise.reject('No web properties found for this user.');
