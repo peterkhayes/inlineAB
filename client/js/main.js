@@ -100,7 +100,7 @@ var app = angular.module('inlineAB', [])
     }
   };
 
-  var handleWebproperties = function(response) {
+  var handleWebProperties = function(response) {
     if (!response.code) {
       if (response.items && response.items.length) {
         console.log("got list of web properties!", response.items);
@@ -140,9 +140,9 @@ var app = angular.module('inlineAB', [])
   };
 
   service.getWebProps = function(account) {
-    var currentPromise = $q.defer();
+    currentPromise = $q.defer();
 
-    gapi.client.analytics.management.webproperties.list({'accountId': account.id}).execute(handleWebproperties);
+    gapi.client.analytics.management.webproperties.list({'accountId': account.id}).execute(handleWebProperties);
 
     return currentPromise.promise;
   };
@@ -251,9 +251,9 @@ var app = angular.module('inlineAB', [])
 
 });
 
-var wow = function() {
-  console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
-  setTimeout(wow, Math.random()*30000);
-};
+// var wow = function() {
+//   console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
+//   setTimeout(wow, Math.random()*30000);
+// };
 
-wow();
+// wow();
