@@ -7,7 +7,7 @@
  */
 
 // Cloud console
-var clientId = '434808078941-p4jaot1bpupfguckj84s9qgf2vo1m9q2.apps.googleusercontent.com';
+var clientId = '434808078941-u814h6clkbve3dpp5cuaolqto1cmk0ui.apps.googleusercontent.com';
 // Will need to change if Write access required
 var scopes = 'https://www.googleapis.com/auth/analytics';
 // InlineAB API key
