@@ -127,6 +127,10 @@ function listAccounts() {
 var accountList = {};
 var webPropertyList = {};
 var profileList = {};
+// var selectedAccountId = ;
+// var selectedWebPropertyId = ;
+// var selectedProfileId = ;
+
 
 function populateLists(items, listToAddTo){
   for (var i = 0; i < items.length; i++) {
@@ -252,25 +256,38 @@ function handleProfiles(response) {
 // TODO: make inputs more flexible
 function queryCoreReportingApi(profileId) {
   outputToPage('Querying Core Reporting API.', true);
-  gapi.client.analytics.data.ga.get({
-    'ids': 'ga:' + profileId,
-    'start-date': lastNDays(14),
-    'end-date': lastNDays(0),
-    'metrics': 'ga:visits',
-    'dimensions': 'ga:experimentId, ga:experimentVariant'
+  // GOOOD:::
+  // gapi.client.analytics.management.experiments.list({
+  //   accountId: selectedAccountId, 
+  //   webPropertyId: selectedWebPropertyId, 
+  //   profileId: selectedProfileId
+  // }).execute(handleCoreReportingResults);
+
+  //TESTING ONLY!!!!!!
+  gapi.client.analytics.management.experiments.list({
+    accountId: accountList['abjs-test'].id, 
+    webPropertyId: webPropertyList['abjs-test'].id, 
+    profileId: profileList['All Web Site Data'].id
+  }).execute(handleCoreReportingResults);
+  // gapi.client.analytics.data.ga.get({
+    // 'ids': 'ga:' + profileId,
+    // 'start-date': lastNDays(14),
+    // 'end-date': lastNDays(0),
+    // 'metrics': 'ga:visits',
+    // 'dimensions': 'ga:experimentId, ga:experimentVariant'
     // 'dimensions': 'ga:eventCategory, ga:eventAction, ga:eventLabel, ga:experimentId',
     // 'sort': '-ga:visits,ga:source',
     // 'filters': 'ga:medium==organic',
     // 'max-results': 25
     // for more: https://developers.google.com/analytics/devguides/reporting/core/dimsmets#mode=api
-  }).execute(handleCoreReportingResults);
+  // }).execute(handleCoreReportingResults);
 }
 
 // Prints formatted response
 function handleCoreReportingResults(response) {
+  console.log(response);
   if (!response.code) {
     if (response.rows && response.rows.length) {
-      console.log(response);
 
       // var output = [];
 
