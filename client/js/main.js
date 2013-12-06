@@ -155,7 +155,7 @@ var app = angular.module('inlineAB', [])
         service.token = token;
         gapi.client.load('analytics', 'v3', function() {
           console.log('token is: ',service.token);
-          gapi.client.analytics.management.accounts.list().execute(function() {
+          gapi.client.analytics.management.accounts.list().execute(function(response) {
             console.log("Handling the accounts list.");
             if (!response.code) {
               if (response.items && response.items.length) {
