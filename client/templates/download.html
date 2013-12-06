@@ -47,6 +47,22 @@
       </ul>
     </div>
     <div class='large-6 small-12 columns'>
+      <h5>Enter the names of your goals:</h5>
+      <ul>
+        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+        <li ng-repeat='goal in goals' class='download-page-editable-list'>
+          <span class='index'>{{$index + 1}}.</span>
+          <input autofocus type='text' value='{{goal.name}}' ng-enter='addgoal()'></input>
+          <span class='deletegoal' ng-click='deletegoal(goal)'>X</span>
+        </li>
+        <li ng-hide='loading.goals' class='download-page-editable-list'><button class='tiny' ng-click='addgoal()'>Add more</button></li>
+      <div class='error'>{{error.goals}}</div>
+      </ul>
+    </div>
+  </div>
+
+  <div ng-show='webProp' class='row'>
+    <div class='large-4 small-12 columns'>
       <br><br><button ng-click='download()'>DOWNLOAD YOU FOOLS!</button>
     </div>
   </div>

@@ -348,6 +348,17 @@ var app = angular.module('inlineAB', [])
     }, 20);
   };
 
+  $scope.deleteGoal = function(goal) {
+    $scope.goals.splice($scope.goals.indexOf(goal), 1);
+  };
+
+  $scope.addGoal = function() {
+    $scope.goals.push("");
+    setTimeout(function() {
+      window.scrollTo(0, 5000);
+    }, 20);
+  };
+
   $scope.download = function() {
     if (!inlineABScript) return;
     var variationsText = "'default',",
