@@ -318,6 +318,7 @@ var app = angular.module('inlineAB', [])
             $scope.error.variations = null;
             $scope.loading.variations = false;
             $scope.variations = variations;
+            $scope.goals = [""];
             setTimeout(function() {
               window.scrollTo(0, 5000);
             }, 20);
@@ -367,8 +368,13 @@ var app = angular.module('inlineAB', [])
       variationsText += "'" + $scope.variations[i].name + "',";
     }
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "]";
+    for (var j = 0; j < $scope.goals.length; j++) {
+      goalsText += "'" + $scope.goals[j].name + "',";
+    }
+    goalsText = "[" + goalsText.slice(0, goalsText.length - 1) + "]";
     inlineABScript = inlineABScript.replace("/* EXPERIMENT ID */", "EXPERIMENT ID I GOT FROM ALEX");
     inlineABScript = inlineABScript.replace("/* VARIATIONS */", variationsText);
+    inlineABScript = inlineABScript.replace("/* GOALS */", goalsText);
     console.log(inlineABScript);
   };
 

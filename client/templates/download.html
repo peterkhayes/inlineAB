@@ -52,8 +52,8 @@
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{goal.name}}' ng-enter='addgoal()'></input>
-          <span class='deletegoal' ng-click='deletegoal(goal)'>X</span>
+          <input autofocus type='text' value='{{goal.name}}' ng-enter='addGoal()'></input>
+          <span class='deletegoal' ng-click='deleteGoal(goal)'>X</span>
         </li>
         <li ng-hide='loading.goals' class='download-page-editable-list'><button class='tiny' ng-click='addgoal()'>Add more</button></li>
       <div class='error'>{{error.goals}}</div>
