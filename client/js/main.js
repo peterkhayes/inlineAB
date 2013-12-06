@@ -353,7 +353,7 @@ var app = angular.module('inlineAB', [])
     var variationsText = "'default',",
         goalsText = "";
     for (var i = 0; i < $scope.variations.length; i++) {
-      variationsText += "'" + variations[i].name + "',";
+      variationsText += "'" + $scope.variations[i].name + "',";
     }
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "]";
     inlineABScript = inlineABScript.replace("/* EXPERIMENT ID */", "EXPERIMENT ID I GOT FROM ALEX");
