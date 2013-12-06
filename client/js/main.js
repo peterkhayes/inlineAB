@@ -108,7 +108,7 @@ var app = angular.module('inlineAB', [])
         // $rootScope.$apply(function(){
         //   currentPromise.resolve(service.webPropertyList);
         // });
-        queryProfiles(service.account, service.webPropertyList);
+        queryProfiles(service.account, service.webProp);
       } else {
         console.log('No web properties found for this user.');
         currentPromise.reject('No web properties found for this user.');
@@ -227,6 +227,7 @@ var app = angular.module('inlineAB', [])
   $scope.selectAccount = function(account) {
     console.log("selected an account");
     $scope.account = account;
+    google.account = account;
     getWebProps(account);
   };
 
@@ -249,6 +250,7 @@ var app = angular.module('inlineAB', [])
   $scope.selectWebProp = function(webProp) {
     console.log("selected an WebProp");
     $scope.webProp = webProp;
+    google.webProp = webProp;
     getTests(webProp);
   };
 
