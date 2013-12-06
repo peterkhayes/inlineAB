@@ -167,9 +167,9 @@ var app = angular.module('inlineAB', [])
 
   service.getVariations = function(webProp) {
     var d = $q.defer();
-    console.log("Account ID:", accountID);
-    console.log("WebProp ID:", webPropID);
-    console.log("Profile ID:", profileID);
+    console.log("Account ID:", account.id);
+    console.log("WebProp ID:", webProp.id);
+    console.log("Profile ID:", profile.id);
     gapi.client.analytics.management.experiments.list({
       accountId: service.account.id,
       webPropertyId: service.webProp.id,
