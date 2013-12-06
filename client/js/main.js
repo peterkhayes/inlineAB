@@ -187,7 +187,7 @@ var app = angular.module('inlineAB', [])
     profilesPromise = $q.defer();
     console.log('Querying Profiles.');
     gapi.client.analytics.management.profiles.list({
-      'accountId': service.account.id,
+      'accountId': service.webProp.accountId,
       'webPropertyId': service.webProp.id
     }).execute(handleProfiles);
     return profilesPromise.promise;
