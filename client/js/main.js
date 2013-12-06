@@ -128,7 +128,9 @@ var app = angular.module('inlineAB', [])
       if (response && response.items && response.items.length) {
         service.profileList = response.items;
         console.log("Found the following profiles", service.profileList);
-        if (response.items["INLINEAB"]) {
+        // CHANGE THIS TO INLINE AB.
+        if (response.items["All Web Site Data"]) {
+          service.profile = "All Web Site Data";
           $rootScope.$apply(function(){
             profilesPromise.resolve(service.profileList);
           });
@@ -150,6 +152,27 @@ var app = angular.module('inlineAB', [])
       console.log('There was an error querying profiles: ' + response.message);
       $rootScope.$apply(function(){
         profilesPromise.reject('There was an error querying profiles: ' + response.message);
+      });
+    }
+  };
+
+  var handleCoreReportingResults = function(response) {
+    if (!response.code) {
+      if (response.items && response.items.length) {
+        console.log("Tests received: ", response.items);
+        $rootScope.$apply(function(){
+          testsPromise.resolve(response.items);
+        });
+      } else {
+        console.log('No tests found for this user.');
+        $rootScope.$apply(function(){
+          testsPromise.reject('No tests found for this user.');
+        });
+      }
+    } else {
+      console.log('There was an error querying tests: ' + response.message);
+      $rootScope.$apply(function(){
+        profilesPromise.reject('There was an error querying tests: ' + response.message);
       });
     }
   };
@@ -180,29 +203,27 @@ var app = angular.module('inlineAB', [])
 
   service.getWebProps = function() {
     webPropsPromise = $q.defer();
-    gapi.client.analytics.management.webproperties.list({'accountId': service.account.id}).execute(handleWebProperties);
+    gapi.client.analytics.management.webproperties.list({accountId: service.account.id}).execute(handleWebProperties);
     return webPropsPromise.promise;
   };
 
   service.getProfiles = function() {
     profilesPromise = $q.defer();
     console.log('Querying Profiles.');
-    console.log('account', service.account, ', webProperty', service.webProp);
     gapi.client.analytics.management.profiles.list({
-      'accountId': service.webProp.accountId,
-      'webPropertyId': service.webProp.id
+      accountId: service.account.id,
+      webPropertyId: service.webProp.id
     }).execute(handleProfiles);
     return profilesPromise.promise;
   };
 
   service.getTests = function(webProp) {
     testsPromise = $q.defer();
-
-    // REPLACE WITH REAL TEST FETCHER
-    $timeout(function() {
-      d.resolve(["Doge Vocabulary", "Bro-Quotient/Brotient", "Moral Fortitude", "Spline Reticulation"]);
-    }, 200);
-
+    gapi.client.analytics.management.experiments.list({
+      accountId: service.account.id,
+      webPropertyId: service.webProp.id,
+      profileId: service.profile.id
+    }).execute(handleCoreReportingResults);
     return testsPromise.promise;
   };
 

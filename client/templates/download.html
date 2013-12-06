@@ -37,7 +37,7 @@
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
         <li ng-repeat='test in tests' class='download-page-test'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{test}}' ng-enter='addTest()'></input>
+          <input autofocus type='text' value='{{test.name}}' ng-enter='addTest()'></input>
           <span class='deleteTest' ng-click='deleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-test'><button class='tiny' ng-click='addTest()'>Add more</button></li>
