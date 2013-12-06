@@ -64,8 +64,8 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleUnauthorized = function() {
-    if (typeof authPromise !== 'undefined') authPromise.reject('Please authorize this script to access Google Analytics.');
     console.log('Please authorize this script to access Google Analytics.');
+    if (typeof authPromise !== 'undefined') authPromise.reject('Please authorize this script to access Google Analytics.');
   };
 
   var handleAuthClick = function(event) {
@@ -277,7 +277,6 @@ var app = angular.module('inlineAB', [])
   $scope.selectWebProp = function(webProp) {
     console.log("selected an WebProp");
     $scope.webProp = webProp;
-    google.webProp = webProp;
     getTests(webProp);
   };
 
