@@ -60,12 +60,20 @@ var app = angular.module('inlineAB', [])
   // Set demo button to trigger iabTest
   var handleAuthorized = function() {
     console.log('token is: ',service.token);
-    if (typeof authPromise !== 'undefined') authPromise.resolve(service.token);
+    if (typeof authPromise !== 'undefined') {
+      $rootScope.$apply(function(){
+        authPromise.resolve(service.token);
+      });
+    }
   };
 
   var handleUnauthorized = function() {
     console.log('Please authorize this script to access Google Analytics.');
-    if (typeof authPromise !== 'undefined') authPromise.reject('Please authorize this script to access Google Analytics.');
+    if (typeof authPromise !== 'undefined') {
+      $rootScope.$apply(function(){
+        authPromise.reject('Please authorize this script to access Google Analytics.');
+      });
+    }
   };
 
   var handleAuthClick = function(event) {
@@ -89,12 +97,16 @@ var app = angular.module('inlineAB', [])
           if (typeof accountsPromise !== 'undefined') accountsPromise.resolve(service.accountList);
         });
       } else {
-        if (typeof accountsPromise !== 'undefined') accountsPromise.reject("No accounts found for this user.");
+        $rootScope.$apply(function(){
+          if (typeof accountsPromise !== 'undefined') accountsPromise.reject("No accounts found for this user.");
+        });
         console.log('No accounts found for this user.');
         //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
       }
     } else {
-      if (typeof accountsPromise !== 'undefined') accountsPromise.reject('There was an error querying accounts: ' + response.message);
+      $rootScope.$apply(function(){
+        if (typeof accountsPromise !== 'undefined') accountsPromise.reject('There was an error querying accounts: ' + response.message);
+      });
       console.log('There was an error querying accounts: ' + response.message);
     }
   };
