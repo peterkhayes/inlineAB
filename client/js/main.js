@@ -106,7 +106,7 @@ var app = angular.module('inlineAB', [])
         console.log("got list of web properties!", response.items);
         service.webPropertyList = response.items;
         $rootScope.$apply(function(){
-          if (typeof webPropsPromise !== 'undefined') webPropsPromise.resolve(service.accountList);
+          if (typeof webPropsPromise !== 'undefined') webPropsPromise.resolve(service.webPropertyList);
         });
       } else {
         console.log('No web properties found for this user.');
