@@ -75,101 +75,6 @@ var app = angular.module('inlineAB', [])
     }
   };
 
-  var handleAccounts = function(response) {
-    console.log("Handling the accounts list.");
-    if (!response.code) {
-      if (response.items && response.items.length) {
-        service.accountList = response.items;
-        console.log("Got a list!", service.accountList);
-        $rootScope.$apply(function(){
-          if (typeof accountsPromise !== 'undefined') accountsPromise.resolve(service.accountList);
-        });
-      } else {
-        $rootScope.$apply(function(){
-          if (typeof accountsPromise !== 'undefined') accountsPromise.reject("No accounts found for this user.");
-        });
-        console.log('No accounts found for this user.');
-        //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
-      }
-    } else {
-      $rootScope.$apply(function(){
-        if (typeof accountsPromise !== 'undefined') accountsPromise.reject('There was an error querying accounts: ' + response.message);
-      });
-      console.log('There was an error querying accounts: ' + response.message);
-    }
-  };
-
-  var handleWebProperties = function(response) {
-    console.log("Handling the web property lists.");
-    if (!response.code) {
-      if (response.items && response.items.length) {
-        console.log("got list of web properties!", response.items);
-        service.webPropertyList = response.items;
-        $rootScope.$apply(function(){
-          if (typeof webPropsPromise !== 'undefined') webPropsPromise.resolve(service.webPropertyList);
-        });
-      } else {
-        console.log('No web properties found for this user.');
-        $rootScope.$apply(function(){
-          if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('No web properties found for this user.');
-        });
-        //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
-      }
-    } else {
-      console.log('There was an error querying web properties: ' + response.message);
-      $rootScope.$apply(function(){
-        if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('There was an error querying web properties: ' + response.message);
-      });
-    }
-  };
-
-  var handleProfiles = function(response) {
-    if (!response.code) {
-      if (response && response.items && response.items.length) {
-        service.profileList = response.items;
-        console.log("Found the following profiles", service.profileList);
-        // CHANGE THIS TO ACTUALLY WORK INLINE AB.
-        //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
-        service.profile = service.profileList[0];
-        $rootScope.$apply(function(){
-          profilesPromise.resolve(service.profileList[0]);
-        });
-      } else {
-        console.log('No profiles found for this user.');
-        $rootScope.$apply(function(){
-          profilesPromise.reject('No profiles found for this user.');
-        });
-          //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
-      }
-    } else {
-      console.log('There was an error querying profiles: ' + response.message);
-      $rootScope.$apply(function(){
-        profilesPromise.reject('There was an error querying profiles: ' + response.message);
-      });
-    }
-  };
-
-  var handleCoreReportingResults = function(response) {
-    if (!response.code) {
-      if (response.items && response.items.length) {
-        console.log("Tests received: ", response.items);
-        $rootScope.$apply(function(){
-          testsPromise.resolve(response.items);
-        });
-      } else {
-        console.log('No tests found for this user.');
-        $rootScope.$apply(function(){
-          testsPromise.reject('No tests found for this user.');
-        });
-      }
-    } else {
-      console.log('There was an error querying tests: ' + response.message);
-      $rootScope.$apply(function(){
-        profilesPromise.reject('There was an error querying tests: ' + response.message);
-      });
-    }
-  };
-
   service.login = function() {
     authPromise = $q.defer();
     checkAuth(false);
@@ -190,13 +95,57 @@ var app = angular.module('inlineAB', [])
 
   service.getAccounts = function() {
     accountsPromise = $q.defer();
-    gapi.client.analytics.management.accounts.list().execute(handleAccounts);
+    gapi.client.analytics.management.accounts.list().execute(function(response) {
+      console.log("Handling the accounts list.");
+      if (!response.code) {
+        if (response.items && response.items.length) {
+          service.accountList = response.items;
+          console.log("Got a list!", service.accountList);
+          $rootScope.$apply(function(){
+            if (typeof accountsPromise !== 'undefined') accountsPromise.resolve(service.accountList);
+          });
+        } else {
+          $rootScope.$apply(function(){
+            if (typeof accountsPromise !== 'undefined') accountsPromise.reject("No accounts found for this user.");
+          });
+          console.log('No accounts found for this user.');
+          //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+        }
+      } else {
+        $rootScope.$apply(function(){
+          if (typeof accountsPromise !== 'undefined') accountsPromise.reject('There was an error querying accounts: ' + response.message);
+        });
+        console.log('There was an error querying accounts: ' + response.message);
+      }
+    });
     return accountsPromise.promise;
   };
 
   service.getWebProps = function() {
     webPropsPromise = $q.defer();
-    gapi.client.analytics.management.webproperties.list({accountId: service.account.id}).execute(handleWebProperties);
+    gapi.client.analytics.management.webproperties.list({accountId: service.account.id}).execute(function(response) {
+      console.log("Handling the web property lists.");
+      if (!response.code) {
+        if (response.items && response.items.length) {
+          console.log("got list of web properties!", response.items);
+          service.webPropertyList = response.items;
+          $rootScope.$apply(function(){
+            if (typeof webPropsPromise !== 'undefined') webPropsPromise.resolve(service.webPropertyList);
+          });
+        } else {
+          console.log('No web properties found for this user.');
+          $rootScope.$apply(function(){
+            if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('No web properties found for this user.');
+          });
+          //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
+        }
+      } else {
+        console.log('There was an error querying web properties: ' + response.message);
+        $rootScope.$apply(function(){
+          if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('There was an error querying web properties: ' + response.message);
+        });
+      }
+    });
     return webPropsPromise.promise;
   };
 
@@ -206,7 +155,31 @@ var app = angular.module('inlineAB', [])
     gapi.client.analytics.management.profiles.list({
       accountId: service.account.id,
       webPropertyId: service.webProp.id
-    }).execute(handleProfiles);
+    }).execute(function(response) {
+      if (!response.code) {
+        if (response && response.items && response.items.length) {
+          service.profileList = response.items;
+          console.log("Found the following profiles", service.profileList);
+          // CHANGE THIS TO ACTUALLY WORK INLINE AB.
+          //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+          service.profile = service.profileList[0];
+          $rootScope.$apply(function(){
+            profilesPromise.resolve(service.profileList[0]);
+          });
+        } else {
+          console.log('No profiles found for this user.');
+          $rootScope.$apply(function(){
+            profilesPromise.reject('No profiles found for this user.');
+          });
+            //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+        }
+      } else {
+        console.log('There was an error querying profiles: ' + response.message);
+        $rootScope.$apply(function(){
+          profilesPromise.reject('There was an error querying profiles: ' + response.message);
+        });
+      }
+    });
     return profilesPromise.promise;
   };
 
@@ -216,7 +189,26 @@ var app = angular.module('inlineAB', [])
       accountId: service.account.id,
       webPropertyId: service.webProp.id,
       profileId: service.profile.id
-    }).execute(handleCoreReportingResults);
+    }).execute(function(response) {
+      if (!response.code) {
+        if (response.items && response.items.length) {
+          console.log("Tests received: ", response.items);
+          $rootScope.$apply(function(){
+            testsPromise.resolve(response.items);
+          });
+        } else {
+          console.log('No tests found for this user.');
+          $rootScope.$apply(function(){
+            testsPromise.reject('No tests found for this user.');
+          });
+        }
+      } else {
+        console.log('There was an error querying tests: ' + response.message);
+        $rootScope.$apply(function(){
+          profilesPromise.reject('There was an error querying tests: ' + response.message);
+        });
+      }
+    });
     return testsPromise.promise;
   };
 
