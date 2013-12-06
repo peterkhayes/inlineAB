@@ -22,6 +22,8 @@ var app = angular.module('inlineAB', [])
     });
   };
 })
+
+// Service that handles Google Analytics calls.
 .factory('google', function($q, $timeout, $rootScope) {
 
   var service = {
@@ -73,17 +75,17 @@ var app = angular.module('inlineAB', [])
     return authPromise.promise;
   };
 
-  service.logout = function() {
-    var d = $q.defer();
+  // service.logout = function() {
+  //   var d = $q.defer();
 
-    // REPLACE WITH REAL LOGOUT
-    $timeout(function() {
-      service.token = null;
-      d.resolve();
-    }, 200);
+  //   // REPLACE WITH REAL LOGOUT
+  //   $timeout(function() {
+  //     service.token = null;
+  //     d.resolve();
+  //   }, 200);
 
-    return d.promise;
-  };
+  //   return d.promise;
+  // };
 
   service.getAccounts = function() {
     var d = $q.defer();
@@ -191,9 +193,29 @@ var app = angular.module('inlineAB', [])
 
   return service;
 })
-.controller('download', function($scope, google) {
+
+// Controller for the download page.
+.controller('download', function($scope, $http, google) {
+  // Variable Setup.
   $scope.loading = {};
   $scope.error = {};
+
+  // Load a copy of inlineAB.js in memory.
+  var inlineABScript;
+  var getInlineABScript = function() {
+    $http.get('js/inlineab.js')
+    .success(function(text) {
+      console.log(text);
+      inlineABScript = text;
+    })
+    .failure(function(err) {
+      console.log("Error fetching inlineAB script", err);
+      getInlineABScript();
+    });
+  };
+  getInlineABScript();
+
+  // Bindings.
   $scope.login = function() {
     $scope.loading.login = true; // spinner gif.
 
@@ -324,6 +346,10 @@ var app = angular.module('inlineAB', [])
     setTimeout(function() {
       window.scrollTo(0, 5000);
     }, 20);
+  };
+
+  $scope.download = function() {
+    if (!inlineABScript) return;
   };
 
 })
