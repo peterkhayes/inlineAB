@@ -30,7 +30,11 @@ var app = angular.module('inlineAB', [])
     profileList: {}
   };
 
-  var currentPromise;
+  var authPromise,
+      accountsPromise,
+      webPropsPromise,
+      profilesPromise,
+      testsPromise;
 
   // Cloud console
   var clientId = '434808078941-u814h6clkbve3dpp5cuaolqto1cmk0ui.apps.googleusercontent.com';
@@ -56,16 +60,11 @@ var app = angular.module('inlineAB', [])
   // Set demo button to trigger iabTest
   var handleAuthorized = function() {
     console.log('token is: ',service.token);
-    listAccounts();
+    if (typeof authPromise !== 'undefined') authPromise.resolve(service.token);
   };
 
   var handleUnauthorized = function() {
-    var authorizeButton = document.getElementById('authorize-button');
-    var runDemoButton = document.getElementById('run-demo-button');
-
-    runDemoButton.style.visibility = 'hidden';
-    authorizeButton.style.visibility = '';
-    authorizeButton.onclick = handleAuthClick;
+    if (typeof authPromise !== 'undefined') authPromise.reject('Please authorize this script to access Google Analytics.');
     console.log('Please authorize this script to access Google Analytics.');
   };
 
@@ -87,15 +86,15 @@ var app = angular.module('inlineAB', [])
         service.accountList = response.items;
         console.log("Got a list!", service.accountList);
         $rootScope.$apply(function(){
-          currentPromise.resolve(service.accountList);
+          if (typeof accountsPromise !== 'undefined') accountsPromise.resolve(service.accountList);
         });
       } else {
+        if (typeof accountsPromise !== 'undefined') accountsPromise.reject("No accounts found for this user.");
         console.log('No accounts found for this user.');
-        currentPromise.reject("No accounts found for this user.");
         //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
       }
     } else {
-      currentPromise.reject('There was an error querying accounts: ' + response.message);
+      if (typeof accountsPromise !== 'undefined') accountsPromise.reject('There was an error querying accounts: ' + response.message);
       console.log('There was an error querying accounts: ' + response.message);
     }
   };
@@ -155,10 +154,9 @@ var app = angular.module('inlineAB', [])
   };
 
   service.login = function() {
-    currentPromise = $q.defer();
+    authPromise = $q.defer();
     checkAuth(false);
-    console.log("Done checking auth");
-    return currentPromise.promise;
+    return authPromise.promise;
   };
 
   service.logout = function() {
@@ -171,6 +169,12 @@ var app = angular.module('inlineAB', [])
     }, 200);
 
     return d.promise;
+  };
+
+  service.getAccounts = function() {
+    accountsPromise = $q.defer();
+    listAccounts();
+    return accountsPromise.promise;
   };
 
   service.getWebProps = function(account) {
@@ -195,17 +199,40 @@ var app = angular.module('inlineAB', [])
   return service;
 })
 .controller('download', function($scope, google) {
-  $scope.loading = {login: false};
+  $scope.loading = {};
+
   $scope.login = function() {
-    $scope.loading.login = true;
+    $scope.loading.login = true; // spinner gif.
+
+    // Attempt to log in with OAuth.
     google.login().then(
-      function(accounts) {
-        console.log("We're back in the view!  With...", accounts);
-        $scope.loggedIn = true;
-        $scope.loading.login = false;
-        $scope.accounts = accounts;
+
+      // If authorized:
+      function() {
+        console.log("Authorized!");
+
+        // Now get their list of accounts.
+        google.getAccounts().then(
+
+          // If we got a list of accounts:
+          function(accounts) {
+            console.log("We're back in the view!  With...", accounts);
+            $scope.loggedIn = true;
+            $scope.loading.login = false;
+            $scope.accounts = accounts;
+          },
+
+          // If we did not get a list of accounts:
+          function(err) {
+            $scope.error = error;
+          }
+        );
       },
-      function(error) {$scope.error = error;}
+
+      // If not authorized:
+      function(err) {
+        $scope.error = error;
+      }
     );
   };
 
