@@ -52,7 +52,6 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleAuthorized = function() {
-    console.log('token is: ',service.token);
     if (typeof authPromise !== 'undefined') {
       $rootScope.$apply(function(){
         authPromise.resolve(service.token);
@@ -61,7 +60,6 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleUnauthorized = function() {
-    console.log('Please authorize this script to access Google Analytics.');
     if (typeof authPromise !== 'undefined') {
       $rootScope.$apply(function(){
         authPromise.reject('Please authorize this script to access Google Analytics.');
@@ -90,11 +88,9 @@ var app = angular.module('inlineAB', [])
   service.getAccounts = function() {
     var d = $q.defer();
     gapi.client.analytics.management.accounts.list().execute(function(response) {
-      console.log("Handling the accounts list.");
       if (!response.code) {
         if (response.items && response.items.length) {
           service.accountList = response.items;
-          console.log("Got a list!", service.accountList);
           $rootScope.$apply(function(){
             d.resolve(service.accountList);
           });
@@ -102,14 +98,12 @@ var app = angular.module('inlineAB', [])
           $rootScope.$apply(function(){
             d.reject("No accounts found for this user.");
           });
-          console.log('No accounts found for this user.');
           //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
         }
       } else {
         $rootScope.$apply(function(){
           d.reject('There was an error querying accounts: ' + response.message);
         });
-        console.log('There was an error querying accounts: ' + response.message);
       }
     });
     return d.promise;
@@ -118,23 +112,19 @@ var app = angular.module('inlineAB', [])
   service.getWebProps = function() {
     var d = $q.defer();
     gapi.client.analytics.management.webproperties.list({accountId: service.account.id}).execute(function(response) {
-      console.log("Handling the web property lists.");
       if (!response.code) {
         if (response.items && response.items.length) {
-          console.log("got list of web properties!", response.items);
           service.webPropertyList = response.items;
           $rootScope.$apply(function(){
             d.resolve(service.webPropertyList);
           });
         } else {
-          console.log('No web properties found for this user.');
           $rootScope.$apply(function(){
             d.reject('No web properties found for this user.');
           });
           //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
         }
       } else {
-        console.log('There was an error querying web properties: ' + response.message);
         $rootScope.$apply(function(){
           d.reject('There was an error querying web properties: ' + response.message);
         });
@@ -145,7 +135,6 @@ var app = angular.module('inlineAB', [])
 
   service.getProfiles = function() {
     var d = $q.defer();
-    console.log('Querying Profiles.');
     gapi.client.analytics.management.profiles.list({
       accountId: service.account.id,
       webPropertyId: service.webProp.id
@@ -153,7 +142,6 @@ var app = angular.module('inlineAB', [])
       if (!response.code) {
         if (response && response.items && response.items.length) {
           service.profileList = response.items;
-          console.log("Found the following profiles", service.profileList);
           // CHANGE THIS TO ACTUALLY WORK INLINE AB.
           //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
           service.profile = service.profileList[0];
@@ -161,14 +149,12 @@ var app = angular.module('inlineAB', [])
             d.resolve(service.profileList[0]);
           });
         } else {
-          console.log('No profiles found for this user.');
           $rootScope.$apply(function(){
             d.reject('No profiles found for this user.');
           });
             //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
         }
       } else {
-        console.log('There was an error querying profiles: ' + response.message);
         $rootScope.$apply(function(){
           d.reject('There was an error querying profiles: ' + response.message);
         });
@@ -186,18 +172,15 @@ var app = angular.module('inlineAB', [])
     }).execute(function(response) {
       if (!response.code) {
         if (response.items && response.items.length) {
-          console.log("Tests received: ", response.items);
           $rootScope.$apply(function(){
             d.resolve(response.items);
           });
         } else {
-          console.log('No tests found for this user.');
           $rootScope.$apply(function(){
             d.reject('No tests found for this user.');
           });
         }
       } else {
-        console.log('There was an error querying tests: ' + response.message);
         $rootScope.$apply(function(){
           profilesPromise.reject('There was an error querying tests: ' + response.message);
         });
@@ -210,7 +193,7 @@ var app = angular.module('inlineAB', [])
 })
 .controller('download', function($scope, google) {
   $scope.loading = {};
-
+  $scope.error = {};
   $scope.login = function() {
     $scope.loading.login = true; // spinner gif.
 
@@ -219,29 +202,28 @@ var app = angular.module('inlineAB', [])
 
       // If authorized:
       function() {
-        console.log("Authorized!");
 
         // Now get their list of accounts.
         google.getAccounts().then(
 
           // If we got a list of accounts:
           function(accounts) {
-            console.log("We're back in the view!  With...", accounts);
             $scope.loggedIn = true;
             $scope.loading.login = false; // Go away, gif.
             $scope.accounts = accounts;
+            $scope.error.login = null;
           },
 
           // If we did not get a list of accounts:
           function(err) {
-            $scope.error = error;
+            $scope.error.login = err;
           }
         );
       },
 
       // If not authorized:
       function(err) {
-        $scope.error = error;
+        $scope.error.login = err;
       }
     );
   };
@@ -262,7 +244,6 @@ var app = angular.module('inlineAB', [])
   // };
 
   $scope.selectAccount = function(account) {
-    console.log("selected an account");
     $scope.account = account;
     $scope.webProp = null;
     $scope.tests = null;
@@ -278,16 +259,21 @@ var app = angular.module('inlineAB', [])
   var getWebProps = function(account) {
     $scope.loading.webProps = true;
     google.getWebProps(account).then(
+      // Success.
       function(webProps) {
         $scope.loading.webProps = false;
-        console.log("put web props into UI");
         $scope.webProps = webProps;
+        $scope.error.webProp = null;
+      },
+
+      // Failure.
+      function(err) {
+        $scope.error.webProp = err;
       }
     );
   };
 
   $scope.selectWebProp = function(webProp) {
-    console.log("selected an WebProp");
     $scope.webProp = webProp;
     $scope.tests = null;
     google.webProp = webProp;
@@ -295,7 +281,7 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.isSelectedWebProp = function(webProp) {
-      return $scope.webProp === webProp;
+    return $scope.webProp === webProp;
   };
 
   var getTests = function(webProp) {
@@ -307,6 +293,7 @@ var app = angular.module('inlineAB', [])
 
           // Got a list of tests!
           function(tests) {
+            $scope.error.tests = null;
             $scope.loading.tests = false;
             $scope.tests = tests;
             setTimeout(function() {
@@ -315,15 +302,15 @@ var app = angular.module('inlineAB', [])
           },
 
           // Did not get a list of tests.
-          function() {
-
+          function(err) {
+            $scope.error.tests = err;
           }
         );
       },
 
       // Couldn't access profiles.
-      function() {
-
+      function(err) {
+        $scope.error.tests = err;
       }
     );
   };

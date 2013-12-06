@@ -9,6 +9,7 @@
       <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.login'/>
       <button ng-hide='loggedIn || loading.login' ng-click='login()' class='googleLogin'>Log In</button>
       <button ng-hide='!loggedIn || loading.login' ng-click='logout()' class='googleLogin'>Log Out</button>
+      <div class='error'>{{error.login}}</div>
     </div>
   </div>
 
@@ -26,6 +27,7 @@
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.webProps'/>
         <li ng-hide='loading.webProps' ng-repeat='webprop in webProps' class='download-page-list' ng-class="{highlighted : isSelectedWebProp(webprop)}" ng-click='selectWebProp(webprop)'>{{webprop.name}}<br></li>
       </ul>
+      <div class='error'>{{error.webProp}}</div>
     </div>
   </div>
 
@@ -41,6 +43,7 @@
           <span class='deleteTest' ng-click='deleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-test'><button class='tiny' ng-click='addTest()'>Add more</button></li>
+      <div class='error'>{{error.tests}}</div>
       </ul>
     </div>
     <div class='large-6 small-12 columns'>
