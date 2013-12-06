@@ -48,7 +48,7 @@ var app = angular.module('inlineAB', [])
       client_id: clientId, scope: scopes, immediate: immediately}, handleAuthResult);
   };
 
-  var handleAuthResult = function(token) { // important to set token?
+  var handleAuthResult = function(token) {
     if (token) {
       service.token = token;
       gapi.client.load('analytics', 'v3', handleAuthorized);
@@ -57,7 +57,6 @@ var app = angular.module('inlineAB', [])
     }
   };
 
-  // Set demo button to trigger iabTest
   var handleAuthorized = function() {
     console.log('token is: ',service.token);
     if (typeof authPromise !== 'undefined') {
@@ -74,17 +73,6 @@ var app = angular.module('inlineAB', [])
         authPromise.reject('Please authorize this script to access Google Analytics.');
       });
     }
-  };
-
-  var handleAuthClick = function(event) {
-    // User prompted to give access
-    checkAuth(false);
-  };
-
-  // Query (list) all accounts
-  var listAccounts = function() {
-    console.log("Listing accounts.");
-    gapi.client.analytics.management.accounts.list().execute(handleAccounts);
   };
 
   var handleAccounts = function(response) {
@@ -112,56 +100,56 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleWebProperties = function(response) {
+    console.log("Handling the web property lists.");
     if (!response.code) {
       if (response.items && response.items.length) {
         console.log("got list of web properties!", response.items);
         service.webPropertyList = response.items;
-        // $rootScope.$apply(function(){
-        //   currentPromise.resolve(service.webPropertyList);
-        // });
-        queryProfiles(service.account, service.webProp);
+        $rootScope.$apply(function(){
+          if (typeof webPropsPromise !== 'undefined') webPropsPromise.resolve(service.accountList);
+        });
       } else {
         console.log('No web properties found for this user.');
-        currentPromise.reject('No web properties found for this user.');
+        $rootScope.$apply(function(){
+          if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('No web properties found for this user.');
+        });
         //TODO; SEND TO ALEX FOR CREATION OF WEB PROPERTY
-
       }
     } else {
       console.log('There was an error querying web properties: ' + response.message);
-      currentPromise.reject('There was an error querying web properties: ' + response.message);
+      $rootScope.$apply(function(){
+        if (typeof webPropsPromise !== 'undefined') webPropsPromise.reject('There was an error querying web properties: ' + response.message);
+      });
     }
   };
 
-  var queryProfiles = function(account, webproperty) {
-    console.log('Querying Profiles.');
-    gapi.client.analytics.management.profiles.list({
-      'accountId': account.id,
-      'webPropertyId': webproperty.id // set as inlineAB?
-    }).execute(handleProfiles);
-  };
-
-  // Selects by default the first profile
-  // TODO: add logic for profile selection to pass on
   var handleProfiles = function(response) {
     if (!response.code) {
       if (response && response.items && response.items.length) {
-        populateLists(response.items, "profileList");
-
-        if(profileList["INLINEAB"]){
+        service.profileList = response.items;
+        if (response.items["INLINEAB"]) {
           $rootScope.$apply(function(){
-            currentPromise.resolve(service.webPropertyList);
+            profilesPromise.resolve(service.profileList);
           });
-        } else{
+        } else {
           //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
           console.log("INLINEAB profile not found.");
+          $rootScope.$apply(function(){
+            profilesPromise.reject("INLINEAB profile not found.");
+          });
         }
-
       } else {
         console.log('No profiles found for this user.');
+        $rootScope.$apply(function(){
+          profilesPromise.reject('No profiles found for this user.');
+        });
           //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
       }
     } else {
       console.log('There was an error querying profiles: ' + response.message);
+      $rootScope.$apply(function(){
+        profilesPromise.reject('There was an error querying profiles: ' + response.message);
+      });
     }
   };
 
@@ -185,27 +173,35 @@ var app = angular.module('inlineAB', [])
 
   service.getAccounts = function() {
     accountsPromise = $q.defer();
-    listAccounts();
+    gapi.client.analytics.management.accounts.list().execute(handleAccounts);
     return accountsPromise.promise;
   };
 
-  service.getWebProps = function(account) {
-    currentPromise = $q.defer();
+  service.getWebProps = function() {
+    webPropsPromise = $q.defer();
+    gapi.client.analytics.management.webproperties.list({'accountId': service.account.id}).execute(handleWebProperties);
+    return webPropsPromise.promise;
+  };
 
-    gapi.client.analytics.management.webproperties.list({'accountId': account.id}).execute(handleWebProperties);
-
-    return currentPromise.promise;
+  service.getProfiles = function() {
+    profilesPromise = $q.defer();
+    console.log('Querying Profiles.');
+    gapi.client.analytics.management.profiles.list({
+      'accountId': service.account.id,
+      'webPropertyId': service.webProp.id
+    }).execute(handleProfiles);
+    return profilesPromise.promise;
   };
 
   service.getTests = function(webProp) {
-    var d = $q.defer();
+    testsPromise = $q.defer();
 
     // REPLACE WITH REAL TEST FETCHER
     $timeout(function() {
       d.resolve(["Doge Vocabulary", "Bro-Quotient/Brotient", "Moral Fortitude", "Spline Reticulation"]);
     }, 200);
 
-    return d.promise;
+    return testsPromise.promise;
   };
 
   return service;
@@ -230,7 +226,7 @@ var app = angular.module('inlineAB', [])
           function(accounts) {
             console.log("We're back in the view!  With...", accounts);
             $scope.loggedIn = true;
-            $scope.loading.login = false;
+            $scope.loading.login = false; // Go away, gif.
             $scope.accounts = accounts;
           },
 
@@ -248,20 +244,20 @@ var app = angular.module('inlineAB', [])
     );
   };
 
-  $scope.logout = function() {
-    $scope.loading.login = true;
-    google.logout().then(
-      function() {
-        $scope.loading.login = false;
-        $scope.loggedIn = false;
-        $scope.account = undefined;
-        $scope.accounts = undefined;
-        $scope.webProp = undefined;
-        $scope.webProps = undefined;
-      },
-      function(error) {$scope.error = error;}
-    );
-  };
+  // $scope.logout = function() {
+  //   $scope.loading.login = true;
+  //   google.logout().then(
+  //     function() {
+  //       $scope.loading.login = false;
+  //       $scope.loggedIn = false;
+  //       $scope.account = undefined;
+  //       $scope.accounts = undefined;
+  //       $scope.webProp = undefined;
+  //       $scope.webProps = undefined;
+  //     },
+  //     function(error) {$scope.error = error;}
+  //   );
+  // };
 
   $scope.selectAccount = function(account) {
     console.log("selected an account");
@@ -289,7 +285,8 @@ var app = angular.module('inlineAB', [])
   $scope.selectWebProp = function(webProp) {
     console.log("selected an WebProp");
     $scope.webProp = webProp;
-    getTests(webProp);
+    google.webProp = webProp;
+    getTests();
   };
 
   $scope.isSelectedWebProp = function(webProp) {
@@ -298,13 +295,30 @@ var app = angular.module('inlineAB', [])
 
   var getTests = function(webProp) {
     $scope.loading.tests = true;
-    google.getTests(webProp).then(
-      function(tests) {
-        $scope.loading.tests = false;
-        $scope.tests = tests;
-        setTimeout(function() {
-          window.scrollTo(0, 5000);
-        }, 20);
+    google.getProfiles().then(
+      // Successfully got a profile called INLINEAB.
+      function() {
+        google.getTests().then(
+
+          // Got a list of tests!
+          function() {
+            $scope.loading.tests = false;
+            $scope.tests = tests;
+            setTimeout(function() {
+              window.scrollTo(0, 5000);
+            }, 20);
+          },
+
+          // Did not get a list of tests.
+          function() {
+
+          }
+        );
+      },
+
+      // Couldn't access profiles.
+      function() {
+
       }
     );
   };
