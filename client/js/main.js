@@ -128,19 +128,12 @@ var app = angular.module('inlineAB', [])
       if (response && response.items && response.items.length) {
         service.profileList = response.items;
         console.log("Found the following profiles", service.profileList);
-        // CHANGE THIS TO INLINE AB.
-        if (response.items["All Web Site Data"]) {
-          service.profile = "All Web Site Data";
-          $rootScope.$apply(function(){
-            profilesPromise.resolve(service.profileList);
-          });
-        } else {
-          //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
-          console.log("INLINEAB profile not found.");
-          $rootScope.$apply(function(){
-            profilesPromise.reject("INLINEAB profile not found.");
-          });
-        }
+        // CHANGE THIS TO ACTUALLY WORK INLINE AB.
+        //TODO; SEND TO ALEX FOR CREATION OF INLINEAB PROFILE
+        service.profile = service.profileList[0];
+        $rootScope.$apply(function(){
+          profilesPromise.resolve(service.profileList[0]);
+        });
       } else {
         console.log('No profiles found for this user.');
         $rootScope.$apply(function(){
