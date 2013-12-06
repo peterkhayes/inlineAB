@@ -37,13 +37,13 @@
       <h5>Enter the names of your variations:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
-        <li ng-repeat='test in tests' class='download-page-test'>
+        <li ng-repeat='variation in variations' class='download-page-editable'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{test.name}}' ng-enter='addTest()'></input>
-          <span class='deleteTest' ng-click='deleteTest(test)'>X</span>
+          <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
+          <span class='deleteVariation' ng-click='deleteVariation(variation)'>X</span>
         </li>
-        <li ng-hide='loading.tests' class='download-page-test'><button class='tiny' ng-click='addTest()'>Add more</button></li>
-      <div class='error'>{{error.tests}}</div>
+        <li ng-hide='loading.variations' class='download-page-editable'><button class='tiny' ng-click='addVariation()'>Add more</button></li>
+      <div class='error'>{{error.variations}}</div>
       </ul>
     </div>
     <div class='large-6 small-12 columns'>

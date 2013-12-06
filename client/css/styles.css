@@ -59,24 +59,24 @@ label {
   color: #666;
 }
 
-.download-page-test {
+.download-page-editable-list {
   list-style-type: none;
   display: table;
 }
 
-.download-page-test .index {
+.download-page-editable-list .index {
   position: relative;
   top: 3px;
   font-size: 25px;
 }
 
-.download-page-test input {
+.download-page-editable-list input {
   margin-left: 25px;
   display: inline-block;
   width: 250px;
 }
 
-.download-page-test .deleteTest {
+.download-page-editable-list .deleteVariation {
   position: relative;
   top: 4px;
   font-size: 19px;
@@ -85,7 +85,7 @@ label {
   cursor: pointer;
 }
 
-.download-page-test .deleteTest:hover {
+.download-page-test .deleteVariation:hover {
   color:#A00;
 }
 

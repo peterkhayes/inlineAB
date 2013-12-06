@@ -165,7 +165,7 @@ var app = angular.module('inlineAB', [])
     return d.promise;
   };
 
-  service.getTests = function(webProp) {
+  service.getVariations = function(webProp) {
     var d = $q.defer();
     gapi.client.analytics.management.experiments.list({
       accountId: service.account.id,
@@ -268,7 +268,7 @@ var app = angular.module('inlineAB', [])
   $scope.selectAccount = function(account) {
     $scope.account = account;
     $scope.webProp = null;
-    $scope.tests = null;
+    $scope.variations = null;
     google.account = account;
     getWebProps(account);
   };
@@ -297,52 +297,52 @@ var app = angular.module('inlineAB', [])
 
   $scope.selectWebProp = function(webProp) {
     $scope.webProp = webProp;
-    $scope.tests = null;
+    $scope.variations = null;
     google.webProp = webProp;
-    getTests();
+    getVariations();
   };
 
   $scope.isSelectedWebProp = function(webProp) {
     return $scope.webProp === webProp;
   };
 
-  var getTests = function(webProp) {
-    $scope.loading.tests = true;
+  var getVariations = function(webProp) {
+    $scope.loading.variations = true;
     google.getProfiles().then(
       // Successfully got a profile called INLINEAB.
       function() {
-        google.getTests().then(
+        google.getVariations().then(
 
-          // Got a list of tests!
-          function(tests) {
-            $scope.error.tests = null;
-            $scope.loading.tests = false;
-            $scope.tests = tests;
+          // Got a list of variations!
+          function(variations) {
+            $scope.error.variations = null;
+            $scope.loading.variations = false;
+            $scope.variations = variations;
             setTimeout(function() {
               window.scrollTo(0, 5000);
             }, 20);
           },
 
-          // Did not get a list of tests.
+          // Did not get a list of variations.
           function(err) {
-            $scope.error.tests = err;
+            $scope.error.variations = err;
           }
         );
       },
 
       // Couldn't access profiles.
       function(err) {
-        $scope.error.tests = err;
+        $scope.error.variations = err;
       }
     );
   };
 
-  $scope.deleteTest = function(test) {
-    $scope.tests.splice($scope.tests.indexOf(test), 1);
+  $scope.deleteVariation = function(variation) {
+    $scope.variations.splice($scope.variations.indexOf(variation), 1);
   };
 
-  $scope.addTest = function() {
-    $scope.tests.push("");
+  $scope.addvariation = function() {
+    $scope.variations.push("");
     setTimeout(function() {
       window.scrollTo(0, 5000);
     }, 20);
@@ -350,6 +350,15 @@ var app = angular.module('inlineAB', [])
 
   $scope.download = function() {
     if (!inlineABScript) return;
+    var variationsText = "'default',",
+        goalsText = "";
+    for (var i = 0; i < $scope.variations.length; i++) {
+      variationsText += "'" + variations[i].name + "',";
+    }
+    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "]";
+    inlineABScript = inlineABScript.replace("/* EXPERIMENT ID */", "EXPERIMENT ID I GOT FROM ALEX");
+    inlineABScript = inlineABScript.replace("/* VARIATIONS */", variationsText);
+    console.log(inlineABScript);
   };
 
 })
