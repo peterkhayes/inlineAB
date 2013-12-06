@@ -127,6 +127,7 @@ var app = angular.module('inlineAB', [])
     if (!response.code) {
       if (response && response.items && response.items.length) {
         service.profileList = response.items;
+        console.log("Found the following profiles", service.profileList);
         if (response.items["INLINEAB"]) {
           $rootScope.$apply(function(){
             profilesPromise.resolve(service.profileList);
