@@ -278,6 +278,8 @@ var app = angular.module('inlineAB', [])
   $scope.selectAccount = function(account) {
     console.log("selected an account");
     $scope.account = account;
+    $scope.webProp = null;
+    $scope.tests = null;
     google.account = account;
     getWebProps(account);
   };
@@ -301,6 +303,7 @@ var app = angular.module('inlineAB', [])
   $scope.selectWebProp = function(webProp) {
     console.log("selected an WebProp");
     $scope.webProp = webProp;
+    $scope.tests = null;
     google.webProp = webProp;
     getTests();
   };
