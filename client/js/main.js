@@ -208,7 +208,7 @@ var app = angular.module('inlineAB', [])
       console.log(text);
       inlineABScript = text;
     })
-    .failure(function(err) {
+    .error(function(err) {
       console.log("Error fetching inlineAB script", err);
       getInlineABScript();
     });
