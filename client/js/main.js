@@ -60,12 +60,6 @@ var app = angular.module('inlineAB', [])
   };
 
   var handleUnauthorized = function() {
-    var authorizeButton = document.getElementById('authorize-button');
-    var runDemoButton = document.getElementById('run-demo-button');
-
-    runDemoButton.style.visibility = 'hidden';
-    authorizeButton.style.visibility = '';
-    authorizeButton.onclick = handleAuthClick;
     console.log('Please authorize this script to access Google Analytics.');
   };
 
@@ -155,10 +149,39 @@ var app = angular.module('inlineAB', [])
   };
 
   service.login = function() {
-    currentPromise = $q.defer();
-    checkAuth(false);
+    var clickLoginButtonPromise = $q.defer();
+    gapi.auth.authorize({client_id: clientId, scope: scopes, immediate: false}, function(token) {
+      if (token) {
+        service.token = token;
+        gapi.client.load('analytics', 'v3', function() {
+          console.log('token is: ',service.token);
+          gapi.client.analytics.management.accounts.list().execute(function() {
+            console.log("Handling the accounts list.");
+            if (!response.code) {
+              if (response.items && response.items.length) {
+                service.accountList = response.items;
+                console.log("Got a list!", service.accountList);
+                $rootScope.$apply(function(){
+                  clickLoginButtonPromise.resolve(service.accountList);
+                });
+              } else {
+                console.log('No accounts found for this user.');
+                clickLoginButtonPromise.reject("No accounts found for this user.");
+                //TODO; SEND TO ALEX FOR CREATION OF GA ACCOUNT
+              }
+            } else {
+              clickLoginButtonPromise.reject('There was an error querying accounts: ' + response.message);
+              console.log('There was an error querying accounts: ' + response.message);
+            }
+          });
+        });
+      } else {
+        clickLoginButtonPromise.reject('Please authorize this script to access Google Analytics.');
+        console.log('Please authorize this script to access Google Analytics.');
+      }
+    });
     console.log("Done checking auth");
-    return currentPromise.promise;
+    return clickLoginButtonPromise.promise;
   };
 
   service.logout = function() {
@@ -250,7 +273,6 @@ var app = angular.module('inlineAB', [])
   $scope.selectWebProp = function(webProp) {
     console.log("selected an WebProp");
     $scope.webProp = webProp;
-    google.webProp = webProp;
     getTests(webProp);
   };
 
