@@ -317,7 +317,7 @@ var app = angular.module('inlineAB', [])
         google.getTests().then(
 
           // Got a list of tests!
-          function() {
+          function(tests) {
             $scope.loading.tests = false;
             $scope.tests = tests;
             setTimeout(function() {
