@@ -167,6 +167,9 @@ var app = angular.module('inlineAB', [])
 
   service.getVariations = function(webProp) {
     var d = $q.defer();
+    console.log("Account ID:", accountID);
+    console.log("WebProp ID:", webPropID);
+    console.log("Profile ID:", profileID);
     gapi.client.analytics.management.experiments.list({
       accountId: service.account.id,
       webPropertyId: service.webProp.id,
@@ -342,7 +345,7 @@ var app = angular.module('inlineAB', [])
     $scope.variations.splice($scope.variations.indexOf(variation), 1);
   };
 
-  $scope.addvariation = function() {
+  $scope.addVariation = function() {
     $scope.variations.push("");
     setTimeout(function() {
       window.scrollTo(0, 5000);
