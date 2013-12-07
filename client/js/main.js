@@ -399,6 +399,8 @@ var app = angular.module('inlineAB', [])
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     inlineABScript = inlineABScript.replace("'PASTE-EXPERIMENT-ID'", "'" + $scope.test.id + "'");
     inlineABScript = inlineABScript.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    var snippet = $scope.test.snippet.slice(indexOf('<script>') + 8, lastIndexOf('</script>'));
+    inlineABScript = inlineABScript.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
     console.log(inlineABScript);
   };
 

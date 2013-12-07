@@ -10,8 +10,8 @@ describe('injector', function(){
   var sampleGoal1;
   var sampleGoal2;
 
-  sampleTest1 = '<abtest test-name="test1"><p exp-name="dog">WOOF</p><p exp-name="cat">MEOW</p></abtest>';
-  sampleTest2 = '<abtest test-name="test2"><p exp-name="bam">BAM</p><p exp-name="pow">POW</p></abtest>';
+  sampleTest1 = '<abtest><p exp-name="dog">WOOF</p><p exp-name="variation1">MEOW</p></abtest>';
+  sampleTest2 = '<abtest><p exp-name="bam">BAM</p><p exp-name="pow">POW</p></abtest>';
   sampleGoal1 = $('<abgoal goal-name="buy" goal-action="click"><button>Buy Now!</button></abgoal>');
   sampleGoal2 = $('<abgoal goal-name="buy" goal-action="enter"><input type="text"/></abgoal>');
   sampleGoal3 = $('<abgoal goal-name="comment" goal-action="click"><input type="text"/></abgoal>');

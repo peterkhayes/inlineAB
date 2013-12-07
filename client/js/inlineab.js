@@ -14,7 +14,7 @@
    var experimentID = 'PASTE-EXPERIMENT-ID';
    var variations = ['VARIATION1', 'VARIATION2'];
 
-   /* CONTENT EXPERIMENT SCRIPT */
+  /* CONTENT EXPERIMENT SCRIPT */
 
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1
