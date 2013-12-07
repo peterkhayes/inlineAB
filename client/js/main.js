@@ -206,7 +206,7 @@ var app = angular.module('inlineAB', [])
   // Load a copy of inlineAB.js in memory.
   var inlineABScript;
   var getInlineABScript = function() {
-    $http.get('js/inlineab.js')
+    $http.get('js/inlineab-customized.js')
     .success(function(text) {
       console.log(text);
       inlineABScript = text;
@@ -400,7 +400,7 @@ var app = angular.module('inlineAB', [])
     inlineABScript = inlineABScript.replace("'PASTE-EXPERIMENT-ID'", "'" + $scope.selectedTest.id + "'");
     inlineABScript = inlineABScript.replace("['VARIATION1', 'VARIATION2']", variationsText);
     var snippet = $scope.selectedTest.snippet
-    snippet = snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>'));
+    snippet = snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "");
     inlineABScript = inlineABScript.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
     console.log(inlineABScript);
   };
