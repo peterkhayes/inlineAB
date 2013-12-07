@@ -37,7 +37,7 @@
       <h5>Pick your test:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
-        <li ng-class="{test === selectedTest}" ng-repeat='test in tests' class='download-page-editable-list'>
+        <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
           <input ng-click='selectTest(test)' autofocus type='text' value='{{test.name}}' ng-enter='selectTest()'></input>
           <span class='delete' ng-click='deleteTest(test)'>X</span>
