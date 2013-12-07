@@ -32,7 +32,7 @@ var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
 
 // Route index.html
 app.get('/', function(req, res) {
-  res.sendfile(path.join(__dirname, './client/html/index.html'));
+  res.sendfile(path.join(__dirname, './client/index.html'));
 });
 
 
