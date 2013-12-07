@@ -350,7 +350,7 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.selectTest = function(test) {
-    $scope.test = selectedTest;
+    $scope.selectedTest = test;
     $scope.variations = test.variations;
   };
 
