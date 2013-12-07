@@ -242,6 +242,8 @@ var app = angular.module('inlineAB', [])
           // If we did not get a list of accounts:
           function(err) {
             $scope.error.login = err;
+            $scope.loading.login = false; // Go away, gif.
+
           }
         );
       },
@@ -249,6 +251,8 @@ var app = angular.module('inlineAB', [])
       // If not authorized:
       function(err) {
         $scope.error.login = err;
+        $scope.loading.login = false; // Go away, gif.
+
       }
     );
   };
@@ -272,6 +276,7 @@ var app = angular.module('inlineAB', [])
     $scope.account = account;
     $scope.webProp = null;
     $scope.variations = null;
+    $scope.error = {};
     google.account = account;
     getWebProps(account);
   };
@@ -294,6 +299,7 @@ var app = angular.module('inlineAB', [])
       // Failure.
       function(err) {
         $scope.error.webProp = err;
+        $scope.loading.webProps = false;
       }
     );
   };
@@ -330,6 +336,7 @@ var app = angular.module('inlineAB', [])
           // Did not get a list of variations.
           function(err) {
             $scope.error.tests = err;
+            $scope.loading.tests = false;
           }
         );
       },
@@ -337,12 +344,13 @@ var app = angular.module('inlineAB', [])
       // Couldn't access profiles.
       function(err) {
         $scope.error.tests = err;
+        $scope.loading.tests = false;
       }
     );
   };
 
   $scope.selectTest = function(test) {
-    $scope.test = test;
+    $scope.test = selectedTest;
     $scope.variations = test.variations;
   };
 
