@@ -324,6 +324,7 @@ var app = angular.module('inlineAB', [])
 
           // Got a list of variations!
           function(tests) {
+            console.log(tests);
             $scope.error.tests = null;
             $scope.loading.tests = false;
             $scope.tests = tests;
