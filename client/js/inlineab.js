@@ -14,6 +14,8 @@
    var experimentID = 'PASTE-EXPERIMENT-ID';
    var variations = ['VARIATION1', 'VARIATION2'];
 
+   /* CONTENT EXPERIMENT SCRIPT */
+
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1
     && navigator.appVersion.indexOf('MSIE 1') === -1) {
@@ -156,7 +158,7 @@
         addListener(goalTarget, goalActions[i], function(action){
           var boundAction = action;
           var boundGoalName = goalName;
-          return function() { ga('send', 'event', 'goal', boundAction, boundGoalName); };
+          return function() { ga('send', 'event', boundGoalName, boundAction, boundGoalName); };
         }(goalActions[i]));
       }
 
