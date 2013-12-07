@@ -329,7 +329,7 @@ var app = angular.module('inlineAB', [])
             $scope.loading.tests = false;
             $scope.tests = tests;
             $scope.goals = [""];
-            if ($scope.tests.length > 0) selectTest($scope.tests[0]);
+            if ($scope.tests.length > 0) $scope.selectTest($scope.tests[0]);
             setTimeout(function() {
               window.scrollTo(0, 5000);
             }, 20);
