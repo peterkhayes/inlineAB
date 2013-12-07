@@ -35,8 +35,8 @@
     <br><hr/><br>
     <div class='large-4 small-12 columns'>
       <h5>Pick your test:</h5>
-      <ul>
-        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+      <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+      <ul ng-hide='loading.tests'>
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
           <input ng-click='selectTest(test)' autofocus type='text' value='{{test.name}}' ng-enter='selectTest()'></input>
@@ -48,8 +48,8 @@
     </div>
     <div class='large-4 small-12 columns'>
       <h5>Name your variations:</h5>
-      <ul ng-show='selectedTest'>
-        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+      <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+      <ul ng-show='selectedTest' ng-hide='loading.tests'>
         <li ng-repeat='variation in selectedTest.variations' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
           <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
@@ -59,9 +59,9 @@
       </ul>
     </div>
     <div class='large-4 small-12 columns'>
+      <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
       <h5>Name your goals:</h5>
-      <ul>
-        <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
+      <ul ng-hide='loading.tests'>
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
           <input autofocus type='text' value='{{goal.name}}' ng-enter='addGoal()'></input>
