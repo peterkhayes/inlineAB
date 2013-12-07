@@ -310,14 +310,14 @@ var app = angular.module('inlineAB', [])
   };
 
   var getTests = function(webProp) {
-    $scope.loading.variations = true;
+    $scope.loading.tests = true;
     google.getProfiles().then(
       // Successfully got a profile called INLINEAB.
       function() {
-        google.getVariations().then(
+        google.getTests().then(
 
           // Got a list of variations!
-          function(variations) {
+          function(tests) {
             $scope.error.tests = null;
             $scope.loading.tests = false;
             $scope.tests = tests;
@@ -344,7 +344,7 @@ var app = angular.module('inlineAB', [])
   $scope.selectTest = function(test) {
     $scope.test = test;
     $scope.variations = test.variations;
-  }
+  };
 
   $scope.deleteTest = function(test) {
     $scope.tests.splice($scope.tests.indexOf(test), 1);

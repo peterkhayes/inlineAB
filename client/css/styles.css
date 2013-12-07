@@ -76,7 +76,7 @@ label {
   width: 250px;
 }
 
-.download-page-editable-list .deleteVariation {
+.download-page-editable-list .delete {
   position: relative;
   top: 4px;
   font-size: 19px;
@@ -85,7 +85,7 @@ label {
   cursor: pointer;
 }
 
-.download-page-test .deleteVariation:hover {
+.download-page-test .delete:hover {
   color:#A00;
 }
 

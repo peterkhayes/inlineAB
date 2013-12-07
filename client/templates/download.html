@@ -34,33 +34,32 @@
   <div ng-show='webProp' class='row'>
     <br><hr/><br>
     <div class='large-4 small-12 columns'>
-      <h5>Pick your tests:</h5>
+      <h5>Pick your test:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
-        <li ng-repeat='variation in variations' class='download-page-editable-list'>
+        <li ng-repeat='test in tests' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
-          <span class='deleteVariation' ng-click='deleteVariation(variation)'>X</span>
+          <input autofocus type='text' value='{{test}}' ng-enter='addTest()'></input>
+          <span class='delete' ng-click='deleteTest(test)'>X</span>
         </li>
-        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='tiny' ng-click='addVariation()'>Add more</button></li>
-      <div class='error'>{{error.variations}}</div>
+        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='tiny' ng-click='addVariation()'>Add one</button></li>
+      <div class='error'>{{error.tests}}</div>
       </ul>
     </div>
     <div class='large-4 small-12 columns'>
-      <h5>Enter the names of your variations:</h5>
+      <h5>Name your variations:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
-        <li ng-repeat='variation in variations' class='download-page-editable-list'>
+        <li ng-repeat='variation in test.variations' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
           <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
-          <span class='deleteVariation' ng-click='deleteVariation(variation)'>X</span>
+          <span class='delete' ng-click='deleteVariation(variation)'>X</span>
         </li>
-        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='tiny' ng-click='addVariation()'>Add more</button></li>
-      <div class='error'>{{error.variations}}</div>
+        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='tiny' ng-click='addVariation()'>Add one</button></li>
       </ul>
     </div>
     <div class='large-4 small-12 columns'>
-      <h5>Enter the names of your goals:</h5>
+      <h5>Names your goals:</h5>
       <ul>
         <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
