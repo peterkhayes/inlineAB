@@ -11,21 +11,18 @@
 (function(window) {
 
   // Stuff that gets downloaded from the script generator.
-  var experimentID = /* EXPERIMENT ID */;
-  var variations = /* VARIATIONS */;
-  var goals = /* GOALS */;
+   var experimentID = 'PASTE-EXPERIMENT-ID';
+   var variations = ['VARIATION1', 'VARIATION2'];
 
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1
     && navigator.appVersion.indexOf('MSIE 1') === -1) {
     document.createElement('abtest');
-    document.createElement('abclass');
     document.createElement('abgoal');
   }
 
   // Find all elements to be tested as defined by markup
   var abTests = document.getElementsByTagName('abtest'),
-      abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
       timeout;
 
@@ -124,13 +121,12 @@
 
         if (expNumber === variationNumber) {
           selectedExperience = experiences[i];
+          // Send to Google Analytics, if not already sent.
+          if (!readCookie('GAEventSent')){
+            ga('set', 'expVar', variationNumber.toString());
+            createCookie('GAEventSent', 'true');
+          }
         }
-      }
-
-      // Send to Google Analytics, if not already sent.
-      if (!readCookie('GAEventSent')){
-        ga('send', 'event', experimentID, expNumber, 'pageView');
-        createCookie('GAEventSent', 'true');
       }
 
       // Clean up the DOM.
@@ -160,7 +156,7 @@
         addListener(goalTarget, goalActions[i], function(action){
           var boundAction = action;
           var boundGoalName = goalName;
-          return function() { ga('send', 'event', 'ab-goal', boundAction, boundGoalName); };
+          return function() { ga('send', 'event', 'goal', boundAction, boundGoalName); };
         }(goalActions[i]));
       }
 
@@ -179,6 +175,7 @@
 
     // Send event recording the viewing of a page.
     ga('send', 'pageview');
+    ga('set', 'expId', experimentID);
 
   }, false);
 

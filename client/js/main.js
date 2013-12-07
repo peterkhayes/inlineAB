@@ -395,14 +395,9 @@ var app = angular.module('inlineAB', [])
     for (var i = 0; i < $scope.variations.length; i++) {
       variationsText += "'" + $scope.variations[i].name + "',";
     }
-    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "]";
-    for (var j = 0; j < $scope.goals.length; j++) {
-      goalsText += "'" + $scope.goals[j].name + "',";
-    }
-    goalsText = "[" + goalsText.slice(0, goalsText.length - 1) + "]";
-    inlineABScript = inlineABScript.replace("/* EXPERIMENT ID */", "EXPERIMENT ID I GOT FROM ALEX");
-    inlineABScript = inlineABScript.replace("/* VARIATIONS */", variationsText);
-    inlineABScript = inlineABScript.replace("/* GOALS */", goalsText);
+    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    inlineABScript = inlineABScript.replace("'PASTE-EXPERIMENT-ID'", "'" + $scope.test.id + "'");
+    inlineABScript = inlineABScript.replace("['VARIATION1', 'VARIATION2']", variationsText);
     console.log(inlineABScript);
   };
 
