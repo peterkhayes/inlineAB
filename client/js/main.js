@@ -165,7 +165,7 @@ var app = angular.module('inlineAB', [])
     return d.promise;
   };
 
-  service.getVariations = function(webProp) {
+  service.getTests = function(webProp) {
     var d = $q.defer();
     console.log("Account ID:", service.account.id);
     console.log("WebProp ID:", service.webProp.id);
@@ -309,7 +309,7 @@ var app = angular.module('inlineAB', [])
     return $scope.webProp === webProp;
   };
 
-  var getVariations = function(webProp) {
+  var getTests = function(webProp) {
     $scope.loading.variations = true;
     google.getProfiles().then(
       // Successfully got a profile called INLINEAB.
@@ -318,9 +318,9 @@ var app = angular.module('inlineAB', [])
 
           // Got a list of variations!
           function(variations) {
-            $scope.error.variations = null;
-            $scope.loading.variations = false;
-            $scope.variations = variations;
+            $scope.error.tests = null;
+            $scope.loading.tests = false;
+            $scope.tests = tests;
             $scope.goals = [""];
             setTimeout(function() {
               window.scrollTo(0, 5000);
@@ -329,16 +329,32 @@ var app = angular.module('inlineAB', [])
 
           // Did not get a list of variations.
           function(err) {
-            $scope.error.variations = err;
+            $scope.error.tests = err;
           }
         );
       },
 
       // Couldn't access profiles.
       function(err) {
-        $scope.error.variations = err;
+        $scope.error.tests = err;
       }
     );
+  };
+
+  $scope.selectTest = function(test) {
+    $scope.test = test;
+    $scope.variations = test.variations;
+  }
+
+  $scope.deleteTest = function(test) {
+    $scope.tests.splice($scope.tests.indexOf(test), 1);
+  };
+
+  $scope.addTest = function() {
+    $scope.tests.push("");
+    setTimeout(function() {
+      window.scrollTo(0, 5000);
+    }, 20);
   };
 
   $scope.deleteVariation = function(variation) {
