@@ -302,7 +302,7 @@ var app = angular.module('inlineAB', [])
     $scope.webProp = webProp;
     $scope.variations = null;
     google.webProp = webProp;
-    getVariations();
+    getTests();
   };
 
   $scope.isSelectedWebProp = function(webProp) {
