@@ -62,6 +62,7 @@ label {
 .download-page-editable-list {
   list-style-type: none;
   display: table;
+  padding: 10px;
 }
 
 .download-page-editable-list .index {
