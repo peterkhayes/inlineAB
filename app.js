@@ -3,14 +3,13 @@ var http = require('http');
 var path = require('path');
 var googleapis = require('googleapis');
 var restler = require('restler');
-var mime = require('mime');
 
-var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net'
-var clientId = process.env.CLIENT_ID || '1111111111111111'
-var clientSecret = process.env.CLIENT_SECRET || 'joeyEatsDeadPeopleClientSecret'
-var browserAPIKey = process.env.B_API_KEY || 'pOisOniVyBrowserKey'
-var serverAPIKey = process.env.S_API_KEY || 'clientAPIKEYGAVINLOVESSHAWARMSAS'
-var redirectURL = process.env.REDIRECT_URL || 'mygodbeckylookatherbuttitissobig'
+var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net';
+var clientId = process.env.CLIENT_ID || '1111111111111111';
+var clientSecret = process.env.CLIENT_SECRET || 'joeyEatsDeadPeopleClientSecret';
+var browserAPIKey = process.env.B_API_KEY || 'pOisOniVyBrowserKey';
+var serverAPIKey = process.env.S_API_KEY || 'clientAPIKEYGAVINLOVESSHAWARMSAS';
+var redirectURL = process.env.REDIRECT_URL || 'mygodbeckylookatherbuttitissobig';
 
 var accountId = '46140385'; // used to generate propertyId
 var webPropertyId = 'UA-46140385-1'; // used with accountId to generate profileId
@@ -51,10 +50,9 @@ app.get('/downloadCustom', function(req, res){
   file.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
 
   var filename = path.basename(file);
-  var mimetype = mime.lookup(file);
 
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-  res.setHeader('Content-type', mimetype);
+  res.setHeader('Content-type', 'text/plain');
 
   var filestream = fs.createReadStream(file);
   filestream.pipe(res);
