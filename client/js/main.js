@@ -403,12 +403,13 @@ var app = angular.module('inlineAB', [])
     snippet = snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "");
     inlineABScript = inlineABScript.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
     console.log(inlineABScript);
+    document.getElementById('downloadButton').setAttribute(
+      'href',
+      'data:Content-type: text/plain, ' + inlineABScript
+    );
   };
 
 })
-.controller('my-analytics', function() {
-
-});
 
 // var wow = function() {
 //   console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
