@@ -3,6 +3,7 @@ var http = require('http');
 var path = require('path');
 var googleapis = require('googleapis');
 var restler = require('restler');
+var mime = require('mime');
 
 var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net'
 var clientId = process.env.CLIENT_ID || '1111111111111111'
@@ -35,13 +36,37 @@ app.get('/', function(req, res) {
   res.sendfile(path.join(__dirname, './client/index.html'));
 });
 
+app.get('/downloadCustom', function(req, res){
+
+  var file = __dirname + '/js/inlineAB.js';
+
+  var variationsText = "";
+  for (var i = 0; i < req.query.variations.length; i++) {
+    variationsText += "'" + req.query.variations[i].name + "',";
+  }
+  variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+
+  file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.query.experimentID + "'");
+  file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+  file.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
+
+  var filename = path.basename(file);
+  var mimetype = mime.lookup(file);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+
+  var filestream = fs.createReadStream(file);
+  filestream.pipe(res);
+});
+
+/*
 
 
+        THIS IS A LARGE BLOCK COMMENT.
 
 
-
-
-
+*/
 
 app.post('/tokenized', function(req,res){
 
