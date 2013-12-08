@@ -206,7 +206,7 @@ var app = angular.module('inlineAB', [])
   // Load a copy of inlineAB.js in memory.
   var inlineABScript;
   var getInlineABScript = function() {
-    $http.get('js/inlineab-customized.js')
+    $http.get('js/inlineab.js')
     .success(function(text) {
       console.log(text);
       inlineABScript = text;
