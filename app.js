@@ -47,7 +47,7 @@ app.post('/downloadCustom', function(req, res){
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
   res.setHeader('Content-type', 'text/plain');
 
-  var file = fs.readFileSync(filePath).toString();
+  var file = fs.readFile(filePath);
 
 
   console.log("Here is our file:", file);
