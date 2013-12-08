@@ -39,7 +39,15 @@ app.post('/downloadCustom', function(req, res){
 
   console.log("Got a request to download custom script. Req is", req);
 
-  var file = __dirname + '/js/inlineAB.js';
+  var filePath = __dirname + '/js/inlineAB.js';
+  var filename = path.basename(filePath);
+  var mimetype = mime.lookup(filePath);
+
+  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  res.setHeader('Content-type', mimetype);
+
+  var file = fs.readFileSync(filePath);
+
 
   console.log("Here is our file:", file);
 
