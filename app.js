@@ -35,7 +35,7 @@ app.get('/', function(req, res) {
   res.sendfile(path.join(__dirname, './client/index.html'));
 });
 
-app.get('/downloadCustom', function(req, res){
+app.post('/downloadCustom', function(req, res){
 
   console.log("Got a request to download custom script. Req is", req);
 

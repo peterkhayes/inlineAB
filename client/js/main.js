@@ -378,9 +378,9 @@ var app = angular.module('inlineAB', [])
     var snippet = $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
-      method: "GET",
-      params: {
-        experimentID:$scope.selectedTest.id,
+      method: "POST",
+      data: {
+        experimentID: $scope.selectedTest.id,
         variations: JSON.stringify($scope.variations),
         snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
       }
