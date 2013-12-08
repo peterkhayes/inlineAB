@@ -3,7 +3,7 @@ var http = require('http');
 var path = require('path');
 var googleapis = require('googleapis');
 var restler = require('restler');
-var fs = requite('fs');
+var fs = require('fs');g
 
 var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net';
 var clientId = process.env.CLIENT_ID || '1111111111111111';
