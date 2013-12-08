@@ -391,13 +391,14 @@ var app = angular.module('inlineAB', [])
 
   $scope.download = function() {
     if (!inlineABScript) return;
+    var snippet = $scope.selectedTest.snippet;
     $http({
       url: '/downloadCustom',
       method: "GET",
       params: {
         experimentID:$scope.selectedTest.id,
         variations: JSON.stringify($scope.variations),
-        snippet: $scope.selectedTest.snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
+        snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
       }
      });
 
