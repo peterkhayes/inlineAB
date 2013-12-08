@@ -56,9 +56,9 @@ app.post('/downloadCustom', function(req, res){
     }
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
 
-    file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
-    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-    file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    // file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
+    // file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    // file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
 
     console.log("Here is our customized file:", file);
 
