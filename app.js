@@ -49,13 +49,7 @@ app.get('/downloadCustom', function(req, res){
   file.replace("['VARIATION1', 'VARIATION2']", variationsText);
   file.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
 
-  var filename = path.basename(file);
-
-  res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-  res.setHeader('Content-type', 'text/plain');
-
-  var filestream = fs.createReadStream(file);
-  filestream.pipe(res);
+  res.download(file);
 });
 
 /*
