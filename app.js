@@ -44,12 +44,12 @@ app.post('/downloadCustom', function(req, res){
   console.log("Here is our file:", file);
 
   var variationsText = "";
-  for (var i = 0; i < req.query.variations.length; i++) {
-    variationsText += "'" + req.query.variations[i].name + "',";
+  for (var i = 0; i < req.body.variations.length; i++) {
+    variationsText += "'" + req.body.variations[i].name + "',";
   }
   variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
 
-  file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.query.experimentID + "'");
+  file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
   file.replace("['VARIATION1', 'VARIATION2']", variationsText);
   file.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
 
