@@ -47,9 +47,10 @@ app.post('/downloadCustom', function(req, res){
 
   response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
   response.setHeader('Content-type', 'text/plain');
+  // response.attachment('inline.js');
 
   fs.readFile(filePath, 'utf8', function(err, file){
-    console.log("Here is our file:", file);
+    // console.log("Here is our file:", file);
 
     var variationsText = "";
     
@@ -63,8 +64,8 @@ app.post('/downloadCustom', function(req, res){
     file.replace("['VARIATION1', 'VARIATION2']", variationsText);
     file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
 
-    console.log("Here is our customized file:", file);
-
+    // console.log("Here is our customized file:", file);
+    console.log('returning file');
     response.end(file);
   });
 
