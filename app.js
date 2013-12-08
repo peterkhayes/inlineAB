@@ -47,24 +47,24 @@ app.post('/downloadCustom', function(req, res){
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
   res.setHeader('Content-type', 'text/plain');
 
-  var file = fs.readFile(filePath);
+  fs.readFile(filePath, function(err, file){
+    console.log("Here is our file:", file);
 
+    var variationsText = "";
+    for (var i = 0; i < req.body.variations.length; i++) {
+      variationsText += "'" + req.body.variations[i].name + "',";
+    }
+    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
 
-  console.log("Here is our file:", file);
+    file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
+    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
 
-  var variationsText = "";
-  for (var i = 0; i < req.body.variations.length; i++) {
-    variationsText += "'" + req.body.variations[i].name + "',";
-  }
-  variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    console.log("Here is our customized file:", file);
 
-  file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
-  file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-  file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    res.download(file);
+  });
 
-  console.log("Here is our customized file:", file);
-
-  res.download(file);
 });
 
 /*
