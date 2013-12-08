@@ -40,24 +40,28 @@ app.get('/', function(req, res) {
 app.post('/downloadCustom', function(req, res){
   console.log("Got a request to download custom script. Req is", req);
 
+  var request = req;
   var response = res;
   var filePath = __dirname + '/client/js/inlineAB.js';
   var filename = path.basename(filePath);
 
-  response.setHeader('Content-disposition', 'attachment; filename=' + filename);
+  response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
   response.setHeader('Content-type', 'text/plain');
-  response.attachment('inlineab.js');
 
-  fs.readFile(filePath, function(err, file){
+  fs.readFile(filePath, 'utf8', function(err, file){
     console.log("Here is our file:", file);
+
     var variationsText = "";
-    for (var i = 0; i < req.body.variations.length; i++) {
-      variationsText += "'" + req.body.variations[i].name + "',";
+    
+    for (var i = 0; i < request.body.variations.length; i++) {
+      variationsText += "'" + request.body.variations[i].name + "',";
     }
+    
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
-    // file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
-    // file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-    // file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    
+    file.replace("'PASTE-EXPERIMENT-ID'", "'" + request.body.experimentID + "'");
+    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
 
     console.log("Here is our customized file:", file);
 
