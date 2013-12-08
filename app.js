@@ -34,14 +34,14 @@ var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
 
 // Route index.html
 app.get('/', function(req, res) {
-  res.sendfile(path.join(__dirname, './client/index.html'));
+  res.sendfile(path.join(__dirname, '/client/index.html'));
 });
 
 app.post('/downloadCustom', function(req, res){
 
   console.log("Got a request to download custom script. Req is", req);
 
-  var filePath = __dirname + '/js/inlineAB.js';
+  var filePath = __dirname + '/client/js/inlineAB.js';
   var filename = path.basename(filePath);
 
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
