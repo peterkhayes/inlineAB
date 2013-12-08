@@ -375,7 +375,6 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.download = function() {
-    if (!inlineABScript) return;
     var snippet = $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
@@ -386,23 +385,6 @@ var app = angular.module('inlineAB', [])
         snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
       }
      });
-
-    // var variationsText = "'default',",
-    //     goalsText = "";
-    // for (var i = 0; i < $scope.variations.length; i++) {
-    //   variationsText += "'" + $scope.variations[i].name + "',";
-    // }
-    // variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
-    // inlineABScript = inlineABScript.replace("'PASTE-EXPERIMENT-ID'", "'" + $scope.selectedTest.id + "'");
-    // inlineABScript = inlineABScript.replace("['VARIATION1', 'VARIATION2']", variationsText);
-    // var snippet = $scope.selectedTest.snippet;
-    // snippet = snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "");
-    // inlineABScript = inlineABScript.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
-    // console.log(inlineABScript);
-    // document.getElementById('downloadButton').setAttribute(
-    //   'href',
-    //   'data:Content-type: text/plain, ' + inlineABScript
-    // );
   };
 
 });
