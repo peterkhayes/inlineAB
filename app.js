@@ -37,7 +37,11 @@ app.get('/', function(req, res) {
 
 app.get('/downloadCustom', function(req, res){
 
+  console.log("Got a request to download custom script. Req is", req);
+
   var file = __dirname + '/js/inlineAB.js';
+
+  console.log("Here is our file:", file);
 
   var variationsText = "";
   for (var i = 0; i < req.query.variations.length; i++) {
@@ -48,6 +52,8 @@ app.get('/downloadCustom', function(req, res){
   file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.query.experimentID + "'");
   file.replace("['VARIATION1', 'VARIATION2']", variationsText);
   file.replace("/* CONTENT EXPERIMENT SCRIPT */", snippet);
+
+  console.log("Here is our customized file:", file);
 
   res.download(file);
 });
