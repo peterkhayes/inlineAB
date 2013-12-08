@@ -203,21 +203,6 @@ var app = angular.module('inlineAB', [])
   $scope.loading = {};
   $scope.error = {};
 
-  // Load a copy of inlineAB.js in memory.
-  var inlineABScript;
-  var getInlineABScript = function() {
-    $http.get('js/inlineab.js')
-    .success(function(text) {
-      console.log(text);
-      inlineABScript = text;
-    })
-    .error(function(err) {
-      console.log("Error fetching inlineAB script", err);
-      getInlineABScript();
-    });
-  };
-  getInlineABScript();
-
   // Bindings.
   $scope.login = function() {
     $scope.loading.login = true; // spinner gif.
@@ -393,7 +378,7 @@ var app = angular.module('inlineAB', [])
     if (!inlineABScript) return;
     var snippet = $scope.selectedTest.snippet;
     $http({
-      url: '/downloadCustom',
+      url: 'downloadCustom',
       method: "GET",
       params: {
         experimentID:$scope.selectedTest.id,
