@@ -6,10 +6,8 @@
  
       <div class="hide-for-small">
         <div id="featured">
-          <abtest>
-            <img exp-name='default' src="img/slideimage-desk.jpg" alt="slide image">
-            <img exp-name='alternate_hero' src="img/slideimage-desk-alt.jpg" alt="slide image">
-          </abtest>
+          <img exp-name='default' src="img/slideimage-desk.jpg" alt="slide image">
+          <img exp-name='alternate_hero' src="img/slideimage-desk-alt.jpg" alt="slide image">
         </div>
         </div>
  
@@ -40,9 +38,9 @@
         <div class="large-3 small-6 columns">
           <div class='inner-thumbnail-container'>
             <img src="img/code-example.png" />
-            <abtest test-name='no-javascript-thumb-text'>
-              <h6 exp-name='shorter' exp-weight='1' class="center panel">Write tests in HTML,<br> not in Javascript.</h6>
-              <h6 exp-name='longer' exp-weight='6' class="center panel">Write all of your tests<br>without a line of Javascript.</h6>
+            <abtest>
+              <h6 exp-name='default' class="center panel">Write tests in HTML,<br> not in Javascript.</h6>
+              <h6 exp-name='Thumb1 Text' class="center panel">Write all of your tests<br>without a line of Javascript.</h6>
             </abtest>
           </div>
         </div>
@@ -50,9 +48,9 @@
         <div class="large-3 small-6 columns">
           <div class='inner-thumbnail-container'>
             <img src="img/performant.png" />
-            <abtest test-name='performance-thumb-text'>
-              <h6 exp-name='lightning' exp-weight='6' class="center panel">Lightning-fast pageloads.<br>Invisible substitutions.</h6>
-              <h6 exp-name='Load-instantly' exp-weight='1' class="center panel">Load your pages instantly<br>and apply tests without flicker.</h6>
+            <abtest>
+              <h6 exp-name='default' class="center panel">Lightning-fast pageloads.<br>Invisible substitutions.</h6>
+              <h6 exp-name='Thumb2 Text' class="center panel">Load your pages instantly<br>and apply tests without flicker.</h6>
             </abtest>
           </div>
         </div>
@@ -60,14 +58,20 @@
         <div class="large-3 small-6 columns">
           <div class='inner-thumbnail-container'>
             <img src="img/frameworks-and-browsers.png" />
-            <h6 class="center panel">All major frameworks<br>and browsers supported.</h6>
+            <abtest>
+              <h6 exp-name='default' class="center panel">All major frameworks<br>and browsers supported.</h6>
+              <h6 exp-name='Thumb3 Text' class="center panel">All "major" frameworks<br>and browsers "supported".</h6>
+            </abtest>
           </div>
         </div>
  
         <div class="large-3 small-6 columns">
           <div class='inner-thumbnail-container'>
             <img src="img/analytics.png" />
-            <h6 class="center panel">Automatically integrates<br>with Google Analytics.</h6>
+            <abtest>
+              <h6 exp-name='default' class="center panel">Automatically integrates<br>with Google Analytics.</h6>
+              <h6 exp-name='Thumb4 Text' class="center panel">78% easier Google Analytics integration. We checked.</h6>
+            </abtest>
           </div>
         </div>
  
@@ -111,15 +115,19 @@
  
           <h4 class='center'>Get Inline AB:</h4><br>
           
-          <a class="large button expand" href="#/download">
-            Personalized Version<br>
-            <span class='small-text'>We'll set up your script for you.</span>
-          </a>
+          <abgoal goal-name='ab-goal' goal-action='click'>
+            <a class="large button expand" href="#/download">
+              Personalized Version<br>
+              <span class='small-text'>We'll set up your script for you.</span>
+            </a>
+          </abgoal>
  
-          <a class="large button expand" href="js/inlineab.js">
-            Source Code<br>
-            <span class='small-text'>Fully annotated; requires additional setup.</span>
-          </a>
+          <abgoal goal-name='ab-goal' goal-action='click'>
+            <a class="large button expand" href="js/inlineab.js">
+              Source Code<br>
+              <span class='small-text'>Fully annotated; requires additional setup.</span>
+            </a>
+          </abgoal>
  
  
         </div>

@@ -11,8 +11,8 @@
 (function(window) {
 
   // Stuff that gets downloaded from the script generator.
-   var experimentID = 'Blah Blah';
-   var variations = ['default', 'alternate_hero'];
+   var experimentID = 'RvZIIQN3S8m5Hb3DfjNBJg';
+   var variations = ['default', 'Thumb1 Text', 'Thumb2 Text', 'Thumb3 Text', 'Thumb4 Text'];
 
   /* CONTENT EXPERIMENT SCRIPT */
 
