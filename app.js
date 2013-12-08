@@ -41,10 +41,9 @@ app.post('/downloadCustom', function(req, res){
 
   var filePath = __dirname + '/js/inlineAB.js';
   var filename = path.basename(filePath);
-  var mimetype = mime.lookup(filePath);
 
   res.setHeader('Content-disposition', 'attachment; filename=' + filename);
-  res.setHeader('Content-type', mimetype);
+  res.setHeader('Content-type', 'text/plain');
 
   var file = fs.readFileSync(filePath);
 
@@ -62,7 +61,7 @@ app.post('/downloadCustom', function(req, res){
   file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
 
   console.log("Here is our customized file:", file);
-  
+
   res.download(file);
 });
 
