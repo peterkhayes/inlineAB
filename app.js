@@ -94,12 +94,12 @@ app.post('/tokenized', function(req,res){
   console.log('posting to tokenized! ');
   var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
   var body = {       
-        "name": "joeyEatsDeadPeopleThursday",
+        "name": "firstAPICreatedExperiment",
         "status": "READY_TO_RUN",
         "objectiveMetric":"ga:bounces",
         "variations": [
-          { "name": "very javascrapet!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" },
-          { "name": "so htmale!!!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" }
+          { "name": "very javascript!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" },
+          { "name": "so html!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" }
          ]
        };
 
@@ -122,7 +122,7 @@ app.post('/tokenized', function(req,res){
     request.execute(function(err,result){
       if (err){
         console.log(err);
-        res.send(402, 'afdhiheio[hrfrio[hio[grrentttttttttt');          
+        res.send(402, 'Success! Successfully up the wire');          
       } else {
         console.log(result);
         res.send(200);
