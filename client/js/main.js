@@ -198,7 +198,7 @@ var app = angular.module('inlineAB', [])
 })
 
 // Controller for the download page.
-.controller('download', function($scope, $http, google) {
+.controller('download', function($scope, $http, $q, google) {
   // Variable Setup.
   $scope.loading = {};
   $scope.error = {};
@@ -342,8 +342,43 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.deleteTest = function(test) {
-    $scope.tests.splice($scope.tests.indexOf(test), 1);
+    var toErase = $scope.tests.splice($scope.tests.indexOf(test), 1);
+    if(toErase.id){ //if its on GA....
+      // alert "are you sure you want to erase this?" && true
+      if(true){
+        deleteExperiment(toErase).then(
+          function(){
+          //alert succcessfully deleted.
+          },
+          function(err){
+            ///whaterver happens on an err
+          });
+      }
+    }
   };
+
+  var deleteExperiment = function(toErase){
+    var d = $q.defer
+    $http({
+      url: 'deleteExperiment',
+      method: "POST",
+      data: {
+        "token": google.token,
+        "accountId": google.account.id
+        "webPropertyId": google.webProp.id,
+        "profileId": google.profile.id,
+        "experimentId": toErase.id
+        } //end data
+    })
+    .success(function() {
+      d.resolve();
+    })
+    .error(function(err) {
+      d.reject(err);
+    });
+
+    return d.promise;
+  }
 
   $scope.addTest = function() {
     $scope.tests.push("");
@@ -374,7 +409,76 @@ var app = angular.module('inlineAB', [])
     }, 20);
   };
 
-  $scope.download = function() {
+ 
+  var updateExperiment = function(){
+    var d = $q.defer
+    $http({
+      url: 'updateExperiment',
+      method: "POST",
+      data: {
+        "token": google.token,
+        "accountId": google.account.id
+        "webPropertyId": google.webProp.id,
+        "profileId": google.profile.id,
+        "experimentId": $scope.selectedTest.id,
+        "body": {
+          "name": $scope.selectedTest.name,
+          "status": "RUNNING", // perhaps later:   make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
+          "objectiveMetric": ,  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "variations": createVariationList()
+          }
+        } //end data
+    })
+    .success(function() {
+      d.resolve();
+    })
+    .error(function(err) {
+      d.reject(err);
+    });
+
+    return d.promise;
+  };
+
+
+  var createExperiment = function(){
+    var d = $q.defer();
+
+    $http({
+      url: 'createExperiment',
+      method: "POST",
+      data: {
+        "token": google.token,
+        "accountId": google.account.id
+        "webPropertyId": google.webProp.id,
+        "profileId": google.profile.id,
+        "body": {
+          "name": $scope.selectedTest.name,
+          "status": "RUNNING", // make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
+          "objectiveMetric": ,  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "variations": createVariationList()
+          }
+        } //end data
+    })
+    .success(function() {
+      d.resolve();
+    })
+    .error(function(err) {
+      d.reject(err);
+    });
+
+    return d.promise;
+  };
+
+
+  var createVariationList = function(){
+    var variationList = [];
+    for(var i = 0; i < $scope.variations.length; i++){
+      variationList.push({"name": $scope.variations[i], "url":"http://www.inlineab.com/"+i, "status":"ACTIVE"});
+    }
+    return variationList;
+  };
+
+  var download = function() {
     var snippet = $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
@@ -386,8 +490,30 @@ var app = angular.module('inlineAB', [])
       }
      });
   };
-
 });
+
+  $scope.saveAndDownload = function(){
+    if($scope.selectedTest.id){ // if the test already exists....
+      updateExperiment().then(
+        function() {
+          download();
+        },
+        function(err) {
+          $scope.error.download = err;
+        }
+      );
+    } else { // if its brand new...
+      createExperiment().then(
+        function() {
+          download();
+        },
+        function(err) {
+          $scope.error.download = err;
+        }
+      );
+    }
+  };
+
 
 // var wow = function() {
 //   console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
