@@ -490,7 +490,6 @@ var app = angular.module('inlineAB', [])
       }
      });
   };
-});
 
   $scope.saveAndDownload = function(){
     if($scope.selectedTest.id){ // if the test already exists....
@@ -513,6 +512,7 @@ var app = angular.module('inlineAB', [])
       );
     }
   };
+});
 
 
 // var wow = function() {
