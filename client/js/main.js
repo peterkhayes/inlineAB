@@ -352,19 +352,20 @@ var app = angular.module('inlineAB', [])
           },
           function(err){
             ///whaterver happens on an err
-          });
+          }
+        );
       }
     }
   };
 
   var deleteExperiment = function(toErase){
-    var d = $q.defer
+    var d = $q.defer;
     $http({
       url: 'deleteExperiment',
       method: "POST",
       data: {
         "token": google.token,
-        "accountId": google.account.id
+        "accountId": google.account.id,
         "webPropertyId": google.webProp.id,
         "profileId": google.profile.id,
         "experimentId": toErase.id
@@ -378,10 +379,10 @@ var app = angular.module('inlineAB', [])
     });
 
     return d.promise;
-  }
+  };
 
   $scope.addTest = function() {
-    $scope.tests.push("");
+    $scope.tests.push({name: ""});
     setTimeout(function() {
       window.scrollTo(0, 5000);
     }, 20);
@@ -392,7 +393,7 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.addVariation = function() {
-    $scope.variations.push("");
+    $scope.variations.push({name: ""});
     setTimeout(function() {
       window.scrollTo(0, 5000);
     }, 20);
@@ -409,22 +410,21 @@ var app = angular.module('inlineAB', [])
     }, 20);
   };
 
- 
   var updateExperiment = function(){
-    var d = $q.defer
+    var d = $q.defer();
     $http({
       url: 'updateExperiment',
       method: "POST",
       data: {
         "token": google.token,
-        "accountId": google.account.id
+        "accountId": google.account.id,
         "webPropertyId": google.webProp.id,
         "profileId": google.profile.id,
         "experimentId": $scope.selectedTest.id,
         "body": {
           "name": $scope.selectedTest.name,
           "status": "RUNNING", // perhaps later:   make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
-          "objectiveMetric": ,  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "objectiveMetric": 'pageView',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
           "variations": createVariationList()
           }
         } //end data
@@ -448,13 +448,13 @@ var app = angular.module('inlineAB', [])
       method: "POST",
       data: {
         "token": google.token,
-        "accountId": google.account.id
+        "accountId": google.account.id,
         "webPropertyId": google.webProp.id,
         "profileId": google.profile.id,
         "body": {
           "name": $scope.selectedTest.name,
           "status": "RUNNING", // make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
-          "objectiveMetric": ,  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "objectiveMetric": 'pageView',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
           "variations": createVariationList()
           }
         } //end data
