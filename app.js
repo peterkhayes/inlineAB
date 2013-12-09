@@ -131,6 +131,107 @@ app.post('/tokenized', function(req,res){
   });
 });
 
+app.post('/updateExperiment', function(req,res){
+
+
+  var oAuthToken = req.body.token;
+
+  oauth2Client.credentials = {
+    access_token: oAuthToken
+  };
+
+  googleapis
+  .discover('analytics', 'v3')
+  .execute(function(err, client) {
+    var request = client.analytics.management.experiments.update({
+        accountId : req.body.accountId,
+        webPropertyId : req.body.webPropertyId,
+        profileId : req.body.profileId,
+        experimentId : req.body.experimentId
+        }, req.body.body)
+    .withApiKey(serverAPIKey)
+    .withAuthClient(oauth2Client)
+    request.execute(function(err,result){
+      if (err){
+        console.log(err);
+        res.send(402);          
+      } else {
+        console.log(result);
+        res.send(200);
+      }
+    });
+  });
+});
+
+
+
+app.post('/deleteExperiment', function(req,res){
+
+
+  var oAuthToken = req.body.token;
+
+  oauth2Client.credentials = {
+    access_token: oAuthToken
+  };
+
+  googleapis
+  .discover('analytics', 'v3')
+  .execute(function(err, client) {
+    var request = client.analytics.management.experiments.update({
+        accountId : req.body.accountId,
+        webPropertyId : req.body.webPropertyId,
+        profileId : req.body.profileId,
+        experimentId : req.body.experimentId
+        })
+    .withApiKey(serverAPIKey)
+    .withAuthClient(oauth2Client)
+    request.execute(function(err,result){
+      if (err){
+        console.log(err);
+        res.send(402);          
+      } else {
+        console.log(result);
+        res.send(200);
+      }
+    });
+  });
+});
+
+
+
+app.post('/createExperiment', function(req,res){
+  var oAuthToken = req.body.token;
+
+  oauth2Client.credentials = {
+    access_token: oAuthToken
+  };
+
+  googleapis
+  .discover('analytics', 'v3')
+  .execute(function(err, client) {
+    var request = client.analytics.management.experiments.insert({
+        accountId : req.body.accountId,
+        webPropertyId : req.body.webPropertyId,
+        profileId : req.body.profileId
+        }, req.body.body)
+    .withApiKey(serverAPIKey)
+    .withAuthClient(oauth2Client)
+    request.execute(function(err,result){
+      if (err){
+        console.log(err);
+        res.send(402);          
+      } else {
+        console.log(result);
+        res.send(200);
+      }
+    });
+  });
+});
+
+app.post('/createGoal', function(req,res){
+  
+})
+
 
 
 
