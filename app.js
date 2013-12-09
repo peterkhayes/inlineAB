@@ -108,40 +108,28 @@ app.post('/tokenized', function(req,res){
     "Authorization": "Bearer "+ oAuthToken
   };
 
-  restler.post(postURL, {
-      headers : headers,
-      data : JSON.stringify(body)
-      })
-    .on('complete', function(data, response) {
-      console.log(data);
-      console.log(response);
-      if (response.statusCode == 201) {
-    // you can get at the raw response like this...
+
+  googleapis
+  .discover('analytics', 'v3')
+  .execute(function(err, client) {
+    var request = client.analytics.management.experiments.insert({
+        accountId : accountId,
+        webPropertyId : webPropertyId,
+        profileId : profileId
+        }, body)
+    .withApiKey(browserAPIKey)
+    .withAuthClient(oauth2Client)
+    request.execute(function(err,result){
+      if (err){
+        console.log(err);
+        res.send(402, 'afdhiheio[hrfrio[hio[grrentttttttttt');          
+      } else {
+        console.log(result);
+        res.send(200);
       }
     });
+  });
 });
-  // googleapis
-  // .discover('analytics', 'v3')
-  // .execute(function(err, client) {
-  //   var request = client.analytics.management.experiments.insert({
-  //       accountId : accountId,
-  //       webPropertyId : webPropertyId,
-  //       profileId : profileId
-  //       })
-  //   .withMedia('application/json', body)
-  //   .withApiKey(browserAPIKey)
-  //   .withAuthClient(oauth2Client)
-  //   request.execute(function(err,result){
-  //     if (err){
-  //       console.log(err);
-  //       res.send(402, 'afdhiheio[hrfrio[hio[grrentttttttttt');          
-  //     } else {
-  //       console.log(result);
-  //       res.send(200);
-  //     }
-  //   });
-  // });
-// });
 
 
 
