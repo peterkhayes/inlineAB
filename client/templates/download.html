@@ -55,7 +55,7 @@
           <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
           <span class='delete' ng-click='deleteVariation(variation)'>X</span>
         </li>
-        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='addMore tiny' ng-click='addVariation()'>Add one</button></li>
+        <li ng-hide='loading.variations' class='download-page-editable-list'><button class='addMore tiny' ng-click='addVariation()'>Add one</button><button class='addMore tiny' ng-click='saveVariation()'>Save</button></li>
       </ul>
     </div>
     <div class='large-4 small-12 columns'>
