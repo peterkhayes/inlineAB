@@ -117,7 +117,7 @@ app.post('/tokenized', function(req,res){
         webPropertyId : webPropertyId,
         profileId : profileId
         }, body)
-    .withApiKey(browserAPIKey)
+    .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
     request.execute(function(err,result){
       if (err){
