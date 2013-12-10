@@ -39,44 +39,55 @@ var OAuth2Client = googleapis.OAuth2Client;
 //   res.sendfile(path.join(__dirname, '/client/index.html'));
 // });
 
-// app.post('/downloadCustom', function(req, res){
-//   console.log("Got a request to download custom script. Req is", req);
-
-//   var request = req;
-//   var response = res;
-//   var filePath = __dirname + '/client/js/inlineAB.js';
-//   var filename = path.basename(filePath);
-
-//   response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
-//   response.setHeader('Content-type', 'text/plain');
-//   // response.attachment('inline.js');
-
-//   fs.readFile(filePath, 'utf8', function(err, file){
-//     // console.log("Here is our file:", file);
-
-//     var variationsText = "";
-    
-//     for (var i = 0; i < request.body.variations.length; i++) {
-//       variationsText += "'" + request.body.variations[i].name + "',";
-//     }
-    
-//     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
-    
-//     file.replace("'PASTE-EXPERIMENT-ID'", "'" + request.body.experimentID + "'");
-//     file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-//     file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
-
-//     // console.log("Here is our customized file:", file);
-//     console.log('returning file');
-//     response.end(file);
-//   });
-
-// });
-
 app.post('/downloadCustom', function(req, res){
-  var file = __dirname + '/client/js/inlineAB.js';
-  res.download(file); // Set disposition and send it.
+  console.log("\n\n\n\n\n\n\n\n\n\n\n\n\Got a request to download custom script. Req is", req.body);
+
+
+
+  // var request = req;
+  // var response = res;
+  var filePath = __dirname + '/client/js/inlineAB.js';
+  var filename = path.basename(filePath);
+
+  // response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
+  // response.setHeader('Content-type', 'text/plain');
+  // response.attachment('inline.js');
+
+  fs.readFile(filePath, 'utf8', function(err, file){
+    console.log("\n\n\n\n\nHere is our file:", file);
+
+    console.log("this is the TyYPE of the file: ", typeof file);
+
+    var variationsText = "";
+    
+    for (var i = 0; i < req.body.variations.length; i++) {
+      variationsText += "'" + req.body.variations[i].name + "',";
+    }
+    
+    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    
+    file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
+    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    console.log("\n\n\n\n\n\n\n\n\n\nThis should eb modified", file);
+
+    // console.log("Here is our customized file:", file);
+    res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
+    res.setHeader('Content-type', 'text/plain');
+    res.charset = 'UTF-8';
+    res.write(file);
+    res.end();
+  });
+
 });
+
+
+
+
+// app.get('/downloadCustom', function(req, res){
+//   var file = __dirname + '/client/js/inlineAB.js';
+//   res.download(file); // Set disposition and send it.
+// });
 
 /*
 
@@ -182,12 +193,12 @@ app.post('/deleteExperiment', function(req,res){
   googleapis
   .discover('analytics', 'v3')
   .execute(function(err, client) {
-    var request = client.analytics.management.experiments.update({
+    var request = client.analytics.management.experiments.delete({
         accountId : req.body.accountId,
         webPropertyId : req.body.webPropertyId,
         profileId : req.body.profileId,
         experimentId : req.body.experimentId
-        }, req.body.body)
+        })
     .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
     request.execute(function(err,result){
@@ -205,7 +216,6 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
-  // Create oAuth object
   var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
   var access_token = req.body.token.access_token;
 
@@ -236,40 +246,6 @@ app.post('/createExperiment', function(req,res){
 });
 
 
-
-
-// var insertExperiment = function(accountId,webPropertyId,profileId,body){
-//   googleapis
-//   .discover('analytics', 'v3')
-//   .execute(function(err, client) {
-//     var request = client.analytics.management.experiments.insert({
-//         accountId : accountId,
-//         webPropertyId : webPropertyId,
-//         profileId : profileId,
-//         resource : body
-//         })
-//     .withApiKey(browserAPIKey)
-//     .withAuthClient(oauth2Client)
-//     request.execute(function(err,result){
-//       if (err){
-//         console.log(err);
-//         res.send(402);          
-//       } else {
-//         console.log(result);
-//         res.send(200);
-//       }
-//     });
-//   });
-// }
-
-// var createGoal = function(){
-//   //TODO: make one google analytics object at the start and save it for all calls?
-//   googleapis
-//   .discover('analytics', 'v3')
-//   .execute(function(err, client){
-
-//   })
-// }
 
 
 
