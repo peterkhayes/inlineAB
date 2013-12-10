@@ -411,7 +411,7 @@ var app = angular.module('inlineAB', [])
         "experimentId": $scope.selectedTest.id,
         "body": {
           "name": $scope.selectedTest.name,
-          "status": "RUNNING", // perhaps later:   make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
+          "status": $scope.selectedTest.status, // perhaps later:   make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
           "objectiveMetric": 'ga:pageViews',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
           "variations": createVariationList()
           }
@@ -477,6 +477,11 @@ var app = angular.module('inlineAB', [])
         variations: JSON.stringify($scope.variations),
         snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
       }
+     }).then(function(data){
+      console.log(data);
+     },
+     function(err){
+      console.error(err);
      });
   };
 
