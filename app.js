@@ -28,10 +28,6 @@ app.use(express.favicon());
 app.use(express.static(path.join(__dirname, '/client')));
 app.use(express.bodyParser());
 
-//make OAuth Client
-var OAuth2Client = googleapis.OAuth2Client;
-var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
-
 // Route index.html
 app.get('/', function(req, res) {
   res.sendfile(path.join(__dirname, '/client/index.html'));
@@ -87,12 +83,12 @@ app.post('/tokenized', function(req,res){
     access_token: oAuthToken
   };
 
-  console.log(req.body.token)
+  console.log(req.body.token.access_token)
   console.log('serverAPI ', serverAPIKey)
   console.log('browserAPI ', browserAPIKey)
 
   console.log('posting to tokenized! ');
-  var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
+  // var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
   var body = {       
         "name": "firstAPICreatedExperiment",
         "status": "READY_TO_RUN",
@@ -182,7 +178,7 @@ app.post('/deleteExperiment', function(req,res){
         webPropertyId : req.body.webPropertyId,
         profileId : req.body.profileId,
         experimentId : req.body.experimentId
-        })
+        }, req.body.body)
     .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
     request.execute(function(err,result){
@@ -200,18 +196,11 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
-  var oAuthToken = req.body.access_token;
+  var oAuthToken = req.body.token.access_token;
 
   oauth2Client.credentials = {
     access_token: oAuthToken
   };
-
-  console.log('token: ', req.body.access_token);
-  console.log('otherROken: ', serverAPIKey);
-  console.log('body: ', req.body.body);
-  console.log('everything,' req.body);
-  console.log('oauth obj', oauth2Client);
-  console.log('token', oAuthToken);
 
   googleapis
   .discover('analytics', 'v3')
@@ -222,10 +211,7 @@ app.post('/createExperiment', function(req,res){
         profileId : req.body.profileId
         }, req.body.body)
     .withApiKey(serverAPIKey)
-    .withAuthClient(oauth2Client);
-
-    console.log('REQUEST: ', request);
-    
+    .withAuthClient(oauth2Client)
     request.execute(function(err,result){
       if (err){
         console.log(err);
@@ -238,6 +224,32 @@ app.post('/createExperiment', function(req,res){
   });
 });
 
+
+
+
+// var insertExperiment = function(accountId,webPropertyId,profileId,body){
+//   googleapis
+//   .discover('analytics', 'v3')
+//   .execute(function(err, client) {
+//     var request = client.analytics.management.experiments.insert({
+//         accountId : accountId,
+//         webPropertyId : webPropertyId,
+//         profileId : profileId,
+//         resource : body
+//         })
+//     .withApiKey(browserAPIKey)
+//     .withAuthClient(oauth2Client)
+//     request.execute(function(err,result){
+//       if (err){
+//         console.log(err);
+//         res.send(402);          
+//       } else {
+//         console.log(result);
+//         res.send(200);
+//       }
+//     });
+//   });
+// }
 
 // var createGoal = function(){
 //   //TODO: make one google analytics object at the start and save it for all calls?
@@ -265,6 +277,122 @@ app.post('/createExperiment', function(req,res){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+//withOpts
+
+// app.get('/experiments', function(req,res){
+//   res.sendfile(path.join(__dirname, './client/create_experiment.html'));
+// });
+
+// var errorHandler = function (error){
+// }
+
+
+// var listExperiments = function(){
+//   googleapis
+//   .discover('analytics', 'v3')
+//   .execute(function(err, client) {
+//     var request = client.analytics.management.experiments.list({
+//         accountId : accountId,
+//         webPropertyId : webPropertyId,
+//         profileId : profileId
+//         // resource : body
+//         })
+//     .withApiKey(browserAPIKey)
+//     .withAuthClient(oauth2Client)
+//       request.execute(function(err,result){
+//         if (err){
+//           console.log(err);
+//           res.send(402);          
+//         } else {
+//           console.log(result);
+//           res.send(200);
+//         }
+//       });
+//   });
+// }
+
+
+// https://www.googleapis.com/analytics/v3/management/accounts/accountId/webproperties/webPropertyId/profiles/profileId/experiments
+
+// var request = gapi.client.request({
+//   'path': '/analytics/v3/management/accounts/{accountId}/webproperties/{webPropertyId}/profiles/{profileId}/experiments',
+//   'method': 'POST',
+//   'body': JSON.stringify(requestBody)});
+//   request.execute(handleAccounts);
+// }
+
+//TODO: reformat as post request.
+  // var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
+  // googleapis
+  // .discover('analytics', 'v3')
+  // .execute(function(err, client) {
+  //   var request = client.request({
+  //     'path' : postURL,
+  //     'method': 'POST',
+  //     'body': JSON.stringify(body)
+  //   });
+  //   request.execute(function(err,result){
+  //     if (err){
+  //       console.log(err);
+  //       res.send(402, 'afdhiheio[hrfrio[hio[grrentttttttttt');          
+  //     } else {
+  //       console.log(result);
+  //       res.send(200);
+  //     }
+  //   });
+  // });
+
+
+
+
+// app.post('/experiment', function(req, res){
+//   console.log(req.body);
+
+
+// POST https://www.googleapis.com/analytics/v3/management/accounts/45896851/webproperties/UA-45896851-1/profiles/79295069/experiments?fields=accountId&key={YOUR_API_KEY}
+
+// Content-Type:  application/json
+// Authorization:  Bearer ya29.1.AADtN_UmkqEPq2kS1UrhGhsmEyxz71AzL4AZGVBeS72h2QAHLk3ONhl_jACK-SU
+// X-JavaScript-User-Agent:  Google APIs Explorer
+ 
+// {
+//  "name": "left-box-text",
+//  "status": "DRAFT",
+//  "variations": [
+//   {
+//    "name": "\"no javascript!\""
+//   },
+//   {
+//    "name": "\"html only!\""
+//   }
+//  ]
+// }
+// }
+  // request.post(
+  //     'http://www.yoursite.com/formpage',
+  //     { form: { key: 'value' } },
+  //     function (error, response, body) {
+  //         if (!error && response.statusCode == 200) {
+  //             console.log(body)
+  //         }
+  //     }
+  // );
+// });
+
+
+  //TODO: remove if unneeded.
 
 
 
