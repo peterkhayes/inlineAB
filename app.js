@@ -28,6 +28,8 @@ app.use(express.favicon());
 app.use(express.static(path.join(__dirname, '/client')));
 app.use(express.bodyParser());
 
+// Save reference to Oauth2Client
+var OAuth2Client = googleapis.OAuth2Client;
 
 
 
@@ -132,14 +134,11 @@ app.post('/tokenized', function(req,res){
 });
 
 app.post('/updateExperiment', function(req,res){
-  var OAuth2Client = googleapis.OAuth2Client;
   var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
-  var oAuthToken = req.body.token.access_token;
-
-  var oAuthToken = req.body.token;
+  var access_token = req.body.token.access_token;
 
   oauth2Client.credentials = {
-    access_token: oAuthToken
+    access_token: access_token
   };
 
   googleapis
@@ -168,12 +167,11 @@ app.post('/updateExperiment', function(req,res){
 
 
 app.post('/deleteExperiment', function(req,res){
-
-
-  var oAuthToken = req.body.token;
+  var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
+  var access_token = req.body.token.access_token;
 
   oauth2Client.credentials = {
-    access_token: oAuthToken
+    access_token: access_token
   };
 
   googleapis
@@ -203,12 +201,11 @@ app.post('/deleteExperiment', function(req,res){
 
 app.post('/createExperiment', function(req,res){
   // Create oAuth object
-  var OAuth2Client = googleapis.OAuth2Client;
   var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
-  var oAuthToken = req.body.token.access_token;
+  var access_token = req.body.token.access_token;
 
   oauth2Client.credentials = {
-    access_token: oAuthToken
+    access_token: access_token
   };
 
   googleapis

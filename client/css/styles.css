@@ -67,18 +67,15 @@ label {
 
 .download-page-editable-list .index {
   position: relative;
+  min-width: 50px;
+  display:inline-block;
   top: 3px;
   font-size: 25px;
 }
 
 .download-page-editable-list input {
-  margin-left: 25px;
   display: inline-block;
   width:180px;
-}
-
-.download-page-editable-list label {
-  width: 220px;
 }
 
 .download-page-editable-list .delete {
