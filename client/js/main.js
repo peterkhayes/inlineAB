@@ -358,7 +358,7 @@ var app = angular.module('inlineAB', [])
     $scope.toBeDeleted = null;
   };
 
-  var deleteTestFromGA = function(test){
+  $scope.deleteTestFromGA = function(test){
     var toErase = $scope.toBeDeleted;
     console.log("About to delete", toErase);
     $http({
