@@ -360,7 +360,7 @@ var app = angular.module('inlineAB', [])
     $scope.toBeDeleted = null;
   };
 
-  $scope.deleteTestFromGA = function(test){
+  $scope.deleteTestFromGA = function(){
     var toErase = $scope.toBeDeleted;
     $scope.toBeDeleted = null;
     console.log("About to delete", toErase);
@@ -376,7 +376,7 @@ var app = angular.module('inlineAB', [])
         }
     })
     .success(function() {
-      deleteTest(test);
+      deleteTest(toErase);
     })
     .error(function(err) {
       $scope.error.tests = err;
