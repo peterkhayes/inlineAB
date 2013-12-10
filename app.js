@@ -200,10 +200,10 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
-  var oAuthToken = req.body.token;
+  var oAuthToken = req.body.access_token;
 
-  console.log('token: ', req.body.token)
-  console.log('otherROken: ', req.body.serverAPIKey)
+  console.log('token: ', req.body.access_token)
+  console.log('otherROken: ', serverAPIKey)
   console.log('body: ', req.body)
 
   oauth2Client.credentials = {
