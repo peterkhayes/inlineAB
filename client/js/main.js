@@ -384,10 +384,7 @@ var app = angular.module('inlineAB', [])
   $scope.addTest = function() {
     var newTest = {name: "", variations: []};
     $scope.tests.push(newTest);
-    $scope.selectedTest = newTest;
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
+    $scope.selectTest(newTest);
   };
 
   $scope.deleteVariation = function(variation) {
@@ -396,9 +393,6 @@ var app = angular.module('inlineAB', [])
 
   $scope.addVariation = function() {
     $scope.variations.push({name: ""});
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
   };
 
   $scope.deleteGoal = function(goal) {
@@ -407,9 +401,6 @@ var app = angular.module('inlineAB', [])
 
   $scope.addGoal = function() {
     $scope.goals.push("");
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
   };
 
   var updateExperiment = function(){
