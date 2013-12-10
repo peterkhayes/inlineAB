@@ -40,7 +40,7 @@
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list' ng-click='selectTest(test)'>
           <label>
             <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' value='{{test.name}}' ng-enter='selectTest()'></input>
+            <input autofocus type='text' ng-model='test.name' ng-enter='selectTest()'></input>
             <span class='delete' ng-click='deleteTest(test)'>X</span>
           </label>
         </li>
@@ -55,7 +55,7 @@
         <li ng-repeat='variation in selectedTest.variations' class='download-page-editable-list'>
           <label>
             <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
+            <input autofocus type='text' ng-model='variation.name' ng-enter='addVariation()'></input>
             <span class='delete' ng-click='deleteVariation(variation)'>X</span>
           </label>
         </li>
@@ -69,7 +69,7 @@
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
           <label>
             <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' value='{{goal.name}}' ng-enter='addGoal()'></input>
+            <input autofocus type='text' ng-model='goal.name' ng-enter='addGoal()'></input>
             <span class='delete' ng-click='deleteGoal(goal)'>X</span>
           </label>
         </li>
