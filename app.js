@@ -133,7 +133,6 @@ app.post('/tokenized', function(req,res){
 
 app.post('/updateExperiment', function(req,res){
 
-  console.log(req.body);
 
   var oAuthToken = req.body.token;
 
@@ -203,17 +202,16 @@ app.post('/deleteExperiment', function(req,res){
 app.post('/createExperiment', function(req,res){
   var oAuthToken = req.body.access_token;
 
-  console.log('token: ', req.body.access_token);
-  console.log('otherROken: ', serverAPIKey);
-  console.log('body: ', req.body.body);
-  console.log('everything,' req.body);
-
   oauth2Client.credentials = {
     access_token: oAuthToken
   };
 
-  console.log('oauth obj', oauth2Client)
-  console.log('token', oAuthToken)
+  console.log('token: ', req.body.access_token);
+  console.log('otherROken: ', serverAPIKey);
+  console.log('body: ', req.body.body);
+  console.log('everything,' req.body);
+  console.log('oauth obj', oauth2Client);
+  console.log('token', oAuthToken);
 
   googleapis
   .discover('analytics', 'v3')
@@ -224,11 +222,14 @@ app.post('/createExperiment', function(req,res){
         profileId : req.body.profileId
         }, req.body.body)
     .withApiKey(serverAPIKey)
-    .withAuthClient(oauth2Client)
+    .withAuthClient(oauth2Client);
+
+    console.log('REQUEST: ', request);
+    
     request.execute(function(err,result){
       if (err){
         console.log(err);
-        res.send(405);          
+        res.send(402);          
       } else {
         console.log(result);
         res.send(200);
@@ -237,34 +238,6 @@ app.post('/createExperiment', function(req,res){
   });
 });
 
-
-
-// app.post('/createGoal', function)
-
-
-// var insertExperiment = function(accountId,webPropertyId,profileId,body){
-//   googleapis
-//   .discover('analytics', 'v3')
-//   .execute(function(err, client) {
-//     var request = client.analytics.management.experiments.insert({
-//         accountId : accountId,
-//         webPropertyId : webPropertyId,
-//         profileId : profileId,
-//         resource : body
-//         })
-//     .withApiKey(browserAPIKey)
-//     .withAuthClient(oauth2Client)
-//     request.execute(function(err,result){
-//       if (err){
-//         console.log(err);
-//         res.send(402);          
-//       } else {
-//         console.log(result);
-//         res.send(200);
-//       }
-//     });
-//   });
-// }
 
 // var createGoal = function(){
 //   //TODO: make one google analytics object at the start and save it for all calls?
@@ -292,22 +265,6 @@ app.post('/createExperiment', function(req,res){
 
 
 
-
-
-
-
-
-
-
-
-
-\
-
-
-
-
-
-  //TODO: remove if unneeded.
 
 
 
