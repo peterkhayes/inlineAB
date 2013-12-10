@@ -472,7 +472,8 @@ var app = angular.module('inlineAB', [])
   };
 
   var download = function() {
-    var snippet = $scope.selectedTest.snippet;
+    // var snippet = $scope.selectedTest.snippet;
+    var snippet = "<script> this is a snippit-- MY GOOGLE SNIPPIT </script>"; // $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
       method: "POST",
