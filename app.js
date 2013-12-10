@@ -193,12 +193,12 @@ app.post('/deleteExperiment', function(req,res){
   googleapis
   .discover('analytics', 'v3')
   .execute(function(err, client) {
-    var request = client.analytics.management.experiments.update({
+    var request = client.analytics.management.experiments.delete({
         accountId : req.body.accountId,
         webPropertyId : req.body.webPropertyId,
         profileId : req.body.profileId,
         experimentId : req.body.experimentId
-        }, req.body.body)
+        })
     .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
     request.execute(function(err,result){
