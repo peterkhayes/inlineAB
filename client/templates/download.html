@@ -40,7 +40,7 @@
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list' ng-click='selectTest(test)'>
           <span class='index'>{{$index + 1}}.</span>
           <input autofocus type='text' ng-model='test.name' ng-enter='selectTest()'></input>
-          <span class='delete' ng-click='deleteTest(test)'>X</span>
+          <span class='delete' ng-click='attemptToDeleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-editable-list'><button class='addMore tiny' ng-click='addTest()'>Add one</button></li>
       <div class='error'>{{error.tests}}</div>
