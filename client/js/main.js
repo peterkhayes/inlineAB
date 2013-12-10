@@ -354,7 +354,12 @@ var app = angular.module('inlineAB', [])
     }
   };
 
+  $scope.cancelDeletion = function() {
+    $scope.toBeDeleted = null;
+  };
+
   var deleteTestFromGA = function(test){
+    var toErase = $scope.toBeDeleted;
     $http({
       url: 'deleteExperiment',
       method: "POST",
