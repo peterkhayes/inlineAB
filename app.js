@@ -40,7 +40,7 @@ var OAuth2Client = googleapis.OAuth2Client;
 // });
 
 app.post('/downloadCustom', function(req, res){
-  console.log("Got a request to download custom script. Req is", req.body);
+  console.log("\n\n\n\n\n\n\n\n\n\n\n\n\Got a request to download custom script. Req is", req.body);
 
 
 
@@ -54,22 +54,22 @@ app.post('/downloadCustom', function(req, res){
   // response.attachment('inline.js');
 
   fs.readFile(filePath, 'utf8', function(err, file){
-    console.log("Here is our file:", file);
+    console.log("\n\n\n\n\nHere is our file:", file);
 
-    console.log(typeof file);
+    console.log("this is the TyYPE of the file: ", typeof file);
 
     var variationsText = "";
     
     for (var i = 0; i < req.body.variations.length; i++) {
-      variationsText += "'" + request.body.variations[i].name + "',";
+      variationsText += "'" + req.body.variations[i].name + "',";
     }
     
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     
-    file.replace("'PASTE-EXPERIMENT-ID'", "'" + request.body.experimentID + "'");
+    file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
     file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-    file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
-    console.log(file);
+    file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    console.log("\n\n\n\n\n\n\n\n\n\nThis should eb modified", file);
 
     // console.log("Here is our customized file:", file);
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
