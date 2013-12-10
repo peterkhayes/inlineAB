@@ -79,3 +79,9 @@
     </div>
   </div>
 </div>
+<div class='greyout' ng-show='toBeDeleted'></div>
+<div class='popup' ng-show='toBeDeleted'>
+  <h3>Are you sure you want to delete {{toBeDeleted.name}}?</h3>
+  <p><em>This cannot be undone!</em></p>
+  <button ng-click='deleteTestFromGA(toBeDeleted)'>Yes</button><button ng-click='cancelDeletion()'>No</button>
+</div>
