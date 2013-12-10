@@ -167,9 +167,6 @@ var app = angular.module('inlineAB', [])
 
   service.getTests = function(webProp) {
     var d = $q.defer();
-    console.log("Account ID:", service.account.id);
-    console.log("WebProp ID:", service.webProp.id);
-    console.log("Profile ID:", service.profile.id);
     gapi.client.analytics.management.experiments.list({
       accountId: service.account.id,
       webPropertyId: service.webProp.id,
@@ -309,7 +306,6 @@ var app = angular.module('inlineAB', [])
 
           // Got a list of variations!
           function(tests) {
-            console.log(tests);
             $scope.error.tests = null;
             $scope.loading.tests = false;
             $scope.tests = tests;
@@ -507,11 +503,3 @@ var app = angular.module('inlineAB', [])
     }
   };
 });
-
-
-// var wow = function() {
-//   console.log(["Wow.", "So analytics.", "Much testing.", "Very API."][Math.floor(Math.random()*4)]);
-//   setTimeout(wow, Math.random()*30000);
-// };
-
-// wow();

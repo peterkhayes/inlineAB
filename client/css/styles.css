@@ -74,10 +74,11 @@ label {
 .download-page-editable-list input {
   margin-left: 25px;
   display: inline-block;
+  width:180px;
 }
 
 .download-page-editable-list label {
-  width: 180px;
+  width: 220px;
 }
 
 .download-page-editable-list .delete {
