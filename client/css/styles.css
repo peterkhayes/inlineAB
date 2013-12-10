@@ -77,6 +77,12 @@ label {
   width: 180px;
 }
 
+.download-page-editable-list input.twoDigit {
+  margin-left: 15px;
+  display: inline-block;
+  width: 180px;
+}
+
 .download-page-editable-list .delete {
   position: relative;
   top: 4px;
