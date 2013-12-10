@@ -28,6 +28,10 @@ app.use(express.favicon());
 app.use(express.static(path.join(__dirname, '/client')));
 app.use(express.bodyParser());
 
+
+
+
+
 // Route index.html
 app.get('/', function(req, res) {
   res.sendfile(path.join(__dirname, '/client/index.html'));
@@ -196,6 +200,9 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
+  // Create oAuth object
+  var OAuth2Client = googleapis.OAuth2Client;
+  var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
   var oAuthToken = req.body.token.access_token;
 
   oauth2Client.credentials = {
