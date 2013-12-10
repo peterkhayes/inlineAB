@@ -378,8 +378,6 @@ var app = angular.module('inlineAB', [])
     .error(function(err) {
       $scope.error.tests = err;
     });
-
-    return d.promise;
   };
 
   $scope.addTest = function() {
