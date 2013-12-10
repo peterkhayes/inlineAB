@@ -382,7 +382,9 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.addTest = function() {
-    $scope.tests.push({name: ""});
+    var newTest = {name: "", variations: []};
+    $scope.tests.push(newTest);
+    $scope.selectedTest = newTest;
     setTimeout(function() {
       window.scrollTo(0, 5000);
     }, 20);
