@@ -28,9 +28,9 @@ app.use(express.favicon());
 app.use(express.static(path.join(__dirname, '/client')));
 app.use(express.bodyParser());
 
-//make OAuth Client
-var OAuth2Client = googleapis.OAuth2Client;
-var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
+
+
+
 
 // Route index.html
 app.get('/', function(req, res) {
@@ -87,12 +87,12 @@ app.post('/tokenized', function(req,res){
     access_token: oAuthToken
   };
 
-  console.log(req.body.token)
+  console.log(req.body.token.access_token)
   console.log('serverAPI ', serverAPIKey)
   console.log('browserAPI ', browserAPIKey)
 
   console.log('posting to tokenized! ');
-  var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
+  // var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
   var body = {       
         "name": "firstAPICreatedExperiment",
         "status": "READY_TO_RUN",
@@ -182,7 +182,7 @@ app.post('/deleteExperiment', function(req,res){
         webPropertyId : req.body.webPropertyId,
         profileId : req.body.profileId,
         experimentId : req.body.experimentId
-        })
+        }, req.body.body)
     .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
     request.execute(function(err,result){
@@ -200,11 +200,10 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
-  var oAuthToken = req.body.access_token;
-
-  console.log('token: ', req.body.access_token)
-  console.log('otherROken: ', serverAPIKey)
-  console.log('body: ', req.body)
+  // Create oAuth object
+  var OAuth2Client = googleapis.OAuth2Client;
+  var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
+  var oAuthToken = req.body.token.access_token;
 
   oauth2Client.credentials = {
     access_token: oAuthToken
@@ -233,8 +232,6 @@ app.post('/createExperiment', function(req,res){
 });
 
 
-
-// app.post('/createGoal', function)
 
 
 // var insertExperiment = function(accountId,webPropertyId,profileId,body){

@@ -413,7 +413,7 @@ var app = angular.module('inlineAB', [])
         "body": {
           "name": $scope.selectedTest.name,
           "status": "RUNNING", // perhaps later:   make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
-          "objectiveMetric": 'pageView',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "objectiveMetric": 'ga:pageViews',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
           "variations": createVariationList()
           }
         } //end data
@@ -443,7 +443,7 @@ var app = angular.module('inlineAB', [])
         "body": {
           "name": $scope.selectedTest.name,
           "status": "RUNNING", // make a dropdown menu--READY_TO_RUN, RUNNING, or DRAFT
-          "objectiveMetric": 'pageView',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
+          "objectiveMetric": 'ga:pageViews',  // The metric that the experiment is optimizing. Valid values: "ga:goal(n)Completions", "ga:bounces", "ga:pageviews", "ga:timeOnSite", "ga:transactions", "ga:transactionRevenue". This field is required if status is "RUNNING" and servingFramework is one of "REDIRECT" or "API".
           "variations": createVariationList()
           }
         } //end data
@@ -468,7 +468,8 @@ var app = angular.module('inlineAB', [])
   };
 
   var download = function() {
-    var snippet = $scope.selectedTest.snippet;
+    // var snippet = $scope.selectedTest.snippet;
+    var snippet = "<script> this is a snippit-- MY GOOGLE SNIPPIT </script>"; // $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
       method: "POST",
