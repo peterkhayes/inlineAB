@@ -358,8 +358,10 @@ var app = angular.module('inlineAB', [])
     $scope.toBeDeleted = null;
   };
 
-  var deleteTestFromGA = function(test){
+  $scope.deleteTestFromGA = function(test){
     var toErase = $scope.toBeDeleted;
+    $scope.toBeDeleted = null;
+    console.log("About to delete", toErase);
     $http({
       url: 'deleteExperiment',
       method: "POST",
@@ -377,8 +379,6 @@ var app = angular.module('inlineAB', [])
     .error(function(err) {
       $scope.error.tests = err;
     });
-
-    return d.promise;
   };
 
   $scope.addTest = function() {
