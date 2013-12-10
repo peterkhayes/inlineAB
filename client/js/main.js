@@ -360,6 +360,7 @@ var app = angular.module('inlineAB', [])
 
   var deleteTestFromGA = function(test){
     var toErase = $scope.toBeDeleted;
+    console.log("About to delete", toErase);
     $http({
       url: 'deleteExperiment',
       method: "POST",
