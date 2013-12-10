@@ -478,6 +478,11 @@ var app = angular.module('inlineAB', [])
         variations: JSON.stringify($scope.variations),
         snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
       }
+     }).then(function(data){
+      console.log(data);
+     },
+     function(err){
+      console.error(err);
      });
   };
 
