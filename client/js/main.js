@@ -348,7 +348,7 @@ var app = angular.module('inlineAB', [])
 
   var deleteTest = function(test) {
     $scope.error.tests = null;
-    $scope.tests.splice($scope.tests.indexOf(test), 1);
+    $scope.tests.splice($scope.tests.indexOf(test) - 1, 1);
     if ($scope.selectedTest === test) {
       $scope.selectedTest = $scope.tests[0] || null;
     }
