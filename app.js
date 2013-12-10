@@ -202,6 +202,10 @@ app.post('/deleteExperiment', function(req,res){
 app.post('/createExperiment', function(req,res){
   var oAuthToken = req.body.token;
 
+  console.log('token: ', req.body.token)
+  console.log('useless info: ' serverAPIKey)
+  console.log('body :', req.body)
+
   oauth2Client.credentials = {
     access_token: oAuthToken
   };
@@ -216,6 +220,9 @@ app.post('/createExperiment', function(req,res){
         }, req.body.body)
     .withApiKey(serverAPIKey)
     .withAuthClient(oauth2Client)
+
+    console.log(request);
+
     request.execute(function(err,result){
       if (err){
         console.log(err);
@@ -229,7 +236,7 @@ app.post('/createExperiment', function(req,res){
 });
 
 app.post('/createGoal', function(req,res){
-  
+
 })
 
 
