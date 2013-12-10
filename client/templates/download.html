@@ -38,11 +38,9 @@
       <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
       <ul ng-hide='loading.tests'>
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list' ng-click='selectTest(test)'>
-          <label>
-            <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' ng-model='test.name' ng-enter='selectTest()'></input>
-            <span class='delete' ng-click='deleteTest(test)'>X</span>
-          </label>
+          <span class='index'>{{$index + 1}}.</span>
+          <input autofocus type='text' ng-model='test.name' ng-enter='selectTest()'></input>
+          <span class='delete' ng-click='deleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-editable-list'><button class='addMore tiny' ng-click='addTest()'>Add one</button></li>
       <div class='error'>{{error.tests}}</div>
@@ -53,11 +51,9 @@
       <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
       <ul ng-show='selectedTest' ng-hide='loading.tests'>
         <li ng-repeat='variation in selectedTest.variations' class='download-page-editable-list'>
-          <label>
-            <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' ng-model='variation.name' ng-enter='addVariation()'></input>
-            <span class='delete' ng-click='deleteVariation(variation)'>X</span>
-          </label>
+          <span class='index'>{{$index + 1}}.</span>
+          <input autofocus type='text' ng-model='variation.name' ng-enter='addVariation()'></input>
+          <span class='delete' ng-click='deleteVariation(variation)'>X</span>
         </li>
         <li ng-hide='loading.variations' class='download-page-editable-list'><button class='addMore tiny' ng-click='addVariation()'>Add one</button></li>
       </ul>
@@ -67,11 +63,9 @@
       <img class='loading-spinner' src='img/ajax-loader.gif' ng-show='loading.tests'/>
       <ul ng-hide='loading.tests'>
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
-          <label>
-            <span class='index'>{{$index + 1}}.</span>
-            <input autofocus type='text' ng-model='goal.name' ng-enter='addGoal()'></input>
-            <span class='delete' ng-click='deleteGoal(goal)'>X</span>
-          </label>
+          <span class='index'>{{$index + 1}}.</span>
+          <input autofocus type='text' ng-model='goal.name' ng-enter='addGoal()'></input>
+          <span class='delete' ng-click='deleteGoal(goal)'>X</span>
         </li>
         <li ng-hide='loading.goals' class='download-page-editable-list'><button class='addMore tiny' ng-click='addgoal()'>Add more</button></li>
       <div class='error'>{{error.goals}}</div>

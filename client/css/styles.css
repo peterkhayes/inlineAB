@@ -77,10 +77,6 @@ label {
   width:180px;
 }
 
-.download-page-editable-list label {
-  width: 220px;
-}
-
 .download-page-editable-list .delete {
   position: relative;
   top: 4px;
