@@ -466,7 +466,7 @@ var app = angular.module('inlineAB', [])
   var createVariationList = function(){
     var variationList = [];
     for(var i = 0; i < $scope.variations.length; i++){
-      variationList.push({"name": $scope.variations[i], "url":"http://www.inlineab.com/"+i, "status":"ACTIVE"});
+      variationList.push({"name": $scope.variations[i].name, "url":"http://www.inlineab.com/"+i, "status":"ACTIVE"});
     }
     return variationList;
   };
