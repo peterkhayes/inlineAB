@@ -132,7 +132,9 @@ app.post('/tokenized', function(req,res){
 });
 
 app.post('/updateExperiment', function(req,res){
-
+  var OAuth2Client = googleapis.OAuth2Client;
+  var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
+  var oAuthToken = req.body.token.access_token;
 
   var oAuthToken = req.body.token;
 
