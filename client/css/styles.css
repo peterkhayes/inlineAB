@@ -118,4 +118,12 @@ label {
 
 .popup {
   z-index:11;
+  width: 50%;
+  border: 1px solid #DDD;
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -25%;
+  margin-top: -25%;
 }
