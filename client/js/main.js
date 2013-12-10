@@ -337,25 +337,29 @@ var app = angular.module('inlineAB', [])
     $scope.variations = test.variations;
   };
 
-  $scope.deleteTest = function(test) {
-    var toErase = $scope.tests.splice($scope.tests.indexOf(test), 1);
-    if(toErase.id){ //if its on GA....
-      // alert "are you sure you want to erase this?" && true
-      if(true){
-        deleteExperiment(toErase).then(
-          function(){
-          //alert succcessfully deleted.
-          },
-          function(err){
-            ///whaterver happens on an err
-          }
-        );
-      }
+  $scope.attemptToDeleteTest = function(test) {
+    // var toErase = $scope.tests.splice($scope.tests.indexOf(test), 1);
+    if(test.id){ // If the test has an ID, it's on the server, and we have to be careful.
+      $scope.toBeDeleted = test;
+    } else { // Otherwise just get rid of it.
+      deleteTest(test);
     }
   };
 
-  var deleteExperiment = function(toErase){
-    var d = $q.defer;
+  var deleteTest = function(test) {
+    $scope.error.tests = null;
+    $scope.tests.splice($scope.tests.indexOf(test), 1);
+    if ($scope.selectedTest === test) {
+      $scope.selectedTest = $scope.tests[0] || null;
+    }
+  };
+
+  $scope.cancelDeletion = function() {
+    $scope.toBeDeleted = null;
+  };
+
+  var deleteTestFromGA = function(test){
+    var toErase = $scope.toBeDeleted;
     $http({
       url: 'deleteExperiment',
       method: "POST",
@@ -365,13 +369,13 @@ var app = angular.module('inlineAB', [])
         "webPropertyId": google.webProp.id,
         "profileId": google.profile.id,
         "experimentId": toErase.id
-        } //end data
+        }
     })
     .success(function() {
-      d.resolve();
+      deleteTest(test);
     })
     .error(function(err) {
-      d.reject(err);
+      $scope.error.tests = err;
     });
 
     return d.promise;

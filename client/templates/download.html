@@ -40,7 +40,7 @@
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list' ng-click='selectTest(test)'>
           <span class='index'>{{$index + 1}}.</span>
           <input autofocus type='text' ng-model='test.name' ng-enter='selectTest()'></input>
-          <span class='delete' ng-click='deleteTest(test)'>X</span>
+          <span class='delete' ng-click='attemptToDeleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-editable-list'><button class='addMore tiny' ng-click='addTest()'>Add one</button></li>
       <div class='error'>{{error.tests}}</div>
@@ -78,4 +78,10 @@
       <br><br><button id='downloadButton' download='inlineAB.js' ng-click='saveAndDownload()'>Save and Download Customized Version</button>
     </div>
   </div>
+</div>
+<div class='greyout' ng-show='toBeDeleted'></div>
+<div class='popup' ng-show='toBeDeleted'>
+  <h3>Are you sure you want to delete {{toBeDeleted.name}}?</h3>
+  <p><em>This cannot be undone!</em></p>
+  <button ng-click='deleteTestFromGA()'>Delete</button><button ng-click='cancelDeletion()'>Cancel</button>
 </div>

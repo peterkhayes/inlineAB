@@ -104,3 +104,32 @@ label {
 .download-customization {
   min-height: 500px;
 }
+
+.greyout {
+  width:100%;
+  height:100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  opacity: 0.2;
+  background-color:black;
+  z-index:10;
+}
+
+.popup {
+  padding:30px;
+  z-index:11;
+  width: 50%;
+  border: 1px solid #DDD;
+  border-radius: 10px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -25%;
+  margin-top: -25%;
+  background-color: #FFF;
+}
+
+.popup button {
+  margin: 0 20px;
+}
