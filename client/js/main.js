@@ -382,10 +382,9 @@ var app = angular.module('inlineAB', [])
   };
 
   $scope.addTest = function() {
-    $scope.tests.push({name: ""});
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
+    var newTest = {name: "", variations: []};
+    $scope.tests.push(newTest);
+    $scope.selectTest(newTest);
   };
 
   $scope.deleteVariation = function(variation) {
@@ -394,9 +393,6 @@ var app = angular.module('inlineAB', [])
 
   $scope.addVariation = function() {
     $scope.variations.push({name: ""});
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
   };
 
   $scope.deleteGoal = function(goal) {
@@ -405,9 +401,6 @@ var app = angular.module('inlineAB', [])
 
   $scope.addGoal = function() {
     $scope.goals.push("");
-    setTimeout(function() {
-      window.scrollTo(0, 5000);
-    }, 20);
   };
 
   var updateExperiment = function(){
@@ -490,7 +483,6 @@ var app = angular.module('inlineAB', [])
       }
      });
   };
-});
 
   $scope.saveAndDownload = function(){
     if($scope.selectedTest.id){ // if the test already exists....
@@ -513,6 +505,7 @@ var app = angular.module('inlineAB', [])
       );
     }
   };
+});
 
 
 // var wow = function() {

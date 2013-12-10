@@ -39,7 +39,7 @@
       <ul ng-hide='loading.tests'>
         <li ng-class="{highlighted: test == selectedTest}" ng-repeat='test in tests' class='download-page-editable-list' ng-click='selectTest(test)'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{test.name}}' ng-enter='selectTest()'></input>
+          <input ng-class='{$index > 9 : twoDigit}' autofocus type='text' value='{{test.name}}' ng-enter='selectTest()'></input>
           <span class='delete' ng-click='deleteTest(test)'>X</span>
         </li>
         <li ng-hide='loading.tests' class='download-page-editable-list'><button class='addMore tiny' ng-click='addTest()'>Add one</button></li>
@@ -52,7 +52,7 @@
       <ul ng-show='selectedTest' ng-hide='loading.tests'>
         <li ng-repeat='variation in selectedTest.variations' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
+          <input ng-class='{$index > 9 : twoDigit}' autofocus type='text' value='{{variation.name}}' ng-enter='addVariation()'></input>
           <span class='delete' ng-click='deleteVariation(variation)'>X</span>
         </li>
         <li ng-hide='loading.variations' class='download-page-editable-list'><button class='addMore tiny' ng-click='addVariation()'>Add one</button></li>
@@ -64,7 +64,7 @@
       <ul ng-hide='loading.tests'>
         <li ng-repeat='goal in goals' class='download-page-editable-list'>
           <span class='index'>{{$index + 1}}.</span>
-          <input autofocus type='text' value='{{goal.name}}' ng-enter='addGoal()'></input>
+          <input ng-class='{$index > 9 : twoDigit}' autofocus type='text' value='{{goal.name}}' ng-enter='addGoal()'></input>
           <span class='delete' ng-click='deleteGoal(goal)'>X</span>
         </li>
         <li ng-hide='loading.goals' class='download-page-editable-list'><button class='addMore tiny' ng-click='addgoal()'>Add more</button></li>
