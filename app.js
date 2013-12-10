@@ -216,7 +216,6 @@ app.post('/deleteExperiment', function(req,res){
 
 
 app.post('/createExperiment', function(req,res){
-  // Create oAuth object
   var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
   var access_token = req.body.token.access_token;
 
@@ -247,40 +246,6 @@ app.post('/createExperiment', function(req,res){
 });
 
 
-
-
-// var insertExperiment = function(accountId,webPropertyId,profileId,body){
-//   googleapis
-//   .discover('analytics', 'v3')
-//   .execute(function(err, client) {
-//     var request = client.analytics.management.experiments.insert({
-//         accountId : accountId,
-//         webPropertyId : webPropertyId,
-//         profileId : profileId,
-//         resource : body
-//         })
-//     .withApiKey(browserAPIKey)
-//     .withAuthClient(oauth2Client)
-//     request.execute(function(err,result){
-//       if (err){
-//         console.log(err);
-//         res.send(402);          
-//       } else {
-//         console.log(result);
-//         res.send(200);
-//       }
-//     });
-//   });
-// }
-
-// var createGoal = function(){
-//   //TODO: make one google analytics object at the start and save it for all calls?
-//   googleapis
-//   .discover('analytics', 'v3')
-//   .execute(function(err, client){
-
-//   })
-// }
 
 
 
