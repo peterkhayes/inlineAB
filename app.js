@@ -39,44 +39,55 @@ var OAuth2Client = googleapis.OAuth2Client;
 //   res.sendfile(path.join(__dirname, '/client/index.html'));
 // });
 
-// app.post('/downloadCustom', function(req, res){
-//   console.log("Got a request to download custom script. Req is", req);
-
-//   var request = req;
-//   var response = res;
-//   var filePath = __dirname + '/client/js/inlineAB.js';
-//   var filename = path.basename(filePath);
-
-//   response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
-//   response.setHeader('Content-type', 'text/plain');
-//   // response.attachment('inline.js');
-
-//   fs.readFile(filePath, 'utf8', function(err, file){
-//     // console.log("Here is our file:", file);
-
-//     var variationsText = "";
-    
-//     for (var i = 0; i < request.body.variations.length; i++) {
-//       variationsText += "'" + request.body.variations[i].name + "',";
-//     }
-    
-//     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
-    
-//     file.replace("'PASTE-EXPERIMENT-ID'", "'" + request.body.experimentID + "'");
-//     file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-//     file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
-
-//     // console.log("Here is our customized file:", file);
-//     console.log('returning file');
-//     response.end(file);
-//   });
-
-// });
-
 app.post('/downloadCustom', function(req, res){
-  var file = __dirname + '/client/js/inlineAB.js';
-  res.download(file); // Set disposition and send it.
+  console.log("Got a request to download custom script. Req is", req.body);
+
+
+
+  // var request = req;
+  // var response = res;
+  var filePath = __dirname + '/client/js/inlineAB.js';
+  var filename = path.basename(filePath);
+
+  // response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
+  // response.setHeader('Content-type', 'text/plain');
+  // response.attachment('inline.js');
+
+  fs.readFile(filePath, 'utf8', function(err, file){
+    console.log("Here is our file:", file);
+
+    console.log(typeof file);
+
+    var variationsText = "";
+    
+    for (var i = 0; i < req.body.variations.length; i++) {
+      variationsText += "'" + request.body.variations[i].name + "',";
+    }
+    
+    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    
+    file.replace("'PASTE-EXPERIMENT-ID'", "'" + request.body.experimentID + "'");
+    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
+    file.replace("/* CONTENT EXPERIMENT SCRIPT */", request.body.snippet);
+    console.log(file);
+
+    // console.log("Here is our customized file:", file);
+    res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
+    res.setHeader('Content-type', 'text/plain');
+    res.charset = 'UTF-8';
+    res.write(file);
+    res.end();
+  });
+
 });
+
+
+
+
+// app.get('/downloadCustom', function(req, res){
+//   var file = __dirname + '/client/js/inlineAB.js';
+//   res.download(file); // Set disposition and send it.
+// });
 
 /*
 
