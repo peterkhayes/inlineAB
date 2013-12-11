@@ -39,7 +39,7 @@ var OAuth2Client = googleapis.OAuth2Client;
 //   res.sendfile(path.join(__dirname, '/client/index.html'));
 // });
 
-app.post('/downloadCustom', function(req, res){
+app.get('/downloadCustom', function(req, res){
 
   console.log(req.body);
 
