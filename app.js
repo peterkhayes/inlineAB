@@ -40,10 +40,7 @@ var OAuth2Client = googleapis.OAuth2Client;
 // });
 
 app.post('/downloadCustom', function(req, res){
-  console.log("\n\n\n\n\n\n\n\n\n\n\n\n\Got a request to download custom script. Req is", req.body);
-
-
-
+  // console.log("\n\n\n\n\n\n\n\n\n\n\n\n\Got a request to download custom script. Req is", req.body);
   // var request = req;
   // var response = res;
   var filePath = __dirname + '/client/js/inlineAB.js';
@@ -72,11 +69,10 @@ app.post('/downloadCustom', function(req, res){
     console.log("\n\n\n\n\n\n\n\n\n\nThis should eb modified", file);
 
     // console.log("Here is our customized file:", file);
-    res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
-    res.setHeader('Content-type', 'text/plain');
-    res.charset = 'UTF-8';
-    res.write(file);
-    res.end();
+    // res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
+    // res.setHeader('Content-type', 'text/plain');
+    // res.charset = 'UTF-8';
+    res.download(file);
   });
 
 });
