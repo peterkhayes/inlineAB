@@ -41,6 +41,10 @@ var OAuth2Client = googleapis.OAuth2Client;
 
 app.post('/downloadCustom', function(req, res){
 
+  console.log(req.body);
+
+  console.log('WE ARE WORKING WITH THIS VERSION')
+
   var filePath = __dirname + '/client/js/inlineAB.js';
 
   fs.readFile(filePath, function(err, inlineABjs){
