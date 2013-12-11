@@ -55,7 +55,7 @@ app.post('/downloadCustom', function(req, res){
     var variationsText = "";
     
     for (var i = 0; i < variationsArray.length; i++) {
-      variationsText += "'" + variationsArray.name + "',";
+      variationsText += "'" + variationsArray[i].name + "',";
     }
 
     console.log('variATIONS TEXT', variationsText)
