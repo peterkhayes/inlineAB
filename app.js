@@ -47,14 +47,18 @@ app.post('/downloadCustom', function(req, res){
 
   var filePath = __dirname + '/client/js/inlineAB.js';
 
+  var variationsArray = JSON.parse(req.body.variations);
+
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
     
     var variationsText = "";
     
-    for (var i = 0; i < req.body.variations.length; i++) {
-      variationsText += "'" + req.body.variations[i].name + "',";
+    for (var i = 0; i < req.body.variationsArray.length; i++) {
+      variationsText += "'" + req.body.variationsArray.name + "',";
     }
+
+    console.log('variATIONS TEXT', variationsText)
     
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     
