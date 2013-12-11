@@ -40,21 +40,12 @@ var OAuth2Client = googleapis.OAuth2Client;
 // });
 
 app.post('/downloadCustom', function(req, res){
-  // console.log("\n\n\n\n\n\n\n\n\n\n\n\n\Got a request to download custom script. Req is", req.body);
-  // var request = req;
-  // var response = res;
+
   var filePath = __dirname + '/client/js/inlineAB.js';
-  var filename = path.basename(filePath);
 
-  // response.setHeader('Content-disposition', 'attachment; filename=inlineab.js');
-  // response.setHeader('Content-type', 'text/plain');
-  // response.attachment('inline.js');
-
-  fs.readFile(filePath, 'utf8', function(err, file){
-    console.log("\n\n\n\n\nHere is our file:", file);
-
-    console.log("this is the TyYPE of the file: ", typeof file);
-
+  fs.readFile(filePath, function(err, inlineABjs){
+    var inlineABstring = inlineABjs.toString();
+    
     var variationsText = "";
     
     for (var i = 0; i < req.body.variations.length; i++) {
@@ -63,27 +54,16 @@ app.post('/downloadCustom', function(req, res){
     
     variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     
-    file.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'");
-    file.replace("['VARIATION1', 'VARIATION2']", variationsText);
-    file.replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
-    console.log("\n\n\n\n\n\n\n\n\n\nThis should eb modified", file);
-
-    // console.log("Here is our customized file:", file);
-    // res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
-    // res.setHeader('Content-type', 'text/plain');
-    // res.charset = 'UTF-8';
-    res.download(file);
+    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'").replace("['VARIATION1', 'VARIATION2']", variationsText).replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    
+    res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
+    res.setHeader('Content-type', 'text/plain');
+    res.charset = 'UTF-8';
+    res.write(customizedScript);
+    res.end();
   });
-
 });
 
-
-
-
-// app.get('/downloadCustom', function(req, res){
-//   var file = __dirname + '/client/js/inlineAB.js';
-//   res.download(file); // Set disposition and send it.
-// });
 
 /*
 
@@ -92,58 +72,6 @@ app.post('/downloadCustom', function(req, res){
 
 
 */
-
-app.post('/tokenized', function(req,res){
-
-  var oAuthToken = req.body.token;
-
-  oauth2Client.credentials = {
-    access_token: oAuthToken
-  };
-
-  console.log(req.body.token.access_token)
-  console.log('serverAPI ', serverAPIKey)
-  console.log('browserAPI ', browserAPIKey)
-
-  console.log('posting to tokenized! ');
-  // var postURL = '/analytics/v3/management/accounts/'+accountId+'/webproperties/'+webPropertyId+'/profiles/'+profileId+'/experiments?fields=accountId&key='+ serverAPIKey;
-  var body = {       
-        "name": "firstAPICreatedExperiment",
-        "status": "READY_TO_RUN",
-        "objectiveMetric":"ga:bounces",
-        "variations": [
-          { "name": "very javascript!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" },
-          { "name": "so html!", "url":"http://www.inlineAB.azurewebsites.net", "status":"ACTIVE" }
-         ]
-       };
-
-  var headers = {
-    "Content-Type": "application/json",
-    "Authorization": "Bearer "+ oAuthToken
-  };
-
-
-  googleapis
-  .discover('analytics', 'v3')
-  .execute(function(err, client) {
-    var request = client.analytics.management.experiments.insert({
-        accountId : accountId,
-        webPropertyId : webPropertyId,
-        profileId : profileId
-        }, body)
-    .withApiKey(serverAPIKey)
-    .withAuthClient(oauth2Client)
-    request.execute(function(err,result){
-      if (err){
-        console.log(err);
-        res.send(402, 'Success! Successfully up the wire');          
-      } else {
-        console.log(result);
-        res.send(200);
-      }
-    });
-  });
-});
 
 app.post('/updateExperiment', function(req,res){
   var oauth2Client = new OAuth2Client(clientId, clientSecret, redirectURL);
