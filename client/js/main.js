@@ -478,7 +478,7 @@ var app = angular.module('inlineAB', [])
     var snippet = "<script> this is a snippit-- MY GOOGLE SNIPPIT </script>"; // $scope.selectedTest.snippet;
     $http({
       url: 'downloadCustom',
-      method: "POST",
+      method: "GET",
       data: {
         experimentID: $scope.selectedTest.id,
         variations: JSON.stringify($scope.variations),
