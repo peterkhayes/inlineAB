@@ -45,9 +45,12 @@ app.get('/downloadCustom/*/*/*', function(req, res){
   // console.log('start request body:')
   // console.log(req);
   // console.log('end request body')
-  var testID = req.body.params[0];
-  var variations = JSON.parse(req.body.params[1]);
-  var snippitID = req.body.params[2];
+  console.log("-------------------")
+  console.log("url=", req.url)
+  console.log("-------------------")
+  var testID = req.url[0];
+  var variations = JSON.parse(req.url[1]);
+  var snippitID = req.url[2];
   console.log('restID', testID);
   console.log('variations', variations);
   console.log('snippitID', snippitID);
