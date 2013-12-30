@@ -486,7 +486,7 @@ var app = angular.module('inlineAB', [])
     var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
     var fullURL = [$scope.selectedTest.id, JSON.stringify(getVariationNames($scope.variations)), snippet].join("/");
     $http({
-      url: 'downloadCustom?' + fullURL,
+      url: 'downloadCustom' + fullURL,
       method: "GET"
       // data: {
       //   experimentID: $scope.selectedTest.id,
