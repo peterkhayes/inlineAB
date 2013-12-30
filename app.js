@@ -4,6 +4,7 @@ var path = require('path');
 var googleapis = require('googleapis');
 var restler = require('restler');
 var fs = require('fs');
+var qs = require('qs');
 
 
 var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net';
@@ -39,11 +40,18 @@ var OAuth2Client = googleapis.OAuth2Client;
 //   res.sendfile(path.join(__dirname, '/client/index.html'));
 // });
 
-app.get('/downloadCustom', function(req, res){
-  
-  console.log('start request body:')
-  console.log(req);
-  console.log('end request body')
+app.get('/downloadCustom/*/*/*', function(req, res){
+  // var data = qs.parse(req.body.params);
+  // var data = url_parts.parse(req.url, true);
+  // console.log('start request body:')
+  // console.log(req);
+  // console.log('end request body')
+  var testID = req.body.params[0];
+  var variations = JSON.parse(req.body.params[1]);
+  var snippitID = req.body.params[2];
+  console.log('restID', testID);
+  console.log('variations', variations);
+  console.log('snippitID', snippitID);
 
   var filePath = __dirname + '/client/js/inlineAB.js';
 

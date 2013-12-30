@@ -1,7 +1,6 @@
 
 var app = angular.module('inlineAB', [])
 .config(function($routeProvider, $locationProvider) {
-// .config(function(['$routeProvider']) {
   $routeProvider.when("/", {templateUrl: 'templates/home.html'})
   .when("/getting-started", {templateUrl: 'templates/getting-started.html'})
   .when("/download", {controller: 'download', templateUrl: 'templates/download.html'})
@@ -476,15 +475,17 @@ var app = angular.module('inlineAB', [])
 
   var download = function() {
     // var snippet = $scope.selectedTest.snippet;
-    var snippet = "<script> this is a snippit-- MY GOOGLE SNIPPIT </script>"; // $scope.selectedTest.snippet;
+    var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
+    var fullURL = [$scope.selectedTest.id, JSON.stringify($scope.variations), snippet].join("/");
     $http({
-      url: 'downloadCustom',
-      method: "GET",
-      data: {
-        experimentID: $scope.selectedTest.id,
-        variations: JSON.stringify($scope.variations),
-        snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
-      }
+      url: 'downloadCustom?' + fullURL,
+      method: "GET"
+      // data: {
+      //   experimentID: $scope.selectedTest.id,
+      //   variations: JSON.stringify($scope.variations),
+      //   snippet: snippet
+      //   // snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
+      // }
      }).then(function(data){
       console.log(data);
      },
