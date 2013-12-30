@@ -57,9 +57,11 @@ app.get('/downloadCustom', function(req, res){
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
     res.setHeader('Content-type', 'text/plain');
     res.charset = 'UTF-8';
-    res.download(customizedScript)
-    // res.write(customizedScript);
-    // res.end();
+
+    // res.download(customizedScript);
+    console.log("got this far;");
+    res.download(customizedScript);
+    res.end();
   });
 });
 
