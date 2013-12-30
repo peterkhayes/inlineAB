@@ -59,8 +59,7 @@ app.get('/downloadCustom', function(req, res){
     res.charset = 'UTF-8';
 
     // res.download(customizedScript);
-    console.log("got this far;");
-    res.download(customizedScript);
+    res.attachment(customizedScript);
     res.end();
   });
 });
