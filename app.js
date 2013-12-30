@@ -4,6 +4,7 @@ var path = require('path');
 var googleapis = require('googleapis');
 var restler = require('restler');
 var fs = require('fs');
+var url = require('url');
 
 
 var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net';
