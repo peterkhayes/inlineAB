@@ -49,10 +49,10 @@ app.get('/downloadCustom/*/*/*', function(req, res){
   console.log("url=", req.url)
   console.log("-------------------")
   var testID = req.url[0];
-  var variations = JSON.parse(req.url[1]);
-  var snippitID = req.url[2];
   console.log('restID', testID);
+  var variations = req.url[1];
   console.log('variations', variations);
+  var snippitID = req.url[2];
   console.log('snippitID', snippitID);
 
   var filePath = __dirname + '/client/js/inlineAB.js';
