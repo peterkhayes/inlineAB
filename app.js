@@ -39,14 +39,15 @@ var OAuth2Client = googleapis.OAuth2Client;
 //   res.sendfile(path.join(__dirname, '/client/index.html'));
 // });
 
-app.get('/downloadCustom/*/*/*', function(req, res){
+app.get('/downloadCustom', function(req, res){
   // var data = qs.parse(req.body.params);
   // var data = url_parts.parse(req.url, true);
   // console.log('start request body:')
   // console.log(req);
   // console.log('end request body')
+  var urlData = url.parse(req.url,true).query;
   console.log("-------------------")
-  console.log("url=", req.url)
+  console.log("urlDATA=", urlData)
   console.log("-------------------")
   var testID = req.url[0];
   console.log('restID', testID);

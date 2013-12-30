@@ -486,9 +486,9 @@ var app = angular.module('inlineAB', [])
     var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
     console.log("expID", $scope.selectedTest.id);
     var expID = $scope.selectedTest.id || "expid"
-    var fullURL = [expID, JSON.stringify(getVariationNames($scope.variations)), snippet].join("/");
+    var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet].join("&");
     $http({
-      url: 'downloadCustom/' + fullURL,
+      url: 'downloadCustom?' + fullURL,
       method: "GET"
       // data: {
       //   experimentID: $scope.selectedTest.id,
