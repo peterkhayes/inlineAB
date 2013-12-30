@@ -473,10 +473,18 @@ var app = angular.module('inlineAB', [])
     return variationList;
   };
 
+  var getVariationNames = function(variationList){
+    var variationNames = [];
+    for (var i = 0; i < variationList.length; i++) {
+      variationNames.push(variationList[i]['name']);
+    };
+    return variationNames;
+  };
+
   var download = function() {
     // var snippet = $scope.selectedTest.snippet;
     var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
-    var fullURL = [$scope.selectedTest.id, JSON.stringify($scope.variations), snippet].join("/");
+    var fullURL = [$scope.selectedTest.id, JSON.stringify(getVariationNames($scope.variations)), snippet].join("/");
     $http({
       url: 'downloadCustom?' + fullURL,
       method: "GET"
