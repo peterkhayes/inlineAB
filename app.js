@@ -51,20 +51,20 @@ app.get('/downloadCustom', function(req, res){
   console.log("urlDATA=", urlData)
   console.log("-------------------")
   var expID = urlData.expID;
-  console.log('testID', expID);
+  console.log('testID==>', expID);
   var variations = urlData.vars + ';';
-  console.log('variations', variations);
+  console.log('variations==>', variations);
   var snippitID = urlData.snipID;
-  console.log('snippitID', snippitID);
+  console.log('snippitID==>', snippitID);
 
   var filePath = __dirname + '/client/js/inlineAB.js';
 
-  var variationsArray = JSON.parse(req.body.variations);
 
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
 
 
+  // var variationsArray = JSON.parse(req.body.variations);
     // var variationsText = var
     
     // for (var i = 0; i < variations.length; i++) {
