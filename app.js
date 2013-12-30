@@ -75,7 +75,7 @@ app.get('/downloadCustom', function(req, res){
     
     // variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     
-    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'").replace("['VARIATION1', 'VARIATION2']", variations).replace("/* CONTENT EXPERIMENT SCRIPT */", snipID);
+    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'").replace("['VARIATION1', 'VARIATION2']", variations).replace("/* CONTENT EXPERIMENT SCRIPT */", snippitID);
     
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
     res.setHeader('Content-type', 'text/plain');
