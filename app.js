@@ -41,56 +41,32 @@ var OAuth2Client = googleapis.OAuth2Client;
 // });
 
 app.get('/downloadCustom', function(req, res){
-  // var data = qs.parse(req.body.params);
-  // var data = url_parts.parse(req.url, true);
-  // console.log('start request body:')
-  // console.log(req);
-  // console.log('end request body')
+
   var urlData = url.parse(req.url,true).query;
-  console.log("-------------------")
-  console.log("urlDATA=", urlData)
-  console.log("-------------------")
   var expID = urlData.expID;
-  console.log('testID==>', expID);
-  var variations = urlData.vars + ';';
-  console.log('variations==>', variations);
+  var variations = urlData.vars;
   var snippitID = urlData.snipID;
-  console.log('snippitID==>', snippitID);
 
   var filePath = __dirname + '/client/js/inlineAB.js';
 
-
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
-
-
-  // var variationsArray = JSON.parse(req.body.variations);
-    // var variationsText = var
-    
-    // for (var i = 0; i < variations.length; i++) {
-    //   variationsText += "'" + variations[i] + "',";
-    // }
-
-    // console.log('variATIONS TEXT', variationsText)
-    
-    // variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
     
     var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'").replace("['VARIATION1', 'VARIATION2']", variations).replace("/* CONTENT EXPERIMENT SCRIPT */", snippitID);
     
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
     res.setHeader('Content-type', 'text/plain');
     res.charset = 'UTF-8';
-    res.write(customizedScript);
-    res.end();
+    res.download(customizedScript)
+    // res.write(customizedScript);
+    // res.end();
   });
 });
 
 
 /*
 
-
         THIS IS A LARGE BLOCK COMMENT.
-
 
 */
 
