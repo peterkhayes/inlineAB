@@ -40,10 +40,10 @@ var OAuth2Client = googleapis.OAuth2Client;
 // });
 
 app.get('/downloadCustom', function(req, res){
-
-  console.log(req.body);
-
-  console.log('WE ARE WORKING WITH THIS VERSION')
+  
+  console.log('start request body:')
+  console.log(req);
+  console.log('end request body')
 
   var filePath = __dirname + '/client/js/inlineAB.js';
 

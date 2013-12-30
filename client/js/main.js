@@ -1,6 +1,7 @@
 
 var app = angular.module('inlineAB', [])
-.config(function($routeProvider, $locationProvider) {
+config(function($routeProvider, $locationProvider) {
+// .config(function(['$routeProvider']) {
   $routeProvider.when("/", {templateUrl: 'templates/home.html'})
   .when("/getting-started", {templateUrl: 'templates/getting-started.html'})
   .when("/download", {controller: 'download', templateUrl: 'templates/download.html'})
