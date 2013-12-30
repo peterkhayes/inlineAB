@@ -50,11 +50,11 @@ app.get('/downloadCustom', function(req, res){
   console.log("-------------------")
   console.log("urlDATA=", urlData)
   console.log("-------------------")
-  var testID = req.url[0];
-  console.log('restID', testID);
-  var variations = req.url[1];
+  var expID = urlData.expID;
+  console.log('testID', testID);
+  var variations = urlData.vars + ';';
   console.log('variations', variations);
-  var snippitID = req.url[2];
+  var snippitID = urlData.snipID;
   console.log('snippitID', snippitID);
 
   var filePath = __dirname + '/client/js/inlineAB.js';
@@ -63,18 +63,19 @@ app.get('/downloadCustom', function(req, res){
 
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
-    
-    var variationsText = "";
-    
-    for (var i = 0; i < variationsArray.length; i++) {
-      variationsText += "'" + variationsArray[i].name + "',";
-    }
 
-    console.log('variATIONS TEXT', variationsText)
+
+    // var variationsText = var
     
-    variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    // for (var i = 0; i < variations.length; i++) {
+    //   variationsText += "'" + variations[i] + "',";
+    // }
+
+    // console.log('variATIONS TEXT', variationsText)
     
-    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + req.body.experimentID + "'").replace("['VARIATION1', 'VARIATION2']", variationsText).replace("/* CONTENT EXPERIMENT SCRIPT */", req.body.snippet);
+    // variationsText = "[" + variationsText.slice(0, variationsText.length - 1) + "];";
+    
+    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'").replace("['VARIATION1', 'VARIATION2']", variations).replace("/* CONTENT EXPERIMENT SCRIPT */", snipID);
     
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
     res.setHeader('Content-type', 'text/plain');
