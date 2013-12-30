@@ -51,7 +51,7 @@ app.get('/downloadCustom', function(req, res){
   console.log("urlDATA=", urlData)
   console.log("-------------------")
   var expID = urlData.expID;
-  console.log('testID', testID);
+  console.log('testID', expID);
   var variations = urlData.vars + ';';
   console.log('variations', variations);
   var snippitID = urlData.snipID;
