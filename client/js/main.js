@@ -487,21 +487,22 @@ var app = angular.module('inlineAB', [])
     console.log("expID", $scope.selectedTest.id);
     var expID = $scope.selectedTest.id || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet].join("&");
-    $http({
-      url: 'downloadCustom?' + fullURL,
-      method: "GET"
-      // data: {
-      //   experimentID: $scope.selectedTest.id,
-      //   variations: JSON.stringify($scope.variations),
-      //   snippet: snippet
-      //   // snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
-      // }
-     }).then(function(data){
-      console.log(data);
-     },
-     function(err){
-      console.error(err);
-     });
+    window.open('/download/' + fullURL);
+    // $http({
+    //   url: 'downloadCustom?' + fullURL,
+    //   method: "GET"
+    //   // data: {
+    //   //   experimentID: $scope.selectedTest.id,
+    //   //   variations: JSON.stringify($scope.variations),
+    //   //   snippet: snippet
+    //   //   // snippet: snippet.slice(snippet.indexOf('<script>') + 8, snippet.lastIndexOf('</script>')).replace("</script><script>", "")
+    //   // }
+    //  }).then(function(data){
+    //   console.log(data);
+    //  },
+    //  function(err){
+    //   console.error(err);
+    //  });
   };
 
   $scope.saveAndDownload = function(){
