@@ -487,7 +487,7 @@ var app = angular.module('inlineAB', [])
     console.log("expID", $scope.selectedTest.id);
     var expID = $scope.selectedTest.id || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet].join("&");
-    window.open('/download/' + fullURL);
+    window.open('/downloadCustom?' + fullURL);
     // $http({
     //   url: 'downloadCustom?' + fullURL,
     //   method: "GET"
