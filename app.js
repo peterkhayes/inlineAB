@@ -52,8 +52,7 @@ app.get('/downloadCustom', function(req, res){
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
     
-    var customizedScript = inlineABstring
-    .replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'")
+    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'")
     .replace("['VARIATION1', 'VARIATION2']", variations)
     .replace("UA-XXXXXXXX-X", snippetID),
     .replace("SNIPPITWEBSITE", snippetSite);
