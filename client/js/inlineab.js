@@ -14,7 +14,14 @@
    var experimentID = 'PASTE-EXPERIMENT-ID';
    var variations = ['VARIATION1', 'VARIATION2'];
 
-  /* CONTENT EXPERIMENT SCRIPT */
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-XXXXXXXX-X', 'SNIPPITSITE');
+  ga('send', 'pageview');
+
 
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1

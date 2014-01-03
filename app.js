@@ -45,14 +45,18 @@ app.get('/downloadCustom', function(req, res){
   var urlData = url.parse(req.url,true).query;
   var expID = urlData.expID;
   var variations = urlData.vars;
-  var snippitID = urlData.snipID;
-
+  var snippetID = urlData.snipID;
+  var snippetSite = urlData.snipSite;
   var filePath = __dirname + '/client/js/inlineAB.js';
 
   fs.readFile(filePath, function(err, inlineABjs){
     var inlineABstring = inlineABjs.toString();
     
-    var customizedScript = inlineABstring.replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'").replace("['VARIATION1', 'VARIATION2']", variations).replace("/* CONTENT EXPERIMENT SCRIPT */", snippitID);
+    var customizedScript = inlineABstring
+    .replace("'PASTE-EXPERIMENT-ID'", "'" + expID + "'")
+    .replace("['VARIATION1', 'VARIATION2']", variations)
+    .replace("UA-XXXXXXXX-X", snippetID),
+    .replace("SNIPPITWEBSITE", snippetSite);
     
     res.setHeader('Content-disposition', 'attachment; filename=inlineAB.js');
     res.setHeader('Content-type', 'text/plain');
