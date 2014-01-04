@@ -483,6 +483,9 @@ var app = angular.module('inlineAB', [])
 
   var download = function() {
     var snippetSite = $scope.webProps[0].websiteUrl;
+    if(snippetSite.search("http://") !== -1){
+      snippetSite = snippetSite.substr(7);  // substr to cut off the 'http://' if it exists
+    }
     var snippet = $scope.webProps[0].id;
     var expID = $scope.selectedTest.id || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet, "snipSite=" + snippetSite].join("&");
