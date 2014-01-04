@@ -495,9 +495,7 @@ var app = angular.module('inlineAB', [])
   $scope.saveAndDownload = function(){
     if($scope.selectedTest.id){ // if the test already exists....
       updateExperiment().then(
-        function(data) {
-          debugger;
-          //TODO: send download the newly created EXP ID
+        function() {
           download();
         },
         function(err) {
@@ -506,7 +504,9 @@ var app = angular.module('inlineAB', [])
       );
     } else { // if its brand new...
       createExperiment().then(
-        function() {
+        function(data) {
+          debugger;
+          //TODO: send download the newly created EXP ID
           download();
         },
         function(err) {
