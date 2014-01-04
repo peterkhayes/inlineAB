@@ -165,8 +165,11 @@ app.post('/createExperiment', function(req,res){
         console.log(err);
         res.send(402);          
       } else {
-        console.log(result);
-        res.send(200);
+        console.log("------------------------------------");
+        console.log("made new test ", result);
+        console.log("------------------------------------");
+
+        res.send(201);
       }
     });
   });
