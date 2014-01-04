@@ -481,13 +481,13 @@ var app = angular.module('inlineAB', [])
     return variationNames;
   };
 
-  var download = function() {
+  var download = function(expID) {
     var snippetSite = $scope.webProps[0].websiteUrl;
     if(snippetSite.search("http://") !== -1){
       snippetSite = snippetSite.substr(7);  // substr to cut off the 'http://' if it exists
     }
     var snippet = $scope.webProps[0].id;
-    var expID = $scope.selectedTest.id || "expid"
+    expID = $scope.selectedTest.id || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet, "snipSite=" + snippetSite].join("&");
     window.open('/downloadCustom?' + fullURL);
   };
@@ -495,7 +495,9 @@ var app = angular.module('inlineAB', [])
   $scope.saveAndDownload = function(){
     if($scope.selectedTest.id){ // if the test already exists....
       updateExperiment().then(
-        function() {
+        function(data) {
+          debugger;
+          //TODO: send download the newly created EXP ID
           download();
         },
         function(err) {
