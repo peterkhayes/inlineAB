@@ -483,6 +483,7 @@ var app = angular.module('inlineAB', [])
 
   var download = function() {
     // var snippet = $scope.selectedTest.snippet;
+    debugger;
     var snippetSite = "inlineab.com";
     var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
     console.log("expID", $scope.selectedTest.id);
