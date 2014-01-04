@@ -482,11 +482,8 @@ var app = angular.module('inlineAB', [])
   };
 
   var download = function() {
-    // var snippet = $scope.selectedTest.snippet;
-    debugger;
-    var snippetSite = "inlineab.com";
-    var snippet = "UA-XXXX_XXXXXX-X"; // $scope.selectedTest.snippet;
-    console.log("expID", $scope.selectedTest.id);
+    var snippetSite = $scope.webProps[0].websiteUrl;
+    var snippet = $scope.webProps[0].id;
     var expID = $scope.selectedTest.id || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet, "snipSite=" + snippetSite].join("&");
     window.open('/downloadCustom?' + fullURL);
