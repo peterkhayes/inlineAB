@@ -169,7 +169,7 @@ app.post('/createExperiment', function(req,res){
         console.log("made new test ", result);
         console.log("------------------------------------");
 
-        res.send(201);
+        res.send(201, result);
       }
     });
   });
