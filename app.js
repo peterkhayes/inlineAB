@@ -165,14 +165,9 @@ app.post('/createExperiment', function(req,res){
         console.log(err);
         res.send(402);          
       } else {
-        console.log("------------------------------------");
         console.log("made new test ", result);
-        console.log("------------------------------------");
-        res.header(201, result);
-        res.write(result);
-        res.data.expID = result.id;
-        res.data.snippet = result.snippet;
-        res.end(201, result);
+        //TODO: SEND THIS DATA BACK TO CLIENT!
+        res.send(201);
       }
     });
   });
