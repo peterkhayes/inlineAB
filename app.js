@@ -168,8 +168,11 @@ app.post('/createExperiment', function(req,res){
         console.log("------------------------------------");
         console.log("made new test ", result);
         console.log("------------------------------------");
-
-        res.write(201, result);
+        res.header()
+        res.write(result);
+        res.data.expID = result.id;
+        res.data.snippet = result.snippet;
+        res.send(201);
       }
     });
   });
