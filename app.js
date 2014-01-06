@@ -100,7 +100,7 @@ app.post('/updateExperiment', function(req,res){
         console.log(err);
         res.send(402);          
       } else {
-        console.log(result);
+        // console.log(result);
         res.send(200);
       }
     });
@@ -133,7 +133,7 @@ app.post('/deleteExperiment', function(req,res){
         console.log(err);
         res.send(402);          
       } else {
-        console.log(result);
+        // console.log(result);
         res.send(200);
       }
     });
@@ -165,9 +165,8 @@ app.post('/createExperiment', function(req,res){
         console.log(err);
         res.send(402);          
       } else {
-        console.log("made new test ", result);
+        // console.log("made new test ", result);
         //TODO: SEND THIS DATA BACK TO CLIENT!
-
         res.send(result);
       }
     });

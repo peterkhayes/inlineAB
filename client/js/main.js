@@ -488,7 +488,7 @@ var app = angular.module('inlineAB', [])
       snippetSite = snippetSite.substr(7);  // substr to cut off the 'http://' if it exists
     }
     var snippet = $scope.webProps[0].id;
-    expID = $scope.selectedTest.id || "expid"
+    expID = expID || "expid"
     var fullURL = ["expID=" + expID, "vars=" + JSON.stringify(getVariationNames($scope.variations)), "snipID=" + snippet, "snipSite=" + snippetSite].join("&");
     window.open('/downloadCustom?' + fullURL);
   };
@@ -506,9 +506,9 @@ var app = angular.module('inlineAB', [])
     } else { // if its brand new...
       createExperiment().then(
         function(data) {
-          debugger;
-          //TODO: send download the newly created EXP ID
-          download();
+          //FIXME: data contains lots of information.
+          // this info should be sent to download and used
+          download(data.id);
         },
         function(err) {
           $scope.error.download = err;
