@@ -454,8 +454,9 @@ var app = angular.module('inlineAB', [])
           }
         } //end data
     })
-    .success(function() {
-      d.resolve();
+    .success(function(data) {
+      console.log(data);
+      d.resolve(data);
     })
     .error(function(err) {
       d.reject(err);
@@ -495,8 +496,8 @@ var app = angular.module('inlineAB', [])
   $scope.saveAndDownload = function(){
     if($scope.selectedTest.id){ // if the test already exists....
       updateExperiment().then(
-        function() {
-          download();
+        function(data) {
+          download(data.id);
         },
         function(err) {
           $scope.error.download = err;
