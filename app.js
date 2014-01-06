@@ -167,7 +167,8 @@ app.post('/createExperiment', function(req,res){
       } else {
         console.log("made new test ", result);
         //TODO: SEND THIS DATA BACK TO CLIENT!
-        res.send(201);
+        res.write(result);
+        res.end();
       }
     });
   });
