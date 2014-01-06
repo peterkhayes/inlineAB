@@ -8,11 +8,11 @@ var url = require('url');
 
 
 var redirect = process.env.REDIRECT_URL || 'http://inlineAB.azurewebsites.net';
-var clientId = process.env.CLIENT_ID || '1111111111111111';
-var clientSecret = process.env.CLIENT_SECRET || 'joeyEatsDeadPeopleClientSecret';
-var browserAPIKey = process.env.B_API_KEY || 'pOisOniVyBrowserKey';
-var serverAPIKey = process.env.S_API_KEY || 'clientAPIKEYGAVINLOVESSHAWARMSAS';
-var redirectURL = process.env.REDIRECT_URL || 'mygodbeckylookatherbuttitissobig';
+var clientId = process.env.CLIENT_ID || 'JoeyIsSad';
+var clientSecret = process.env.CLIENT_SECRET || 'KGBAgentAleksandrProkop';
+var browserAPIKey = process.env.B_API_KEY || 'RichsBoyGooglePete';
+var serverAPIKey = process.env.S_API_KEY || 'ItsLike_ButFor_ByPeter';
+var redirectURL = process.env.REDIRECT_URL || 'GavinWasHere';
 
 var accountId = '46140385'; // used to generate propertyId
 var webPropertyId = 'UA-46140385-1'; // used with accountId to generate profileId
@@ -32,13 +32,6 @@ app.use(express.bodyParser());
 // Save reference to Oauth2Client
 var OAuth2Client = googleapis.OAuth2Client;
 
-
-
-
-// Route index.html
-// app.get('/', function(req, res) {
-//   res.sendfile(path.join(__dirname, '/client/index.html'));
-// });
 
 app.get('/downloadCustom', function(req, res){
 
@@ -172,7 +165,6 @@ app.post('/createExperiment', function(req,res){
     });
   });
 });
-
 
 
 
