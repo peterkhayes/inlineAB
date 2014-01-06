@@ -1,0 +1,50 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+  <meta charset="UTF-8">
+  <title>Jasmine Spec Runner</title>
+  <link rel="stylesheet" type="text/css" href="lib/jasmine.css">
+  <script src="lib/jasmine.js"></script>
+  <script src="lib/jasmine-html.js"></script>
+  <script src="lib/jquery-min.js"></script>
+ 
+  <!-- include source files here... -->
+  <script src="../inlineAB.js"></script>
+ 
+  <!-- include spec files here... -->
+  <script src="spec/inlineABSpecs.js"></script>
+ 
+</head>
+ 
+<body>
+  <div class='ab-container'></div>
+  <script type="text/javascript">
+    (function() {
+      var jasmineEnv = jasmine.getEnv();
+      jasmineEnv.updateInterval = 1000;
+ 
+      var trivialReporter = new jasmine.TrivialReporter();
+ 
+      jasmineEnv.addReporter(trivialReporter);
+ 
+      jasmineEnv.specFilter = function(spec) {
+        return trivialReporter.specFilter(spec);
+      };
+ 
+      var currentWindowOnload = window.onload;
+ 
+      window.onload = function() {
+        if (currentWindowOnload) {
+          currentWindowOnload();
+        }
+        execJasmine();
+      };
+ 
+      function execJasmine() {
+        jasmineEnv.execute();
+      }
+ 
+    })();
+  </script>
+</body>
+</html>
