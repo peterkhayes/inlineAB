@@ -49,11 +49,7 @@ Getting Started! <a name="gettingstarted"></a>
 
   To use InlineAB, you'll need a Google Analytics profile for your website. Go ahead and make one [here](https://www.google.com/analytics/web/provision?et=&authuser=#provision/CreateAccount/). Make sure to select the new 'Universal Analytics' account type.
 
-Once you're registered, you'll need to copy your [Google Analytics Tracking Snippet](#gaFindSnippit) into your webpage - you'll need this to link your tests to your new analytics account. Don't worry if Google Analytics looks a little confusing! We'll handle all the hard work for you. If you need more with Google Analytics check out our [Google Analytics Support Section](#gasupport)
-
-
-> ![alt text PICTURE OF ANALYTICS STUFF]()
-
+Once you're registered, you'll need to copy your [Google Analytics Tracking Snippet](#gaFindSnippet) into your webpage - you'll need this to link your tests to your new analytics account. Don't worry if Google Analytics looks a little confusing! We'll handle all the hard work for you. If you need more with Google Analytics check out our [Google Analytics Support Section](#gasupport)
 
 ### 2. Download InlineAB <a name="download"></a>
 
@@ -73,12 +69,12 @@ To run tests with InlineAB, you'll need a copy of our library. You can download 
     </html>
 
 ##### Using Bower
-InlineAB.js is also avaliable on Bower! Just type the code below to include into the console!
+InlineAB.js is also available on Bower! Just type the code below to include into the console!
 
     bower install --save inlineab
 
 ###### Note:
-Be sure to inclue inlineab.js as one of your first scripts to ensure the fastest switching between test elements. It is recommended Angular.js users include this script tag before their angular.js script. [Read More.](#angularSupport) 
+Be sure to include inlineab.js as one of your first scripts to ensure the fastest switching between test elements. It is recommended Angular.js users include this script tag before their angular.js script. [Read More.](#angularSupport) 
 
 ### 3. Write Some Tests <a name="writeTests"></a>
 
@@ -90,7 +86,7 @@ With InlineAB, you can write tests directly into your HTML. The syntax is easy: 
     </abtest>
 
 ##### What's going on here?
-The outer tags are special `<abtest>` tags. They're used to indicate that a set of elements should be grouped together as a single AB test. Users will see one of the elements inside the `<abtest>` tag. The element you see is the chosen experience. For instance, in our example above, a user would (at random) be shown either "Hello!" or "Hi!" as the header. Whenever inlineAB detects an `<abtest>` tag on the page, it will immediately choose one of the experiences, deleting the others and the `<abtest>` tag itself. No trace of your AB test will be left on your page, and the processing occurs only a few miliseconds after the tag is created.
+The outer tags are special `<abtest>` tags. They're used to indicate that a set of elements should be grouped together as a single AB test. Users will see one of the elements inside the `<abtest>` tag. The element you see is the chosen experience. For instance, in our example above, a user would (at random) be shown either "Hello!" or "Hi!" as the header. Whenever inlineAB detects an `<abtest>` tag on the page, it will immediately choose one of the experiences, deleting the others and the `<abtest>` tag itself. No trace of your AB test will be left on your page, and the processing occurs only a few milliseconds after the tag is created.
 
 You should also notice the attributes `test-name` and `exp-name`. The first attribute is placed on the `<abtest>` tag and tells inlineAB what you want your test to be named. We called this test `header-text` because it's deciding between two different header text choices. The second attribute, `exp-name` is placed on each of the possible experiences and should describe the experience contained within that tag. Make sure these names are memorable! You'll need them when you view your analytics.
 
@@ -119,7 +115,7 @@ Remember that AB testing takes time, and you'll have to wait till you have data 
 
 
 ### 6. What's Next? <a name="whatsNext"></a>
-Inline AB has plenty more to offer! You can continue reading the documentation - it covers more advanced features and provides some common use cases. And if you enjoy our work, feel free to fork us on Github and suggest improvements!
+Inline AB has plenty more to offer! You can continue reading the documentation - it covers more advanced features and provides some common use cases. And if you enjoy our work, feel free to fork us on GitHub and suggest improvements!
 
 
 ------------------------------------------------------------------------------------------------------------------------
@@ -182,7 +178,7 @@ Testing styles and CSS can be done in several different ways. Here are a few oth
 <a name='commandabgoal'></a>
 ### abgoal
 Goal are used to track users' actions. This is especially important when trying to funnel users to a specific page. For example, 'subscribe' 
-, 'register', or 'checkout' pages. In these cases it is adventagious to track which experiences a user had before getting to to the goal. Thus we have `abgoals`. The `abgoal` tag can wrap any DOM element with a tag and add a particular event to listen to. A full list of supported events is below.
+, 'register', or 'checkout' pages. In these cases it is advantageous to track which experiences a user had before reaching the goal. Thus we have `abgoals`. The `abgoal` tag can wrap any DOM element with a tag and add a particular event to listen to. A full list of supported events is below.
 
 <a name='commandabgoal'></a>
 ##### Supported Events:
@@ -197,7 +193,7 @@ Goal are used to track users' actions. This is especially important when trying 
 
 <a name='relatedTests'></a>
 ##### Related Tests
-It is conceiviable that you to test multiple elements on your page that are related.  A great example of this is a title and a banner that go together but are maybe in different places. Another example of this is maybe you are testing an icon that occurs in more than one place. Well, inlineAB.js has you covered. To accomplish this you only need to replicate code block with the same experiences and titles. Example:
+It is conceivable that you to test multiple elements on your page that are related.  A great example of this is a title and a banner that go together but are maybe in different places. Another example of this is maybe you are testing an icon that occurs in more than one place. Well, inlineAB.js has you covered. To accomplish this you only need to replicate code block with the same experiences and titles. Example:
 
 Section 1 (a welcome splash)
 
@@ -236,9 +232,9 @@ If the `test-name`s, `exp-name`s, or `exp-weight` are different items may be mis
 Google Analytics Support <a name='gasupport'></a>
 ------
 ###### Note: 
-This section is here to help guide you through some of the rough patches when setting up Google Analytics. We are only trying to help because even we found the process of using GA difficult and un-intuative. However, by no means should this be considered the complete guide or reference to using Google Analytics. Also the GA website is subject to change without warning us. So if any information becomes out of date or can be fixed in one way or another, please submit a pull request!
+This section is here to help guide you through some of the rough patches when setting up Google Analytics. We are only trying to help because even we found the process of using GA difficult and un-intuitive. However, by no means should this be considered the complete guide or reference to using Google Analytics. Also the GA website is subject to change without warning us. So if any information becomes out of date or can be fixed in one way or another, please submit a pull request!
 
-### Finding GA Snippt <a name='gaFindSnippet'></a>
+### Finding GA Snippet <a name='gaFindSnippet'></a>
 After signing up for Google Analytics the first page shows your Google Analytics Tracking Snippet. It looks something like this:
 
 ![Tracking Snippet After Signing Up](aftersignup.jpg)
@@ -255,10 +251,10 @@ If you didn't find this snippet, or clicked out of the page too quickly to copy 
 6. Copy the code into the correct places on your site!
 
 ###### Important: 
-This must be placed <b>each</b> of your indpenedent html pages! For single page apps, most of the time the index.html file is sufficient.
+This must be placed <b>each</b> of your independent html pages! For single page apps, most of the time the index.html file is sufficient.
 
 ### Viewing My Results <a name='results'></a>
-Google Analytics is awesome! Really! It provides a whole host of usefull information including locations, gender, age group, and more! However it doesn't always make these data easy to find. We strongly recommend playing around with Analytics to find out which extra information Analytics is providing that is specifically useful to you. You'll get lost... You might get frustrated... But you'll be on your way being a power user of GA for the effort you put in. Because GA can be a mess for the inexperienced we will instruct you on how to access the data InlineAB helping you collect.
+Google Analytics is awesome! Really! It provides a whole host of useful information including locations, gender, age group, and more! However it doesn't always make these data easy to find. We strongly recommend playing around with Analytics to find out which extra information Analytics is providing that is specifically useful to you. You'll get lost... You might get frustrated... But you'll be on your way being a power user of GA for the effort you put in. Because GA can be a mess for the inexperienced we will instruct you on how to access the data InlineAB helping you collect.
 
 ##### What's InineAB.js doing?
 InlineAB.js is tracking the users on your site using Events. There are events which describe what is being loaded on a page and there are events that describe actions a user has taken such as `clicks`, `mouseovers`, and `keyups`.  The latter group tracks goals.
@@ -276,7 +272,7 @@ Here are a few of Google Analytics' most useful views:
 + Finding AB Events Flow
   - On the left navigation bar, under `Behavior` click on `Events`.
   - Under `Events` click on the last link `Events Flow`.
-  - This view shows the flow of of events. Which things varous users have seen and what lead to the next event. 
+  - This view shows the flow of events. Which things various users have seen and what lead to the next event. 
 + Finding AB Overview
   - On the left navigation bar, under `Behavior` click on `Events`.
   - Under `Events` click on the last link `Events Flow`.
@@ -303,7 +299,7 @@ InlineAB was written and optimized to fully support modern browsers and browsers
 ### Best Practices <a name='bestPractices'></a>
 
 ##### 60 Characters or Less
-When choosing names for `abgoal`s, `test-name`s, and `exp-name`s it's a good idea to use 60 characters or less. There are two reasons for this. First of all, for readability. Long names may be cut off in Google Analytics and therefore difficult to read. Secondly, although not a verified issue Google Analytics may not allow ANY name over 128 characters -- InlineAB.js will concatinate two of these titles to make results easier to view thus, it is good practice to keep names and labels below 60 characters. 
+When choosing names for `abgoal`s, `test-name`s, and `exp-name`s it's a good idea to use 60 characters or less. There are two reasons for this. First of all, for readability. Long names may be cut off in Google Analytics and therefore difficult to read. Secondly, although not a verified issue Google Analytics may not allow ANY name over 128 characters -- InlineAB.js will concatenate two of these titles to make results easier to view thus, it is good practice to keep names and labels below 60 characters. 
 
 
 ### Troubleshooting <a name='troubleshooting'></a>
@@ -320,27 +316,25 @@ There are several things that can cause the same problems on the page. For any p
 
 ##### Results are not showing up in Google Analytics! 
 1. Check the [Common Solutions](#commonSolutions)!
-2. After first setting it up, Analyics may take up to two days to populate your results. However realtime results should be viewable. Take a look at that tab in GA.
+2. After first setting it up, Analytics may take up to two days to populate your results. However realtime results should be viewable. Take a look at that tab in GA.
 
 ##### All possible tests are displaying on the page!
 1. Check the [Common Solutions](#commonSolutions)!
   - This happens most commonly when inlineAB.js does not load
 
 ##### I see a flicker before the page finishes loading!
-1. Try moving inlineAB.js script tag before all other scripts. Angular users are more likely to experiece page flicker. 
+1. Try moving inlineAB.js script tag before all other scripts. Angular users are more likely to experience page flicker. 
 
 ------------------------------------------------------------------------------------------------------------------------
 
 Sites Using inlineAB.js <a name='sitesusingus'></a>
 ------
 + [www.inlineab.com](http://inlineab.com)
-![image A]()
-![image B]()
 
 ------------------------------------------------------------------------------------------------------------------------
 
 Licensing & Usage <a name='licensing'></a>
 ------
 
-We are licenced under CC BY-SA. You can find the full license [here](http://creativecommons.org/licenses/by-sa/4.0/legalcode), however in summary:
+We are licensed under CC BY-SA. You can find the full license [here](http://creativecommons.org/licenses/by-sa/4.0/legalcode), however in summary:
 You may share or adapt this software for any purpose, even commercially, as long as you, give appropriate credit, provide a link to the license, and indicate if changes were made. If you remix, transform, or build upon inlineAB, you must distribute your contributions under the same license as the original.
