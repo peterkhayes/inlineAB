@@ -91,9 +91,8 @@ app.post('/updateExperiment', function(req,res){
     request.execute(function(err,result){
       if (err){
         console.log(err);
-        res.send(402);          
+        res.send(500);          
       } else {
-        // console.log(result);
         res.send(200);
       }
     });
@@ -124,9 +123,8 @@ app.post('/deleteExperiment', function(req,res){
     request.execute(function(err,result){
       if (err){
         console.log(err);
-        res.send(402);          
+        res.send(500);          
       } else {
-        // console.log(result);
         res.send(200);
       }
     });
@@ -156,10 +154,8 @@ app.post('/createExperiment', function(req,res){
     request.execute(function(err,result){
       if (err){
         console.log(err);
-        res.send(402);          
+        res.send(500);          
       } else {
-        // console.log("made new test ", result);
-        //TODO: SEND THIS DATA BACK TO CLIENT!
         res.send(result);
       }
     });
