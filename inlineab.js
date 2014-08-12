@@ -1,4 +1,3 @@
-// 
 // injector.js
 // Copyright: Peter Hayes, Rich Parrish, Alex Prokop, Gavin Shriver, Joey Yang
 // License: CC BY-SA
@@ -8,13 +7,16 @@
 // to Google Universal Analytics for analysis.
 //
 // The file is inserted directly after the opening <body> tag in the page's HTML.
-//
 
 (function(window) {
 
+  // Stuff that gets downloaded from the script generator.
+  var experimentID = "asdfghjk";
+  var variations = ["default", "var1", "var2", "var3", "var4"];
+
   // Add custom HTML tags for IE versions that are not 9 or 10+
   if(navigator.appVersion.indexOf('MSIE 9') === -1
-    && navigator.appVersion.indexOf('MSIE 1') === -1){
+    && navigator.appVersion.indexOf('MSIE 1') === -1) {
     document.createElement('abtest');
     document.createElement('abclass');
     document.createElement('abgoal');
@@ -24,18 +26,17 @@
   var abTests = document.getElementsByTagName('abtest'),
       abClasses = document.getElementsByTagName('abclass'),
       abGoals = document.getElementsByTagName('abgoal'),
-      testData = {},
-      GAID,
       timeout;
 
   // create cookie at document.cookie
   var createCookie = function(name, value, days) {
+    var expires;
     if (days) {
       var date = new Date();
       date.setTime(date.getTime()+(days*24*60*60*1000));
-      var expires = "; expires="+date.toGMTString();
+      expires = "; expires="+date.toGMTString();
     }
-    else var expires = "";
+    else expires = "";
     document.cookie = name+"="+value+expires+"; path=/";
   };
 
@@ -58,7 +59,7 @@
 
   // create and read cookie
   var makeAndReadCookie = function(days){
-    !readCookie('hash') && createCookie('hash', Math.random(), days);
+    if (!readCookie('hash')) createCookie('hash', Math.random().toString().slice(2), days);
     return readCookie('hash');
   };
 
@@ -86,11 +87,10 @@
   };
 
   // Takes hashed cookie ID and determines which variation of a test a user sees.
-  var getExpNumber = function(testName, totalWeight) {
-    // typeof GAID === 'undefined' && !readCookie('hash') && makeAndReadCookie(1000); 
-    id = readCookie('hash') || makeAndReadCookie(1000);
-    var hashed = hash(testName + id);
-    var ans = (hashed % totalWeight);
+  var getVariationNumber = function() {
+    id = makeAndReadCookie(1000);
+    var hashed = hash(experimentID + id);
+    var ans = (hashed % variations.length);
     return ans;
   };
 
@@ -109,61 +109,32 @@
 
     // abTests (the DOM nodes with 'abtest' as a tag) mutates as we replace its nodes
     while (abTests.length) {
-      
-      // Define variables.
+
+      // Get the current set of experiences.
       var currentTest = abTests[0];
-      var testName = currentTest.getAttribute('test-name');
       var experiences = currentTest.children;
+      var selectedExperience = experiences[0];
+      var expNumber;
 
-      // Get the total weight.
-      var totalWeight = 0;
+      // Get one of the variations if it has the correct number.
       for (var i = 0; i < experiences.length; i++) {
-        var weight = experiences[i].getAttribute('exp-weight') || '1';
-        totalWeight += parseInt(weight,10);
-      }
+        var experience = experiences[i];
+        expNumber = variations.indexOf(experience.getAttribute('exp-name') || 'default');
 
-      // Get an experience, taking weights into account.
-      var hashedValue = getExpNumber(testName, totalWeight);
-      for (var i = 0; i < experiences.length; i++) {
-        var weight = experiences[i].getAttribute('exp-weight') || '1';
-        hashedValue -= parseInt(weight,10);
-        if (hashedValue < 0) {
-          var selectedExperience = experiences[i];
-          break;
+        if (expNumber === variationNumber) {
+          selectedExperience = experiences[i];
         }
       }
 
-      // Save the history of the test.
-      if (!testData[testName]){
-        testData[testName] = selectedExperience.getAttribute('exp-name');
-
-        // Send to Google Analytics:
-        ga('send', 'event', 'ab-test: ' + testName, testData[testName], 'pageView');
+      // Send to Google Analytics, if not already sent.
+      if (!readCookie('GAEventSent')){
+        ga('send', 'event', experimentID, expNumber, 'pageView');
+        createCookie('GAEventSent', 'true');
       }
 
       // Clean up the DOM.
       selectedExperience.removeAttribute('exp-name');
       currentTest.parentNode.replaceChild(selectedExperience, currentTest);
-    }
-
-    // abClasses (the DOM nodes with 'abclass' as a tag) mutates as we replace its nodes
-    while (abClasses.length) {
-      var currentClassTest = abClasses[0];
-      var elem = currentClassTest.children[0];
-      var classTestName = currentClassTest.getAttribute('test-name');
-      var classOptions = currentClassTest.getAttribute('test-classes').split(',');
-      var classExpNumber = getExpNumber(classTestName, classOptions.length);
-      var selectedClass = classOptions[classExpNumber].trim();
-      elem.className += (' ' + selectedClass);
-
-      // Save the history of the test.
-      testData[classTestName] = classOptions[classExpNumber].trim();
-
-      // Send to Google Analytics:
-      ga('send', 'event', 'ab-class: ' + classTestName, testData[classTestName], 'pageView');
-     
-      // Clean up the DOM.
-      currentClassTest.parentNode.replaceChild(elem, currentClassTest);
     }
 
     // abGoals (the DOM nodes with 'abgoal' as a tag) mutates as we replace its nodes
@@ -196,6 +167,8 @@
       goal.parentNode.replaceChild(goalTarget, goal);
     }
   };
+
+  var variationNumber = getVariationNumber();
 
   // scan the DOM for new DOM elements every 20ms (faster than frame rate human eyes can detect)
   timeout = setInterval(substitute, 20);

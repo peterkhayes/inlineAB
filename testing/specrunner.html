@@ -7,7 +7,31 @@
   <script src="lib/jasmine.js"></script>
   <script src="lib/jasmine-html.js"></script>
   <script src="lib/jquery-min.js"></script>
- 
+  
+  <!-- workaround for lack of local cookies -->
+  <script type='text/javascript'>
+    (function (document) {
+      var cookies = {};
+      document.__defineGetter__('cookie', function () {
+          var output = [];
+          for (var cookieName in cookies) {
+              output.push(cookieName + "=" + cookies[cookieName]);
+          }
+          return output.join(";");
+      });
+      document.__defineSetter__('cookie', function (s) {
+          if (s.indexOf(';') !== -1) s = s.slice(0, s.indexOf(';'));
+          var indexOfSeparator = s.indexOf("=");
+          var key = s.substr(0, indexOfSeparator);
+          var value = s.substring(indexOfSeparator + 1);
+          cookies[key] = value;
+          return key + "=" + value;
+      });
+      document.clearCookies = function () {
+          cookies = {};
+      };
+    })(document);
+  </script>
   <!-- include source files here... -->
   <script src="../inlineAB.js"></script>
  
@@ -18,6 +42,16 @@
  
 <body>
   <div class='ab-container'></div>
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-46140385-1', 'inlineab.com');
+    ga('send', 'pageview');
+
+  </script>
   <script type="text/javascript">
     (function() {
       var jasmineEnv = jasmine.getEnv();
@@ -43,7 +77,6 @@
       function execJasmine() {
         jasmineEnv.execute();
       }
- 
     })();
   </script>
 </body>
