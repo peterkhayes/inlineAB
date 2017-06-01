@@ -133,8 +133,8 @@
         }
       }
 
-      // Save the history of the test.
-      if (!testData[testName]){
+      // Save the history of the test if it is not correctly defined.
+      if (!testData[testName] && selectedExperience != undefined){
         testData[testName] = selectedExperience.getAttribute('exp-name');
 
         // Send to Google Analytics:
